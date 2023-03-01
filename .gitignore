@@ -1,6 +1,9 @@
 # Ignore the large pdf textbooks
 *.pdf
 
+# Ignore any excel files
+*.xlsx
+
 # Ignore the pdf lecture notes
 /Lecture-Notes
 
