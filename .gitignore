@@ -1,0 +1,8 @@
+# Ignore the large pdf textbooks
+*.pdf
+
+# Ignore the pdf lecture notes
+/Lecture-Notes
+
+#  Ignore all pdf files in the Labs/... directory
+Labs/**/*.pdf
