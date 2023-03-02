@@ -38,7 +38,7 @@ end
 			`FUNC_ARS: C = A >>> 1;
 			`FUNC_TCP: C = ~A + 1;
 			`FUNC_ZERO: C = 0;
-			default: 
+			default: C = 0;
 		endcase
 
 	end
