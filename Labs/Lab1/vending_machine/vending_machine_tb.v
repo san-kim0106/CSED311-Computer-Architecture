@@ -52,7 +52,7 @@ wire [2:0]o_return_coin;
 
 integer Passed;			// # of passes
 integer Failed;			// # of fails
-integer Current;	        // # current_total for "checking returned money"
+integer Current;	    // # current_total for "checking returned money"
 
 // Unit Under Test port map
 	vending_machine UUT (

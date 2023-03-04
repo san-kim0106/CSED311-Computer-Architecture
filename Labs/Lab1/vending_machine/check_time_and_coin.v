@@ -2,7 +2,17 @@
 
 	
 
-module check_time_and_coin(i_input_coin,i_select_item,clk,reset_n,wait_time,o_return_coin);
+module check_time_and_coin(
+	i_input_coin,
+	i_select_item,
+
+	clk,
+	reset_n,
+	
+	wait_time,
+	o_return_coin
+);
+
 	input clk;
 	input reset_n;
 	input [`kNumCoins-1:0] i_input_coin;

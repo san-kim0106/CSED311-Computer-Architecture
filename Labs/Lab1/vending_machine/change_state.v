@@ -1,7 +1,12 @@
 `include "vending_machine_def.v"
 
 
-module change_state(clk,reset_n,current_total_nxt,current_total);
+module change_state(
+	clk,
+	reset_n,
+	current_total_nxt,
+	current_total
+);
 
 	input clk;
 	input reset_n;

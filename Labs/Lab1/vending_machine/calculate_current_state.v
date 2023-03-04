@@ -2,10 +2,21 @@
 `include "vending_machine_def.v"
 	
 
-module calculate_current_state(i_input_coin,i_select_item,item_price,coin_value,current_total,
-input_total, output_total, return_total,current_total_nxt,wait_time,o_return_coin,o_available_item,o_output_item);
-
-
+module calculate_current_state(
+	i_input_coin,
+	i_select_item,
+	item_price,
+	coin_value,
+	current_total,
+	input_total,
+	output_total,
+	return_total,
+	current_total_nxt,
+	wait_time,
+	o_return_coin,
+	o_available_item,
+	o_output_item
+);
 	
 	input [`kNumCoins-1:0] i_input_coin,o_return_coin;
 	input [`kNumItems-1:0]	i_select_item;			
