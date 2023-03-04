@@ -25,7 +25,7 @@ wire OverflowFlag;
 
 // Unit Under Test Port Mapping
 // TODO: instanciate ALU module here
-<module_name> <module parameter initialization> <instance name> (
+ALU #(.data_width(16)) my_ALU (
 	.A(A),
 	.B(B),	
 	.FuncCode(FuncCode),
