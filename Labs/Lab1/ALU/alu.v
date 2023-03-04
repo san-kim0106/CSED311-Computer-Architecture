@@ -9,21 +9,25 @@ module ALU #(parameter data_width = 16) (
 // Do not use delay in your implementation.
 
 // You can declare any variables as needed.
-/*
-	
-*/
+	reg MSB_i = data_width - 1;
 
-initial begin
-	C = 0;
-	OverflowFlag = 0;
-end
+	initial begin
+		C = 0;
+		OverflowFlag = 0;
+	end
 
 // TODO: You should implement the functionality of ALU!
 // (HINT: Use 'always @(...) begin ... end')
 	always @(*) begin
 		case (FuncCode)
-			`FUNC_ADD: C = A + B;
-			`FUNC_SUB: C = A - B;
+			`FUNC_ADD: begin
+				C = A + B;
+				if (A[MSB_i] == B[MSB_i] && B[MSB_i] != C[MSB_i]) OverflowFlag = 1;
+			end 
+			`FUNC_SUB: begin
+				C = A - B;
+				if (A[MSB_i] != B[MSB_i] && A[MSB_i] != C[MSB_i]) OverflowFlag = 1;
+			end
 			`FUNC_ID: C = A;
 			`FUNC_NOT: C = ~A;
 			`FUNC_AND: C = A & B;
