@@ -33,8 +33,6 @@ module vending_machine (
 	output [`kNumCoins-1:0] o_return_coin;
 
 
-	
-
 	// Do not modify the values.
 	wire [31:0] item_price [`kNumItems-1:0];	// Price of each item
 	wire [31:0] coin_value [`kNumCoins-1:0];	// Value of each coin
@@ -47,7 +45,7 @@ module vending_machine (
 	assign coin_value[2] = 1000;
 
 	// Internal states. You may add your own net variables.
-	wire [`kTotalBits-1:0] current_total;
+	wire [`kTotalBits-1:0] current_total; // 31-bit wire that keeps track of vending machine's money
 	
 	// Next internal states. You may add your own net variables.
 	wire [`kTotalBits-1:0] current_total_nxt;
