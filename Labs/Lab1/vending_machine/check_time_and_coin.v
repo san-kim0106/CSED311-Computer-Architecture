@@ -15,19 +15,22 @@ module check_time_and_coin(
 	input reset_n;
 	input [`kNumCoins-1:0] i_input_coin;
 	input [`kNumItems-1:0]	i_select_item;
+	
 	output reg  [`kNumCoins-1:0] o_return_coin;
 	output reg [31:0] wait_time;
 
 	// initiate values
 	initial begin
 		// TODO: initiate values
-		waiting_time = `kWaitTime;
+		waiting_time = `kWaitTime; //! double check if you can initialize an array like this
+		o_return_coin = `kNumCoins'b0; //! double check if you can initialize an array like this
 	end
 
 
 	// update coin return time
 	always @(i_input_coin, i_select_item) begin
 		// TODO: update coin return time
+		
 
 	end
 
