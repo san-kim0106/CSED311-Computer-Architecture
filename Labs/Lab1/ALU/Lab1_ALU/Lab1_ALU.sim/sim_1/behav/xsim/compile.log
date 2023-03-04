@@ -1,0 +1,6 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/ALU/alu.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/ALU/alu_tb_f.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module ALU
+WARNING: [VRFC 10-3609] overwriting previous definition of module 'ALU' [C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/ALU/alu.v:3]
+INFO: [VRFC 10-311] analyzing module ALU_tb

@@ -9,7 +9,6 @@ module ALU #(parameter data_width = 16) (
 // Do not use delay in your implementation.
 
 // You can declare any variables as needed.
-	reg MSB_i = data_width - 1;
 
 	initial begin
 		C = 0;
@@ -19,14 +18,15 @@ module ALU #(parameter data_width = 16) (
 // TODO: You should implement the functionality of ALU!
 // (HINT: Use 'always @(...) begin ... end')
 	always @(*) begin
+	   OverflowFlag = 0;
 		case (FuncCode)
 			`FUNC_ADD: begin
 				C = A + B;
-				if (A[MSB_i] == B[MSB_i] && B[MSB_i] != C[MSB_i]) OverflowFlag = 1;
+				if (A[data_width - 1] == B[data_width - 1] && B[data_width - 1] != C[data_width - 1]) OverflowFlag = 1;
 			end 
 			`FUNC_SUB: begin
 				C = A - B;
-				if (A[MSB_i] != B[MSB_i] && A[MSB_i] != C[MSB_i]) OverflowFlag = 1;
+				if (A[data_width - 1] != B[data_width - 1] && A[data_width - 1] != C[data_width - 1]) OverflowFlag = 1;
 			end
 			`FUNC_ID: C = A;
 			`FUNC_NOT: C = ~A;
@@ -39,7 +39,7 @@ module ALU #(parameter data_width = 16) (
 			`FUNC_LLS: C = A << 1;
 			`FUNC_LRS: C = A >> 1;
 			`FUNC_ALS: C = A <<< 1;
-			`FUNC_ARS: C = A >>> 1;
+			`FUNC_ARS: C = $signed (A) >>> 1;
 			`FUNC_TCP: C = ~A + 1;
 			`FUNC_ZERO: C = 0;
 			default: C = 0;
