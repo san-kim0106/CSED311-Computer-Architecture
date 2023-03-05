@@ -92,8 +92,8 @@ initial begin
 
 	# 200; // Wait until the output signals are stable.
 	
-	// == Tests start.
-	InitialTest();
+	// == Tests start. At time 350ns
+	InitialTest(); // passed (@550ns)
 	Insert100CoinTest(); // Inserts five 100KRW coins
 	Insert500CoinTest(); // Inserts four 500KRW coins
 	Insert1000CoinTest(); // Inserts two 1000KRW coins

@@ -54,7 +54,6 @@ module vending_machine (
 	wire [`kTotalBits-1:0] input_total, output_total, return_total;
 	wire [31:0] wait_time;
 
-
 	// This module interface, structure, and given a number of modules are not mandatory but recommended.
 	// However, Implementations that use modules are mandatory.
 		
@@ -64,6 +63,8 @@ module vending_machine (
 
 									.clk(clk),
 									.reset_n(reset_n),
+									.input_total(input_total),
+									.item_price(item_price),
 
 									.wait_time(wait_time),
 									.o_return_coin(o_return_coin));
