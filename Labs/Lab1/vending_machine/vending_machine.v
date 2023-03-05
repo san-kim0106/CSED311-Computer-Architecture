@@ -63,10 +63,11 @@ module vending_machine (
 
 									.clk(clk),
 									.reset_n(reset_n),
-									.input_total(input_total),
-									.item_price(item_price),
-
 									.wait_time(wait_time),
+									.item_price(item_price),
+									.current_total(current_total),
+									.i_trigger_return(i_trigger_return),
+
 									.o_return_coin(o_return_coin));
 
 	calculate_current_state calculate_current_state_module(
