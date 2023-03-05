@@ -49,6 +49,7 @@ module calculate_current_state(
 		// TODO: o_available_item
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
 			// The item is available if its price is less than input_total
+			$display("updateing o_available_item #%0d", i);
 			if (item_price[i] <= input_total) o_available_item[i] = 1;
 		end
 

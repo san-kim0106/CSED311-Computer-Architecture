@@ -14,7 +14,7 @@ module change_state(
 	output reg [`kTotalBits-1:0] current_total;
 	
 	// Sequential circuit to reset or update the states
-	always @(posedge clk ) begin
+	always @(posedge clk) begin
 		if (!reset_n) begin
 			// TODO: reset all states.
 		end

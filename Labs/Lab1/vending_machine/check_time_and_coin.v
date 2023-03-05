@@ -56,10 +56,8 @@ module check_time_and_coin(
 		if (!reset_n) begin
 			// TODO: reset all states.
 			wait_time = `kWaitTime
-			
 
-		end
-		else begin
+		end else begin
 			// TODO: update all states.
 			wait_time = wait_time - 1'b1;
 		end
