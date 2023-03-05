@@ -125,11 +125,16 @@ endtask
 // ==
 task Insert100CoinTest;
 	begin
+		$display("Insert 100");
 		Insert100Coin();
+		$display("Insert 100");
 		Insert100Coin();
+		$display("Insert 100");
 		Insert100Coin();
+		$display("Insert 100");
 		Insert100Coin(); // 400
 		AvailableItemTest("Insert100CoinTest-1", 4'b0001);
+		$display("Insert 100");
 		Insert100Coin(); // 500
 		AvailableItemTest("Insert100CoinTest-2", 4'b0011);
 	end

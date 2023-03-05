@@ -28,18 +28,18 @@ module check_time_and_coin(
 	// initiate values
 	initial begin
 		// TODO: initiate values
-		wait_time = `kWaitTime; //! double check if you can initialize an array like this
-		o_return_coin = `kNumCoins'b0; //! double check if you can initialize an array like this
+		wait_time <= `kWaitTime; //! double check if you can initialize an array like this
+		o_return_coin <= `kNumCoins'b0; //! double check if you can initialize an array like this
 	end
 
 	// update coin return time
 	always @(i_input_coin, i_select_item) begin
 		// TODO: update coin return time
-		if (i_input_coin && wait_time > 0) wait_time = `kWaitTime; // reset the wait_time to 100
+		if (i_input_coin && wait_time > 0) wait_time <= `kWaitTime; // reset the wait_time to 100
 		
 		if (i_select_item && wait_time > 0) begin
 			for (integer i = 0; i < `kNumItems; i = i + 1) begin
-				if (i_select_item[i] && input_total >= item_price[i]) wait_time = `kWaitTime;
+				if (i_select_item[i] && input_total >= item_price[i]) wait_time <= `kWaitTime;
 			end
 		end
 	end
@@ -49,14 +49,14 @@ module check_time_and_coin(
 		if (wait_time == 0) begin
 			while (input_total > 0) begin
 				if (input_total >= 1000) begin
-					o_return_coin = 3'b100;
-					input_total = input_total - 1000;
+					o_return_coin <= 3'b100;
+					input_total <= input_total - 1000;
 				end else if (input_total >= 500) begin
-					o_return_coin = 3'b010;
-					input_total = input_total - 500;
+					o_return_coin <= 3'b010;
+					input_total <= input_total - 500;
 				end else begin
-					o_return_coin = 3'b001;
-					input_total = input_total - 100;
+					o_return_coin <= 3'b001;
+					input_total <= input_total - 100;
 				end
 
 				#50;
