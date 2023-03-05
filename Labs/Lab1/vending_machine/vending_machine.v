@@ -45,7 +45,7 @@ module vending_machine (
 	assign coin_value[2] = 1000;
 
 	// Internal states. You may add your own net variables.
-	wire [`kTotalBits-1:0] current_total; // 31-bit wire that keeps track of vending machine's money
+	wire [`kTotalBits-1:0] current_total; //? 31-bit wire that keeps track of vending machine's money?
 	
 	// Next internal states. You may add your own net variables.
 	wire [`kTotalBits-1:0] current_total_nxt;

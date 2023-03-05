@@ -19,6 +19,8 @@ module check_time_and_coin(
 	output reg  [`kNumCoins-1:0] o_return_coin;
 	output reg [31:0] wait_time;
 
+	//! Double check when to and not to use blocking/non-blocking assignments
+
 	// initiate values
 	initial begin
 		// TODO: initiate values
@@ -30,17 +32,31 @@ module check_time_and_coin(
 	// update coin return time
 	always @(i_input_coin, i_select_item) begin
 		// TODO: update coin return time
-		
+		wait_time = `kWaitTime;
+
+		if (i_select_item) begin
+			case(i_select_item)
+				'b0001: ;
+				'b0010: ;
+				'b0100: ;
+				'b1000: ;
+
+			endcase
+		end
 
 	end
 
 	always @(*) begin
 		// TODO: o_return_coin
+
+		o_return_coin = o_return_coin + i_input_coin;
 	end
 
 	always @(posedge clk) begin
 		if (!reset_n) begin
 			// TODO: reset all states.
+			wait_time = `kWaitTime
+			
 
 		end
 		else begin

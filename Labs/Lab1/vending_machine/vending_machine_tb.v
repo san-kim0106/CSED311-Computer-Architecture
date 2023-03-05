@@ -94,9 +94,10 @@ initial begin
 	
 	// == Tests start.
 	InitialTest();
-	Insert100CoinTest();
-	Insert500CoinTest();
-	Insert1000CoinTest();
+	Insert100CoinTest(); // Inserts five 100KRW coins
+	Insert500CoinTest(); // Inserts four 500KRW coins
+	Insert1000CoinTest(); // Inserts two 1000KRW coins
+	// Current = (5 * 100) + (4 * 500) + (2 * 1000) = 2500 KRW
 	
 	// After you fully implement o_output_item, run the tests.
 	Select1stItemTest();
