@@ -63,8 +63,6 @@ module calculate_current_state(
 		end
 
 	end
- 
-	
 
 
 endmodule 

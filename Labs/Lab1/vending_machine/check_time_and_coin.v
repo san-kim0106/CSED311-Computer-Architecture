@@ -32,24 +32,37 @@ module check_time_and_coin(
 	// update coin return time
 	always @(i_input_coin, i_select_item) begin
 		// TODO: update coin return time
-		wait_time = `kWaitTime;
-
-		if (i_select_item) begin
+		if (i_input_coin) begin
+			wait_time = `kWaitTime;
+			if (i_input_coin[0]) input_total = input_total + 100;
+			if (i_input_coin[1]) input_total = input_total + 500;
+			if (i_input_coin[2]) input_total = input_total + 1000;
+		end
+		
+		if (i_select_item && wait_time > 0) begin
 			case(i_select_item)
-				'b0001: ;
-				'b0010: ;
-				'b0100: ;
-				'b1000: ;
+				'b0001: if (o_available_item[0]) wait_time = `kWaitTime;
+				'b0010: if (o_available_item[1]) wait_time = `kWaitTime;
+				'b0100: if (o_available_item[2]) wait_time = `kWaitTime;
+				'b1000: if (o_available_item[3]) wait_time = `kWaitTime;				
 
 			endcase
 		end
 
 	end
 
-	always @(*) begin
+	always @(wait_time) begin
 		// TODO: o_return_coin
-
-		o_return_coin = o_return_coin + i_input_coin;
+		if (wait_time == 0) begin
+			while (input_total > 0) begin
+				if (input_total >= 1000) o_return_coin = 3'b100;
+				else begin
+					if (input_total >= 500) o_return_coin = 3'b010;
+					else o_return_coin = 3'b001;
+				end
+				#50;
+			end
+		end
 	end
 
 	always @(posedge clk) begin
