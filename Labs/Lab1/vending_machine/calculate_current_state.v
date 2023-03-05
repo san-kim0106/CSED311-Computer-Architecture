@@ -51,6 +51,7 @@ module calculate_current_state(
 			// The item is available if its price is less than input_total
 			$display("updateing o_available_item #%0d", i);
 			if (item_price[i] <= input_total) o_available_item[i] = 1;
+			else o_available_item[i] = 0;
 		end
 
 		// TODO: o_output_item
@@ -58,6 +59,7 @@ module calculate_current_state(
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
 			// VM outputs an item if it is selected and available
 			if (i_select_item[i] && o_available_item[i]) o_output_item[i] = 1;
+			else o_output_item[i] = 0;
 		end
 
 	end

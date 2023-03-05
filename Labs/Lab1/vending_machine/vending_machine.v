@@ -32,12 +32,6 @@ module vending_machine (
 	output [`kNumItems-1:0] o_output_item;
 	output [`kNumCoins-1:0] o_return_coin;
 
-	o_available_item[0] = 0;
-	o_available_item[1] = 0;
-	o_available_item[2] = 0;
-	o_available_item[3] = 0;
-
-
 	// Do not modify the values.
 	wire [31:0] item_price [`kNumItems-1:0];	// Price of each item
 	wire [31:0] coin_value [`kNumCoins-1:0];	// Value of each coin
