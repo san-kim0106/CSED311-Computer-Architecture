@@ -1,0 +1,10 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module calculate_current_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module change_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module check_time_and_coin
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/ygchi/Desktop/2023_Spring/Computer Architecture/Lab/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine_tb

@@ -22,7 +22,7 @@ module check_time_and_coin(
 	// initiate values
 	initial begin
 		// TODO: initiate values
-		waiting_time = `kWaitTime; //! double check if you can initialize an array like this
+		wait_time = `kWaitTime; //! double check if you can initialize an array like this
 		o_return_coin = `kNumCoins'b0; //! double check if you can initialize an array like this
 	end
 
@@ -41,13 +41,11 @@ module check_time_and_coin(
 	always @(posedge clk) begin
 		if (!reset_n) begin
 			// TODO: reset all states.
-			current_total = 0;
-			current_total_nxt = 0;
 
 		end
 		else begin
 			// TODO: update all states.
-			waiting_time = waiting_time - 1'b1;
+			wait_time = wait_time - 1'b1;
 		end
 	end
 endmodule 
