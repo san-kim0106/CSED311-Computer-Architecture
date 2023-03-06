@@ -50,11 +50,12 @@ module calculate_current_state(
 		output_total = 0;
 		return_total = 0;
 
-		// Check input and update the value of input_total
+		// Check i_input_coin and update input_total
 		for (integer i = 0; i < `kNumCoins; i = i + 1) begin
 			if (i_input_coin[i]) input_total = input_total + coin_value[i];
 		end
 
+		// Check i_select_item and update outtput_total
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
 			if (i_select_item[i] && current_total >= item_price[i]) output_total = output_total + item_price[i];
 		end

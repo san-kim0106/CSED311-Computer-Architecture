@@ -15,7 +15,7 @@ module check_time_and_coin(
 );
 
 	/* Additional arguments */
-	input current_total;
+	input [`kTotalBits-1:0] current_total;
 	input i_trigger_return;
 	input [31:0] item_price [`kNumItems-1:0];
 	/* End of additional arguments */
@@ -49,10 +49,11 @@ module check_time_and_coin(
 		end
 	end
 
-	always @(*) begin
+	always @(wait_time, i_trigger_return) begin
 		// TODO: o_return_coin
 		if (wait_time == 0 || i_trigger_return) begin
 			return_total = current_total;
+			$display("return_total == %d", return_total);
 
 			while (return_total > 0) begin
 				if (return_total >= 1000) begin
