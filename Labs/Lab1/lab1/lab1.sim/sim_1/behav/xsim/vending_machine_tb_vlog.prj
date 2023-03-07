@@ -1,0 +1,13 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../../vending_machine/calculate_current_state.v" \
+"../../../../../vending_machine/change_state.v" \
+"../../../../../vending_machine/check_time_and_coin.v" \
+"../../../../../vending_machine/vending_machine.v" \
+"../../../../../vending_machine/vending_machine_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

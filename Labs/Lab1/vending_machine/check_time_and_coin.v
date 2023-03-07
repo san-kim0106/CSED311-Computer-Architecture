@@ -49,24 +49,15 @@ module check_time_and_coin(
 		end
 	end
 
-	always @(wait_time, i_trigger_return) begin
+	always @(*) begin
 		// TODO: o_return_coin
-		if (wait_time == 0 || i_trigger_return) begin
-			return_total = current_total;
-			$display("return_total == %d", return_total);
-
-			while (return_total > 0) begin
-				if (return_total >= 1000) begin
-					o_return_coin = 3'b100;
-					return_total = return_total - 1000;
-				end else if (return_total >= 500) begin
-					o_return_coin = 3'b010;
-					return_total = return_total - 500;
-				end else begin
-					o_return_coin = 3'b001;
-					return_total = return_total - 100;
-				end
-			end
+		if ($signed(wait_time) <= 0 || i_trigger_return) begin
+			$display("current_total: %d | wait_time: %d", current_total, wait_time);
+			if (current_total >= 1000) o_return_coin = `kNumCoins'd4;
+			else if (current_total >= 500) o_return_coin = `kNumCoins'd2;
+			else o_return_coin = `kNumCoins'd1;
+		end else begin
+			o_return_coin = `kNumCoins'b0;
 		end
 	end
 
@@ -78,7 +69,7 @@ module check_time_and_coin(
 
 		end else begin
 			// TODO: update all states.
-			wait_time <= wait_time - 1'b1;
+			if ($signed(wait_time) > 0) wait_time <= wait_time - 1'b1;
 		end
 	end
 endmodule

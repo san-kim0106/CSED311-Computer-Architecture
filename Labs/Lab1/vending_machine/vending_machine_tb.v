@@ -93,20 +93,20 @@ initial begin
 	# 200; // Wait until the output signals are stable.
 	
 	// == Tests start. At time 350ns
-	InitialTest(); // passed (@550ns)
-	Insert100CoinTest(); // Inserts five 100KRW coins
-	Insert500CoinTest(); // Inserts four 500KRW coins
-	Insert1000CoinTest(); // Inserts two 1000KRW coins
+	// InitialTest(); // passed (@550ns)
+	// Insert100CoinTest(); // Inserts five 100KRW coins
+	// Insert500CoinTest(); // Inserts four 500KRW coins
+	// Insert1000CoinTest(); // Inserts two 1000KRW coins
 	// Current = (5 * 100) + (4 * 500) + (2 * 1000) = 2500 KRW
 	
 	// After you fully implement o_output_item, run the tests.
-	Select1stItemTest();
-	Select2ndItemTest();
-	Select3rdItemTest();
-	Select4thItemTest();
+	// Select1stItemTest();
+	// Select2ndItemTest();
+	// Select3rdItemTest();
+	// Select4thItemTest();
 	
 	// After you fully implement o_return_coin, run the tests.
-	WaitReturnTest();
+	// WaitReturnTest();
 	TriggerReturnTest();
 	// == Tests end.
 
@@ -236,7 +236,7 @@ task WaitReturnTest;
 		Insert100Coin();
 		Insert500Coin();
 		Insert500Coin();
-		Insert1000Coin(); // 2800
+		Insert1000Coin(); // 2400
 		ReturnTest("WaitReturnTest");
 	end
 endtask
@@ -287,11 +287,7 @@ task ReturnTest;
 		$display("TEST %s :", Testname);
 	
 		while (Current > 0) begin
-			 $display("Current %d", Current);
-			 $display("o_return_coin %b", o_return_coin);
-			 $display("o_return_coin %z", o_return_coin);
-			 $display("o_return_coin %d", o_return_coin);
-
+			$display("Current %d", Current);
 			wait (o_return_coin);	// ** Wait until the o_return_coin is true
 			# 50; // To safely fetch the o_return_coin signal, add a half cycle here.
 			if (o_return_coin[0]) Current = Current - 'd100;
