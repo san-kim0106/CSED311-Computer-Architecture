@@ -93,20 +93,21 @@ initial begin
 	# 200; // Wait until the output signals are stable.
 	
 	// == Tests start. At time 350ns
-	// InitialTest(); // passed (@550ns)
-	// Insert100CoinTest(); // Inserts five 100KRW coins
-	// Insert500CoinTest(); // Inserts four 500KRW coins
-	// Insert1000CoinTest(); // Inserts two 1000KRW coins
+	InitialTest(); // passed (@550ns)
+	Insert100CoinTest(); // Inserts five 100KRW coins
+	Insert500CoinTest(); // Inserts four 500KRW coins
+	Insert1000CoinTest(); // Inserts two 1000KRW coins
 	// Current = (5 * 100) + (4 * 500) + (2 * 1000) = 2500 KRW
 	
 	// After you fully implement o_output_item, run the tests.
-	// Select1stItemTest();
-	// Select2ndItemTest();
-	// Select3rdItemTest();
-	// Select4thItemTest();
+	Select1stItemTest();
+	Select2ndItemTest();
+	Select3rdItemTest();
+	Select4thItemTest();
 	
 	// After you fully implement o_return_coin, run the tests.
-	// WaitReturnTest();
+	WaitReturnTest();
+	#50;
 	TriggerReturnTest();
 	// == Tests end.
 

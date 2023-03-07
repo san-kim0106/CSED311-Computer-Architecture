@@ -1,5 +1,3 @@
-// Mark 1.1
-
 `include "vending_machine_def.v"
 	
 
@@ -21,7 +19,7 @@ module calculate_current_state(
 	o_available_item,
 	o_output_item
 );
-	input [`kNumCoins-1:0] i_input_coin, o_return_coin;
+	input [`kNumCoins-1:0] i_input_coin;
 	input [`kNumItems-1:0]	i_select_item;			
 	input [31:0] item_price [`kNumItems-1:0];
 	input [31:0] coin_value [`kNumCoins-1:0];	
@@ -31,11 +29,13 @@ module calculate_current_state(
 
 	output reg [`kNumItems-1:0] o_available_item, o_output_item;
 	output reg  [`kTotalBits-1:0] input_total, output_total, return_total, current_total_nxt;
+	output reg [`kNumCoins-1:0] o_return_coin;
 	integer i;
 
 	initial begin
 		o_available_item = 0;
 		o_output_item = 0;
+		o_return_coin = 0;
 		input_total = 0;
 		output_total = 0;
 		return_total = 0;
@@ -47,41 +47,48 @@ module calculate_current_state(
 		// TODO: current_total_nxt
 		// You don't have to worry about concurrent activations in each input vector (or array).
 		// Calculate the next current_total state.
-		return_total = 0;
-
-		if ($signed(wait_time) <= 0 || i_trigger_return) begin
-			$display("i_trigger_return: %d", i_trigger_return);
-			if (current_total >= 1000) begin
-				return_total = 1000;
-			end else if (current_total >= 500) begin
-				return_total = 500;
-			end	else begin
-				return_total = 100;
+		if (i_input_coin) begin
+			input_total = 0;
+			for (integer i = 0; i < `kNumCoins; i = i + 1) begin
+				if (i_input_coin[i]) input_total = input_total + coin_value[i];
 			end
+			current_total_nxt = current_total + input_total;
+		
+		end else if (i_select_item) begin
+			output_total = 0;
+			for (integer i = 0; i < `kNumItems; i = i + 1) begin
+				if (i_select_item[i] && current_total >= item_price[i]) output_total = output_total + item_price[i];
+			end
+			current_total_nxt = current_total - output_total;
 
-		end else begin
+		end else if (i_trigger_return || $signed(wait_time) <= 0) begin
 			return_total = 0;
-		end
 
-		if (i_input_coin | i_select_item | o_return_coin | i_trigger_return) begin
-			current_total_nxt = current_total + input_total - output_total - return_total;
-		end
-		else begin
+			if (current_total >= 1000) return_total = 1000;
+			else if (current_total >= 500) return_total = 500;
+			else if (current_total >= 100) return_total = 100;
+			else return_total = 0;
+
+			current_total_nxt = current_total - return_total;
+			$display("current_total_nxt: %d, wait_time: %d, current_total: %d, i_trigger_return: %d", current_total_nxt, wait_time, current_total, i_trigger_return);
+		
+		end else begin
 			current_total_nxt = current_total;
-		end
-	end
-	
-	// Combinational logic for the outputs
-	always @(i_input_coin, i_select_item) begin
-		input_total = 0;
-		output_total = 0;
 
-		// Check i_input_coin and update input_total
+		end
+
+	end
+
+	// update o_available_item
+	always @(i_input_coin, i_select_item) begin
+		// update input_total
+		input_total = 0;
 		for (integer i = 0; i < `kNumCoins; i = i + 1) begin
 			if (i_input_coin[i]) input_total = input_total + coin_value[i];
 		end
 
-		// Check i_select_item and update outtput_total
+		// update output_total
+		output_total = 0;
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
 			if (i_select_item[i] && current_total >= item_price[i]) output_total = output_total + item_price[i];
 		end
@@ -89,15 +96,57 @@ module calculate_current_state(
 		// update o_available_item
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
 			// The item is available if its price is less than input_total
-			if (item_price[i] <= current_total + input_total) o_available_item[i] = 1;
+			if (item_price[i] <= current_total + input_total - output_total) o_available_item[i] = 1;
 			else o_available_item[i] = 0;
+		end
+
+	end
+
+	// update o_output_item
+	always @(i_select_item) begin
+		//  update output_total
+		output_total = 0;
+		for (integer i = 0; i < `kNumItems; i = i + 1) begin
+			if (i_select_item[i] && current_total >= item_price[i]) output_total = output_total + item_price[i];
 		end
 
 		// update o_output_item
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
-			if (i_select_item[i] && o_available_item[i]) o_output_item[i] = 1;
+			if (i_select_item[i] && current_total >= item_price[i]) o_output_item[i] = 1;
 			else o_output_item[i] = 0;
 		end
+	end
+	
+	// update o_return_coin
+	always @(wait_time, i_trigger_return) begin
+		// update o_return_coin
+
+		// $display("current_total: %d | wait_time: %d", current_total, wait_time);
+		return_total = 0;
+		if ($signed(wait_time) <= 0 || i_trigger_return) begin
+			if (current_total >= 1000) begin
+				return_total = 1000;
+				o_return_coin = `kNumCoins'd4;
+				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+
+			end else if (current_total >= 500) begin
+				return_total = 500;
+				o_return_coin = `kNumCoins'd2;
+				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+
+			end else if (current_total >= 100) begin
+				return_total = 100;
+				o_return_coin = `kNumCoins'd1;
+				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+
+			end	else begin
+				return_total = 0;
+				o_return_coin = `kNumCoins'd0;
+				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+
+			end
+		end
+		
 	end
 
 

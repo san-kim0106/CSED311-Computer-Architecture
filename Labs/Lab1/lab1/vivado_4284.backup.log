@@ -2,10 +2,10 @@
 # Vivado v2021.2 (64-bit)
 # SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
 # IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
-# Start of session at: Sun Mar  5 22:38:15 2023
-# Process ID: 10636
+# Start of session at: Tue Mar  7 20:45:18 2023
+# Process ID: 4284
 # Current directory: C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent8508 C:\Users\sany0\OneDrive\Desktop\CSED311-Computer-Architecture\Labs\Lab1\lab1\lab1.xpr
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent5076 C:\Users\sany0\OneDrive\Desktop\CSED311-Computer-Architecture\Labs\Lab1\lab1\lab1.xpr
 # Log file: C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/vivado.log
 # Journal file: C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1\vivado.jou
 # Running On: DESKTOP-S0MPN1A, OS: Windows, CPU Frequency: 1997 MHz, CPU Physical cores: 4, Host memory: 16972 MB
@@ -75,7 +75,7 @@ Finished scanning sources
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2021.2/data/ip'.
-open_project: Time (s): cpu = 00:00:21 ; elapsed = 00:00:08 . Memory (MB): peak = 1609.648 ; gain = 0.000
+open_project: Time (s): cpu = 00:00:22 ; elapsed = 00:00:09 . Memory (MB): peak = 1235.770 ; gain = 0.000
 update_compile_order -fileset sources_1
 launch_simulation
 Command: launch_simulation 
@@ -98,6 +98,141 @@ INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Deskt
 INFO: [VRFC 10-311] analyzing module check_time_and_coin
 INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module vending_machine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine_tb
+INFO: [USF-XSim-69] 'compile' step finished in '3' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+"xelab --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log"
+Vivado Simulator v2021.2
+Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.check_time_and_coin
+Compiling module xil_defaultlib.calculate_current_state
+Compiling module xil_defaultlib.change_state
+Compiling module xil_defaultlib.vending_machine
+Compiling module xil_defaultlib.vending_machine_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot vending_machine_tb_behav
+INFO: [USF-XSim-69] 'elaborate' step finished in '4' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "vending_machine_tb_behav -key {Behavioral:sim_1:Functional:vending_machine_tb} -tclbatch {vending_machine_tb.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Time resolution is 1 ps
+source vending_machine_tb.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST                       InitialTest :
+PASSED
+TEST               Insert100CoinTest-1 :
+FAILED
+o_available_item = 11 (Ans: 1)
+TEST               Insert100CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-1 :
+FAILED
+o_available_item = 111 (Ans: 11)
+TEST               Insert500CoinTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Insert500CoinTest-3 :
+PASSED
+TEST              Insert1000CoinTest-1 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST              Insert1000CoinTest-2 :
+PASSED
+TEST               Select1stItemTest-1 :
+PASSED
+TEST               Select1stItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select1stItemTest-3 :
+FAILED
+o_available_item = 1111 (Ans: 11)
+TEST               Select1stItemTest-4 :
+FAILED
+o_available_item = 1111 (Ans: 0)
+TEST               Select2ndItemTest-1 :
+PASSED
+TEST               Select2ndItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select2ndItemTest-3 :
+FAILED
+o_available_item = 1111 (Ans: 11)
+TEST               Select2ndItemTest-4 :
+FAILED
+o_available_item = 1111 (Ans: 0)
+TEST               Select3rdItemTest-1 :
+PASSED
+TEST               Select3rdItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select3rdItemTest-3 :
+FAILED
+o_available_item = 1111 (Ans: 1)
+TEST               Select4thItemTest-1 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select4thItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 1)
+TEST                    WaitReturnTest :
+Current        2800
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'vending_machine_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 1235.770 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-12493] Simulation top is 'vending_machine_tb'
+WARNING: [Vivado 12-12986] Compiled library path does not exist: ''
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-72] Using boost library from 'C:/Xilinx/Vivado/2021.2/tps/boost_1_72_0'
+INFO: [SIM-utils-54] Inspecting design source files for 'vending_machine_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -L uvm -prj vending_machine_tb_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module calculate_current_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module change_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module check_time_and_coin
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine_tb
 INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
 INFO: [USF-XSim-3] XSim::Elaborate design
 INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
@@ -108,7 +243,301 @@ Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 31 differs from formal bit length 1 for port 'current_total' [C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v:68]
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.check_time_and_coin
+Compiling module xil_defaultlib.calculate_current_state
+Compiling module xil_defaultlib.change_state
+Compiling module xil_defaultlib.vending_machine
+Compiling module xil_defaultlib.vending_machine_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot vending_machine_tb_behav
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "vending_machine_tb_behav -key {Behavioral:sim_1:Functional:vending_machine_tb} -tclbatch {vending_machine_tb.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Time resolution is 1 ps
+source vending_machine_tb.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+TEST                       InitialTest :
+PASSED
+TEST               Insert100CoinTest-1 :
+PASSED
+TEST               Insert100CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-1 :
+PASSED
+TEST               Insert500CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-3 :
+PASSED
+TEST              Insert1000CoinTest-1 :
+PASSED
+TEST              Insert1000CoinTest-2 :
+PASSED
+TEST               Select1stItemTest-1 :
+PASSED
+TEST               Select1stItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select1stItemTest-3 :
+FAILED
+o_available_item = 1111 (Ans: 11)
+TEST               Select1stItemTest-4 :
+FAILED
+o_available_item = 1111 (Ans: 0)
+TEST               Select2ndItemTest-1 :
+PASSED
+TEST               Select2ndItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select2ndItemTest-3 :
+FAILED
+o_available_item = 1111 (Ans: 11)
+TEST               Select2ndItemTest-4 :
+FAILED
+o_available_item = 1111 (Ans: 0)
+TEST               Select3rdItemTest-1 :
+PASSED
+TEST               Select3rdItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select3rdItemTest-3 :
+FAILED
+o_available_item = 1111 (Ans: 1)
+TEST               Select4thItemTest-1 :
+FAILED
+o_available_item = 1111 (Ans: 111)
+TEST               Select4thItemTest-2 :
+FAILED
+o_available_item = 1111 (Ans: 1)
+TEST                    WaitReturnTest :
+Current        2800
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'vending_machine_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 1235.770 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-12493] Simulation top is 'vending_machine_tb'
+WARNING: [Vivado 12-12986] Compiled library path does not exist: ''
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-72] Using boost library from 'C:/Xilinx/Vivado/2021.2/tps/boost_1_72_0'
+INFO: [SIM-utils-54] Inspecting design source files for 'vending_machine_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -L uvm -prj vending_machine_tb_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module calculate_current_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module change_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module check_time_and_coin
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine_tb
+INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+"xelab --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log"
+Vivado Simulator v2021.2
+Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.check_time_and_coin
+Compiling module xil_defaultlib.calculate_current_state
+Compiling module xil_defaultlib.change_state
+Compiling module xil_defaultlib.vending_machine
+Compiling module xil_defaultlib.vending_machine_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot vending_machine_tb_behav
+INFO: [USF-XSim-69] 'elaborate' step finished in '3' seconds
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "vending_machine_tb_behav -key {Behavioral:sim_1:Functional:vending_machine_tb} -tclbatch {vending_machine_tb.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Time resolution is 1 ps
+source vending_machine_tb.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+i_select_item block current_total:          0
+TEST                       InitialTest :
+PASSED
+TEST               Insert100CoinTest-1 :
+PASSED
+TEST               Insert100CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-1 :
+PASSED
+TEST               Insert500CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-3 :
+PASSED
+TEST              Insert1000CoinTest-1 :
+PASSED
+TEST              Insert1000CoinTest-2 :
+PASSED
+i_select_item block current_total:       3000
+i_select_item block current_total:       2600
+i_select_item block current_total:       2600
+TEST               Select1stItemTest-1 :
+i_select_item block current_total:       2200
+PASSED
+i_select_item block current_total:       2200
+TEST               Select1stItemTest-2 :
+i_select_item block current_total:       1800
+FAILED
+o_available_item = 1111 (Ans: 111)
+i_select_item block current_total:       1800
+i_select_item block current_total:       1400
+i_select_item block current_total:       1400
+i_select_item block current_total:       1000
+i_select_item block current_total:       1000
+TEST               Select1stItemTest-3 :
+i_select_item block current_total:        600
+FAILED
+o_available_item = 1111 (Ans: 11)
+i_select_item block current_total:        600
+TEST               Select1stItemTest-4 :
+i_select_item block current_total:        200
+FAILED
+o_available_item = 1111 (Ans: 0)
+i_select_item block current_total:       3200
+i_select_item block current_total:       2700
+i_select_item block current_total:       2700
+TEST               Select2ndItemTest-1 :
+i_select_item block current_total:       2200
+PASSED
+i_select_item block current_total:       2200
+TEST               Select2ndItemTest-2 :
+i_select_item block current_total:       1700
+FAILED
+o_available_item = 1111 (Ans: 111)
+i_select_item block current_total:       1700
+i_select_item block current_total:       1200
+i_select_item block current_total:       1200
+TEST               Select2ndItemTest-3 :
+i_select_item block current_total:        700
+FAILED
+o_available_item = 1111 (Ans: 11)
+i_select_item block current_total:        700
+TEST               Select2ndItemTest-4 :
+i_select_item block current_total:        200
+FAILED
+o_available_item = 1111 (Ans: 0)
+i_select_item block current_total:       3400
+TEST               Select3rdItemTest-1 :
+i_select_item block current_total:       2400
+PASSED
+i_select_item block current_total:       2400
+TEST               Select3rdItemTest-2 :
+i_select_item block current_total:       1400
+FAILED
+o_available_item = 1111 (Ans: 111)
+i_select_item block current_total:       1400
+TEST               Select3rdItemTest-3 :
+i_select_item block current_total:        400
+FAILED
+o_available_item = 1111 (Ans: 1)
+i_select_item block current_total:       3400
+TEST               Select4thItemTest-1 :
+i_select_item block current_total:       1400
+FAILED
+o_available_item = 1111 (Ans: 111)
+i_select_item block current_total:       2400
+TEST               Select4thItemTest-2 :
+i_select_item block current_total:        400
+FAILED
+o_available_item = 1111 (Ans: 1)
+TEST                    WaitReturnTest :
+Current        2800
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'vending_machine_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 1235.770 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+launch_simulation
+Command: launch_simulation 
+INFO: [Vivado 12-12493] Simulation top is 'vending_machine_tb'
+WARNING: [Vivado 12-12986] Compiled library path does not exist: ''
+INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+INFO: [SIM-utils-51] Simulation object is 'sim_1'
+INFO: [SIM-utils-72] Using boost library from 'C:/Xilinx/Vivado/2021.2/tps/boost_1_72_0'
+INFO: [SIM-utils-54] Inspecting design source files for 'vending_machine_tb' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+"xvlog --incr --relax -L uvm -prj vending_machine_tb_vlog.prj"
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module calculate_current_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module change_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module check_time_and_coin
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine_tb
+INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
+"xelab --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log"
+Vivado Simulator v2021.2
+Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
@@ -168,33 +597,9 @@ TEST               Select1stItemTest-2 :
 PASSED
 TEST               Select1stItemTest-3 :
 PASSED
-TEST               Select1stItemTest-4 :
-PASSED
-TEST               Select2ndItemTest-1 :
-PASSED
-TEST               Select2ndItemTest-2 :
-PASSED
-TEST               Select2ndItemTest-3 :
-PASSED
-TEST               Select2ndItemTest-4 :
-PASSED
-TEST               Select3rdItemTest-1 :
-PASSED
-TEST               Select3rdItemTest-2 :
-PASSED
-TEST               Select3rdItemTest-3 :
-PASSED
-TEST               Select4thItemTest-1 :
-PASSED
-TEST               Select4thItemTest-2 :
-PASSED
-TEST                    WaitReturnTest :
-Current        2800
-o_return_coin 000
-o_return_coin o_return_coin 0
 INFO: [USF-XSim-96] XSim completed. Design snapshot 'vending_machine_tb_behav' loaded.
 INFO: [USF-XSim-97] XSim simulation ran for 1000ns
-launch_simulation: Time (s): cpu = 00:00:11 ; elapsed = 00:00:08 . Memory (MB): peak = 1609.648 ; gain = 0.000
+launch_simulation: Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 1983.621 ; gain = 0.000
 close_sim
 INFO: [Simtcl 6-16] Simulation closed
 launch_simulation
@@ -210,7 +615,15 @@ INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
 INFO: [USF-XSim-2] XSim::Compile design
 INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
 "xvlog --incr --relax -L uvm -prj vending_machine_tb_vlog.prj"
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module calculate_current_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module change_state
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module check_time_and_coin
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vending_machine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module vending_machine_tb
 INFO: [USF-XSim-69] 'compile' step finished in '1' seconds
 INFO: [USF-XSim-3] XSim::Elaborate design
@@ -222,7 +635,6 @@ Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 31 differs from formal bit length 1 for port 'current_total' [C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v:68]
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
@@ -282,146 +694,10 @@ TEST               Select1stItemTest-2 :
 PASSED
 TEST               Select1stItemTest-3 :
 PASSED
-TEST               Select1stItemTest-4 :
-PASSED
-TEST               Select2ndItemTest-1 :
-PASSED
-TEST               Select2ndItemTest-2 :
-PASSED
-TEST               Select2ndItemTest-3 :
-PASSED
-TEST               Select2ndItemTest-4 :
-PASSED
-TEST               Select3rdItemTest-1 :
-PASSED
-TEST               Select3rdItemTest-2 :
-PASSED
-TEST               Select3rdItemTest-3 :
-PASSED
-TEST               Select4thItemTest-1 :
-PASSED
-TEST               Select4thItemTest-2 :
-PASSED
-TEST                 TriggerReturnTest :
-Current        5200
-o_return_coin 000
-o_return_coin o_return_coin 0
 INFO: [USF-XSim-96] XSim completed. Design snapshot 'vending_machine_tb_behav' loaded.
 INFO: [USF-XSim-97] XSim simulation ran for 1000ns
-launch_simulation: Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 1609.648 ; gain = 0.000
-close_sim
-INFO: [Simtcl 6-16] Simulation closed
-launch_simulation
-Command: launch_simulation 
-INFO: [Vivado 12-12493] Simulation top is 'vending_machine_tb'
-WARNING: [Vivado 12-12986] Compiled library path does not exist: ''
-INFO: [Vivado 12-5682] Launching behavioral simulation in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
-INFO: [SIM-utils-51] Simulation object is 'sim_1'
-INFO: [SIM-utils-72] Using boost library from 'C:/Xilinx/Vivado/2021.2/tps/boost_1_72_0'
-INFO: [SIM-utils-54] Inspecting design source files for 'vending_machine_tb' in fileset 'sim_1'...
-INFO: [USF-XSim-97] Finding global include files...
-INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
-INFO: [USF-XSim-2] XSim::Compile design
-INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
-"xvlog --incr --relax -L uvm -prj vending_machine_tb_vlog.prj"
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine_tb.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module vending_machine_tb
-INFO: [USF-XSim-69] 'compile' step finished in '2' seconds
-INFO: [USF-XSim-3] XSim::Elaborate design
-INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
-"xelab --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log"
-Vivado Simulator v2021.2
-Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
-Running: C:/Xilinx/Vivado/2021.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L uvm -L unisims_ver -L unimacro_ver -L secureip --snapshot vending_machine_tb_behav xil_defaultlib.vending_machine_tb xil_defaultlib.glbl -log elaborate.log 
-Using 2 slave threads.
-Starting static elaboration
-Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-3091] actual bit length 31 differs from formal bit length 1 for port 'current_total' [C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v:68]
-Completed static elaboration
-Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/vending_machine.v" Line 9. Module vending_machine doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/check_time_and_coin.v" Line 3. Module check_time_and_coin doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/calculate_current_state.v" Line 4. Module calculate_current_state doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/vending_machine/change_state.v" Line 4. Module change_state doesn't have a timescale but at least one module in design has a timescale.
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.check_time_and_coin
-Compiling module xil_defaultlib.calculate_current_state
-Compiling module xil_defaultlib.change_state
-Compiling module xil_defaultlib.vending_machine
-Compiling module xil_defaultlib.vending_machine_tb
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot vending_machine_tb_behav
-INFO: [USF-XSim-69] 'elaborate' step finished in '2' seconds
-INFO: [USF-XSim-4] XSim::Simulate design
-INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/sany0/OneDrive/Desktop/CSED311-Computer-Architecture/Labs/Lab1/lab1/lab1.sim/sim_1/behav/xsim'
-INFO: [USF-XSim-98] *** Running xsim
-   with args "vending_machine_tb_behav -key {Behavioral:sim_1:Functional:vending_machine_tb} -tclbatch {vending_machine_tb.tcl} -log {simulate.log}"
-INFO: [USF-XSim-8] Loading simulator feature
-Time resolution is 1 ps
-source vending_machine_tb.tcl
-# set curr_wave [current_wave_config]
-# if { [string length $curr_wave] == 0 } {
-#   if { [llength [get_objects]] > 0} {
-#     add_wave /
-#     set_property needs_save false [current_wave_config]
-#   } else {
-#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
-#   }
-# }
-# run 1000ns
-TEST                       InitialTest :
-PASSED
-TEST               Insert100CoinTest-1 :
-PASSED
-TEST               Insert100CoinTest-2 :
-PASSED
-TEST               Insert500CoinTest-1 :
-PASSED
-TEST               Insert500CoinTest-2 :
-PASSED
-TEST               Insert500CoinTest-3 :
-PASSED
-TEST              Insert1000CoinTest-1 :
-PASSED
-TEST              Insert1000CoinTest-2 :
-PASSED
-TEST               Select1stItemTest-1 :
-PASSED
-TEST               Select1stItemTest-2 :
-PASSED
-TEST               Select1stItemTest-3 :
-PASSED
-TEST               Select1stItemTest-4 :
-PASSED
-TEST               Select2ndItemTest-1 :
-PASSED
-TEST               Select2ndItemTest-2 :
-PASSED
-TEST               Select2ndItemTest-3 :
-PASSED
-TEST               Select2ndItemTest-4 :
-PASSED
-TEST               Select3rdItemTest-1 :
-PASSED
-TEST               Select3rdItemTest-2 :
-PASSED
-TEST               Select3rdItemTest-3 :
-PASSED
-TEST               Select4thItemTest-1 :
-PASSED
-TEST               Select4thItemTest-2 :
-PASSED
-Passed = 21, Failed = 0
-$finish called at time : 134500 ps
-INFO: [USF-XSim-96] XSim completed. Design snapshot 'vending_machine_tb_behav' loaded.
-INFO: [USF-XSim-97] XSim simulation ran for 1000ns
-launch_simulation: Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1609.648 ; gain = 0.000
+launch_simulation: Time (s): cpu = 00:00:02 ; elapsed = 00:00:06 . Memory (MB): peak = 1983.621 ; gain = 0.000
 close_sim
 INFO: [Simtcl 6-16] Simulation closed
 exit
-INFO: [Common 17-206] Exiting Vivado at Sun Mar  5 23:00:13 2023...
+INFO: [Common 17-206] Exiting Vivado at Tue Mar  7 20:59:01 2023...

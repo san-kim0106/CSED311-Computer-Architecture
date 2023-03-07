@@ -54,6 +54,16 @@ module vending_machine (
 	wire [`kTotalBits-1:0] input_total, output_total, return_total;
 	wire [31:0] wait_time;
 
+	/*
+	Used to store the state information
+		CS: 0 ==> Initial State
+		CS: 1 ==> Insert Coin State
+		CS: 2 ==> Dispense Item State
+		CS: 4 ==> Return Coin State
+	*/
+	wire [1:0] current_CS;
+	wire [1:0] next_CS;
+
 	// This module interface, structure, and given a number of modules are not mandatory but recommended.
 	// However, Implementations that use modules are mandatory.
 		
@@ -66,9 +76,7 @@ module vending_machine (
 									.wait_time(wait_time),
 									.item_price(item_price),
 									.current_total(current_total),
-									.i_trigger_return(i_trigger_return),
-
-									.o_return_coin(o_return_coin));
+									.i_trigger_return(i_trigger_return));
 
 	calculate_current_state calculate_current_state_module(
 										.i_input_coin(i_input_coin),

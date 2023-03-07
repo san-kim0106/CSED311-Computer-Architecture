@@ -1,0 +1,91 @@
+Time resolution is 1 ps
+TEST                       InitialTest :
+PASSED
+TEST               Insert100CoinTest-1 :
+PASSED
+TEST               Insert100CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-1 :
+PASSED
+TEST               Insert500CoinTest-2 :
+PASSED
+TEST               Insert500CoinTest-3 :
+PASSED
+TEST              Insert1000CoinTest-1 :
+PASSED
+TEST              Insert1000CoinTest-2 :
+PASSED
+TEST               Select1stItemTest-1 :
+PASSED
+TEST               Select1stItemTest-2 :
+PASSED
+TEST               Select1stItemTest-3 :
+PASSED
+TEST               Select1stItemTest-4 :
+PASSED
+TEST               Select2ndItemTest-1 :
+PASSED
+TEST               Select2ndItemTest-2 :
+PASSED
+TEST               Select2ndItemTest-3 :
+PASSED
+TEST               Select2ndItemTest-4 :
+PASSED
+TEST               Select3rdItemTest-1 :
+PASSED
+TEST               Select3rdItemTest-2 :
+PASSED
+TEST               Select3rdItemTest-3 :
+PASSED
+TEST               Select4thItemTest-1 :
+PASSED
+TEST               Select4thItemTest-2 :
+PASSED
+TEST                    WaitReturnTest :
+Current        2800
+current_total_nxt:       1800, wait_time:          0, current_total:       2800, i_trigger_return: 0
+o_return_coin: 4 @ wait_time:          0
+current_total_nxt:       1800, wait_time:          0, current_total:       2800, i_trigger_return: 0
+Current        1800
+current_total_nxt:        800, wait_time: 4294967295, current_total:       1800, i_trigger_return: 0
+o_return_coin: 4 @ wait_time: 4294967295
+current_total_nxt:        800, wait_time: 4294967295, current_total:       1800, i_trigger_return: 0
+Current         800
+current_total_nxt:        300, wait_time: 4294967294, current_total:        800, i_trigger_return: 0
+o_return_coin: 2 @ wait_time: 4294967294
+current_total_nxt:        300, wait_time: 4294967294, current_total:        800, i_trigger_return: 0
+Current         300
+current_total_nxt:        200, wait_time: 4294967293, current_total:        300, i_trigger_return: 0
+o_return_coin: 1 @ wait_time: 4294967293
+current_total_nxt:        200, wait_time: 4294967293, current_total:        300, i_trigger_return: 0
+Current         200
+current_total_nxt:        100, wait_time: 4294967292, current_total:        200, i_trigger_return: 0
+o_return_coin: 1 @ wait_time: 4294967292
+current_total_nxt:        100, wait_time: 4294967292, current_total:        200, i_trigger_return: 0
+Current         100
+current_total_nxt:          0, wait_time: 4294967291, current_total:        100, i_trigger_return: 0
+o_return_coin: 1 @ wait_time: 4294967291
+current_total_nxt:          0, wait_time: 4294967291, current_total:        100, i_trigger_return: 0
+PASSED
+current_total_nxt:          0, wait_time: 4294967290, current_total:          0, i_trigger_return: 0
+o_return_coin: 0 @ wait_time: 4294967290
+current_total_nxt:          0, wait_time: 4294967289, current_total:          0, i_trigger_return: 0
+o_return_coin: 0 @ wait_time: 4294967289
+TEST                 TriggerReturnTest :
+Current        4800
+current_total_nxt:       3800, wait_time:         98, current_total:       4800, i_trigger_return: 1
+o_return_coin: 4 @ wait_time:         98
+current_total_nxt:       3800, wait_time:         98, current_total:       4800, i_trigger_return: 1
+current_total_nxt:       2800, wait_time:         97, current_total:       3800, i_trigger_return: 1
+o_return_coin: 4 @ wait_time:         97
+current_total_nxt:       2800, wait_time:         97, current_total:       3800, i_trigger_return: 1
+Current        3800
+current_total_nxt:       1800, wait_time:         96, current_total:       2800, i_trigger_return: 1
+o_return_coin: 4 @ wait_time:         96
+current_total_nxt:       1800, wait_time:         96, current_total:       2800, i_trigger_return: 1
+Current        2800
+current_total_nxt:        800, wait_time:         95, current_total:       1800, i_trigger_return: 1
+o_return_coin: 4 @ wait_time:         95
+current_total_nxt:        800, wait_time:         95, current_total:       1800, i_trigger_return: 1
+Current        1800
+current_total_nxt:        300, wait_time:         94, current
