@@ -73,6 +73,7 @@ module vending_machine (
 	calculate_current_state calculate_current_state_module(
 										.i_input_coin(i_input_coin),
 										.i_select_item(i_select_item),
+										.i_trigger_return(i_trigger_return),
 
 										.item_price(item_price),
 										.coin_value(coin_value),

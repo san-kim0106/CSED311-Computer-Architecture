@@ -1,3 +1,5 @@
+// Mark 1.1
+
 `include "vending_machine_def.v"
 	
 
@@ -49,7 +51,6 @@ module calculate_current_state(
 
 		if ($signed(wait_time) <= 0 || i_trigger_return) begin
 			$display("i_trigger_return: %d", i_trigger_return);
-
 			if (current_total >= 1000) begin
 				return_total = 1000;
 			end else if (current_total >= 500) begin
