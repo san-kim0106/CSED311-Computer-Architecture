@@ -35,7 +35,7 @@ module check_time_and_coin(
 			// TODO: reset all states.
 			wait_time = `kWaitTime;
 
-		end else if (i_input_coin) begin
+		end else if (i_input_coin | i_trigger_return) begin
 
 			wait_time = `kWaitTime;
 
