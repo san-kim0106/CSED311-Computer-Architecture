@@ -23,8 +23,8 @@ module calculate_current_state(
 	input [`kNumItems-1:0]	i_select_item;			
 	input [31:0] item_price [`kNumItems-1:0];
 	input [31:0] coin_value [`kNumCoins-1:0];	
-	input [`kTotalBits-1:0] current_total;
-	input [31:0] wait_time;
+	input [`kTotalBits-1:0] current_total; // State variable
+	input [31:0] wait_time; // State variable
 	input i_trigger_return;
 
 	output reg [`kNumItems-1:0] o_available_item, o_output_item;
@@ -43,7 +43,7 @@ module calculate_current_state(
 	end
 	
 	// Combinational logic for the next states
-	always @(*) begin
+	always @(i_input_coin, i_select_item, current_total, wait_time) begin
 		// TODO: current_total_nxt
 		// You don't have to worry about concurrent activations in each input vector (or array).
 		// Calculate the next current_total state.
@@ -70,7 +70,7 @@ module calculate_current_state(
 			else return_total = 0;
 
 			current_total_nxt = current_total - return_total;
-			$display("current_total_nxt: %d, wait_time: %d, current_total: %d, i_trigger_return: %d", current_total_nxt, wait_time, current_total, i_trigger_return);
+			// $display("current_total_nxt: %d, wait_time: %d, current_total: %d, i_trigger_return: %d", current_total_nxt, wait_time, current_total, i_trigger_return);
 		
 		end else begin
 			current_total_nxt = current_total;
@@ -79,7 +79,7 @@ module calculate_current_state(
 
 	end
 
-	// update o_available_item
+	// Combinational Logic for the output: o_available_item, o_output_item
 	always @(i_input_coin, i_select_item) begin
 		// update input_total
 		input_total = 0;
@@ -100,25 +100,16 @@ module calculate_current_state(
 			else o_available_item[i] = 0;
 		end
 
-	end
-
-	// update o_output_item
-	always @(i_select_item) begin
-		//  update output_total
-		output_total = 0;
-		for (integer i = 0; i < `kNumItems; i = i + 1) begin
-			if (i_select_item[i] && current_total >= item_price[i]) output_total = output_total + item_price[i];
-		end
-
 		// update o_output_item
 		for (integer i = 0; i < `kNumItems; i = i + 1) begin
 			if (i_select_item[i] && current_total >= item_price[i]) o_output_item[i] = 1;
 			else o_output_item[i] = 0;
 		end
+
 	end
 	
-	// update o_return_coin
-	always @(wait_time, i_trigger_return) begin
+	// Combinational Logic for the output: o_return_coin
+	always @(wait_time) begin
 		// update o_return_coin
 
 		// $display("current_total: %d | wait_time: %d", current_total, wait_time);
@@ -127,22 +118,22 @@ module calculate_current_state(
 			if (current_total >= 1000) begin
 				return_total = 1000;
 				o_return_coin = `kNumCoins'd4;
-				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end else if (current_total >= 500) begin
 				return_total = 500;
 				o_return_coin = `kNumCoins'd2;
-				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end else if (current_total >= 100) begin
 				return_total = 100;
 				o_return_coin = `kNumCoins'd1;
-				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end	else begin
 				return_total = 0;
 				o_return_coin = `kNumCoins'd0;
-				$display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
+				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end
 		end

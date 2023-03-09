@@ -11,6 +11,7 @@ module change_state(
 	input clk;
 	input reset_n;
 	input [`kTotalBits-1:0] current_total_nxt;
+
 	output reg [`kTotalBits-1:0] current_total;
 	
 	// Sequential circuit to reset or update the states

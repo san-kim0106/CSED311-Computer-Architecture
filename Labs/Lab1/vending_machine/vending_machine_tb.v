@@ -107,7 +107,6 @@ initial begin
 	
 	// After you fully implement o_return_coin, run the tests.
 	WaitReturnTest();
-	#50;
 	TriggerReturnTest();
 	// == Tests end.
 
