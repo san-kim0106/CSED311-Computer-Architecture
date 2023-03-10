@@ -70,7 +70,6 @@ module calculate_current_state(
 			else return_total = 0;
 
 			current_total_nxt = current_total - return_total;
-			// $display("current_total_nxt: %d, wait_time: %d, current_total: %d, i_trigger_return: %d", current_total_nxt, wait_time, current_total, i_trigger_return);
 		
 		end else begin
 			current_total_nxt = current_total;
@@ -107,7 +106,7 @@ module calculate_current_state(
 		end
 
 	end
-	
+
 	// Combinational Logic for the output: o_return_coin
 	always @(wait_time) begin
 		// update o_return_coin
