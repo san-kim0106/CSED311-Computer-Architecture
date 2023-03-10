@@ -111,29 +111,23 @@ module calculate_current_state(
 	// Combinational Logic for the output: o_return_coin
 	always @(wait_time) begin
 		// update o_return_coin
-
-		// $display("current_total: %d | wait_time: %d", current_total, wait_time);
 		return_total = 0;
 		if ($signed(wait_time) <= 0 || i_trigger_return) begin
 			if (current_total >= 1000) begin
 				return_total = 1000;
 				o_return_coin = `kNumCoins'd4;
-				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end else if (current_total >= 500) begin
 				return_total = 500;
 				o_return_coin = `kNumCoins'd2;
-				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end else if (current_total >= 100) begin
 				return_total = 100;
 				o_return_coin = `kNumCoins'd1;
-				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end	else begin
 				return_total = 0;
 				o_return_coin = `kNumCoins'd0;
-				// $display("o_return_coin: %d @ wait_time: %d", o_return_coin, wait_time);
 
 			end
 		end
