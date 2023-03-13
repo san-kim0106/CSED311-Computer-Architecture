@@ -7,6 +7,7 @@ module check_time_and_coin(
 	clk,
 	reset_n,
 	wait_time, // 32-bit wire to represent integer
+	return_finished,
 
 	o_available_item,
 	i_trigger_return
@@ -15,6 +16,7 @@ module check_time_and_coin(
 	/* Additional arguments */
 	input i_trigger_return;
 	input [`kNumItems-1:0] o_available_item;
+	input return_finished;
 	/* End of additional arguments */
 
 	input clk;
@@ -35,8 +37,7 @@ module check_time_and_coin(
 			// TODO: reset all states.
 			wait_time = `kWaitTime;
 
-		end else if (i_input_coin) begin
-
+		end else if (i_input_coin || (return_finished && wait_time != `kWaitTime)) begin
 			wait_time = `kWaitTime;
 
 		end else if (i_select_item) begin

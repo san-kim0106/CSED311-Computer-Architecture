@@ -14,6 +14,7 @@ module calculate_current_state(
 	return_total,
 	current_total_nxt,
 	wait_time,
+	return_finished,
 
 	o_return_coin,
 	o_available_item,
@@ -30,7 +31,7 @@ module calculate_current_state(
 	output reg [`kNumItems-1:0] o_available_item, o_output_item;
 	output reg  [`kTotalBits-1:0] input_total, output_total, return_total, current_total_nxt;
 	output reg [`kNumCoins-1:0] o_return_coin;
-	integer i;
+	output reg return_finished;
 
 	initial begin
 		o_available_item = 0;
@@ -79,7 +80,7 @@ module calculate_current_state(
 	end
 
 	// Combinational Logic for the output: o_available_item, o_output_item
-	always @(i_input_coin, i_select_item) begin
+	always @(i_input_coin, i_select_item, current_total) begin
 		// update input_total
 		input_total = 0;
 		for (integer i = 0; i < `kNumCoins; i = i + 1) begin
@@ -115,20 +116,26 @@ module calculate_current_state(
 			if (current_total >= 1000) begin
 				return_total = 1000;
 				o_return_coin = `kNumCoins'd4;
+				return_finished = 0;
 
 			end else if (current_total >= 500) begin
 				return_total = 500;
 				o_return_coin = `kNumCoins'd2;
+				return_finished = 0;
 
 			end else if (current_total >= 100) begin
 				return_total = 100;
 				o_return_coin = `kNumCoins'd1;
+				return_finished = 0;
 
 			end	else begin
 				return_total = 0;
 				o_return_coin = `kNumCoins'd0;
+				return_finished = 1;
 
 			end
+		end else begin
+			return_finished = 0;
 		end
 		
 	end

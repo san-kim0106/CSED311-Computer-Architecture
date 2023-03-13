@@ -108,6 +108,21 @@ initial begin
 	// After you fully implement o_return_coin, run the tests.
 	WaitReturnTest();
 	TriggerReturnTest();
+
+	// Additional tests
+	i_trigger_return = 0;
+	InitialTest();
+	Insert100CoinTest();
+	Insert500CoinTest();
+	Insert1000CoinTest();
+	Select1stItemTest();
+	Select2ndItemTest();
+	WaitReturnTest();
+	Insert1000CoinTest();
+	Insert1000CoinTest();
+	Insert1000CoinTest();
+	TriggerReturnTest();
+
 	// == Tests end.
 
 	$display("Passed = %0d, Failed = %0d", Passed, Failed);
