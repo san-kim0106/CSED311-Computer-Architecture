@@ -1,4 +1,4 @@
-module RegisterFile(input	reset,
+module RegisterFile(input reset,
                     input clk,
                     input [4:0] rs1,          // source register 1
                     input [4:0] rs2,          // source register 2
@@ -7,21 +7,21 @@ module RegisterFile(input	reset,
                     input write_enable,          // RegWrite signal
                     output [31:0] rs1_dout,   // output of rs 1
                     output [31:0] rs2_dout);  // output of rs 2
-  integer i;
-  // Register file
-  reg [31:0] rf[0:31];
+    integer i;
+    // Register file
+    reg [31:0] rf[0:31];
 
-  // TODO
-  // Asynchronously read register file
-  // Synchronously write data to the register file
+    // TODO
+    // Asynchronously read register file
+    // Synchronously write data to the register file
 
-  // Initialize register file (do not touch)
-  always @(posedge clk) begin
+    // Initialize register file (do not touch)
+    always @(posedge clk) begin
     // Reset register file
-    if (reset) begin
-      for (i = 0; i < 32; i = i + 1)
-        rf[i] = 32'b0;
-      rf[2] = 32'h2ffc; // stack pointer
+        if (reset) begin
+            for (i = 0; i < 32; i = i + 1)
+                rf[i] = 32'b0;
+            rf[2] = 32'h2ffc; // stack pointer
+        end
     end
-  end
 endmodule

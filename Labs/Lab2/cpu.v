@@ -17,79 +17,79 @@ module CPU(input reset,       // positive reset signal
 
   // ---------- Update program counter ----------
   // PC must be updated on the rising edge (positive edge) of the clock.
-  PC pc(
-    .reset(),       // input (Use reset to initialize PC. Initial value must be 0)
-    .clk(),         // input
-    .next_pc(),     // input
-    .current_pc()   // output
-  );
+    PC pc(
+        .reset(),       // input (Use reset to initialize PC. Initial value must be 0)
+        .clk(),         // input
+        .next_pc(),     // input
+        .current_pc()   // output
+    );
   
-  // ---------- Instruction Memory ----------
-  InstMemory imem(
-    .reset(),   // input
-    .clk(),     // input
-    .addr(),    // input
-    .dout()     // output
-  );
+    // ---------- Instruction Memory ----------
+    InstMemory imem(
+        .reset(),   // input
+        .clk(),     // input
+        .addr(),    // input
+        .dout()     // output
+    );
 
-  // ---------- Register File ----------
-  RegisterFile reg_file (
-    .reset (),        // input
-    .clk (),          // input
-    .rs1 (),          // input
-    .rs2 (),          // input
-    .rd (),           // input
-    .rd_din (),       // input
-    .write_enable (),    // input
-    .rs1_dout (),     // output
-    .rs2_dout ()      // output
-  );
+    // ---------- Register File ----------
+    RegisterFile reg_file (
+        .reset (),        // input
+        .clk (),          // input
+        .rs1 (),          // input
+        .rs2 (),          // input
+        .rd (),           // input
+        .rd_din (),       // input
+        .write_enable (),    // input
+        .rs1_dout (),     // output
+        .rs2_dout ()      // output
+    );
 
 
-  // ---------- Control Unit ----------
-  ControlUnit ctrl_unit (
-    .part_of_inst(),  // input
-    .is_jal(),        // output
-    .is_jalr(),       // output
-    .branch(),        // output
-    .mem_read(),      // output
-    .mem_to_reg(),    // output
-    .mem_write(),     // output
-    .alu_src(),       // output
-    .write_enable(),     // output
-    .pc_to_reg(),     // output
-    .is_ecall()       // output (ecall inst)
-  );
+    // ---------- Control Unit ----------
+    ControlUnit ctrl_unit (
+        .part_of_inst(),  // input
+        .is_jal(),        // output
+        .is_jalr(),       // output
+        .branch(),        // output
+        .mem_read(),      // output
+        .mem_to_reg(),    // output
+        .mem_write(),     // output
+        .alu_src(),       // output
+        .write_enable(),     // output
+        .pc_to_reg(),     // output
+        .is_ecall()       // output (ecall inst)
+    );
 
-  // ---------- Immediate Generator ----------
-  ImmediateGenerator imm_gen(
-    .part_of_inst(),  // input
-    .imm_gen_out()    // output
-  );
+    // ---------- Immediate Generator ----------
+    ImmediateGenerator imm_gen(
+        .part_of_inst(),  // input
+        .imm_gen_out()    // output
+    );
 
-  // ---------- ALU Control Unit ----------
-  ALUControlUnit alu_ctrl_unit (
-    .part_of_inst(),  // input
-    .alu_op()         // output
-  );
+    // ---------- ALU Control Unit ----------
+    ALUControlUnit alu_ctrl_unit (
+        .part_of_inst(),  // input
+        .alu_op()         // output
+    );
 
-  // ---------- ALU ----------
-  ALU alu (
-    .alu_op(),      // input
-    .alu_in_1(),    // input  
-    .alu_in_2(),    // input
-    .alu_result(),  // output
-    .alu_bcond()     // output
-  );
+    // ---------- ALU ----------
+    ALU alu (
+        .alu_op(),      // input
+        .alu_in_1(),    // input  
+        .alu_in_2(),    // input
+        .alu_result(),  // output
+        .alu_bcond()     // output
+    );
 
-  // ---------- Data Memory ----------
-  DataMemory dmem(
-    .reset (),      // input
-    .clk (),        // input
-    .addr (),       // input
-    .din (),        // input
-    .mem_read (),   // input
-    .mem_write (),  // input
-    .dout ()        // output
-  );
+    // ---------- Data Memory ----------
+    DataMemory dmem(
+        .reset (),      // input
+        .clk (),        // input
+        .addr (),       // input
+        .din (),        // input
+        .mem_read (),   // input
+        .mem_write (),  // input
+        .dout ()        // output
+    );
 endmodule
