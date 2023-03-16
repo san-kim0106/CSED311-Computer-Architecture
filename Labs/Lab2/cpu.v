@@ -48,7 +48,7 @@ module CPU(input reset,       // positive reset signal
 
     // ---------- Control Unit ----------
     ControlUnit ctrl_unit (
-        .part_of_inst(),  // input
+        .opcode(),  // input
         .is_jal(),        // output
         .is_jalr(),       // output
         .branch(),        // output
@@ -63,23 +63,25 @@ module CPU(input reset,       // positive reset signal
 
     // ---------- Immediate Generator ----------
     ImmediateGenerator imm_gen(
-        .part_of_inst(),  // input
+        .inst(),  // input
         .imm_gen_out()    // output
     );
 
     // ---------- ALU Control Unit ----------
     ALUControlUnit alu_ctrl_unit (
-        .part_of_inst(),  // input
+        .opcode(),        // input
+        .funct3(),        // input
+        .funct7(),        // input
         .alu_op()         // output
     );
 
     // ---------- ALU ----------
     ALU alu (
         .alu_op(),      // input
-        .alu_in_1(),    // input  
-        .alu_in_2(),    // input
-        .alu_result(),  // output
-        .alu_bcond()     // output
+        .in_1(),    // input  
+        .in_2(),    // input
+        .out(),  // output
+        .bcond()     // output
     );
 
     // ---------- Data Memory ----------
