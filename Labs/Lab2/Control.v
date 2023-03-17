@@ -1,18 +1,18 @@
 `include "opcodes.v"
-`incldue "ALUop.v"
+`include "ALUop.v"
 
 
 module ControlUnit (input [6:0] opcode,
-                    output is_jal,
-                    output is_jalr,
-                    output branch,
-                    output mem_read,
-                    output mem_to_reg,
-                    output mem_write,
-                    output alu_src,
-                    output write_enable,
-                    output pc_to_reg,
-                    output is_ecall);
+                    output reg is_jal,
+                    output reg is_jalr,
+                    output reg branch,
+                    output reg mem_read,
+                    output reg mem_to_reg,
+                    output reg mem_write,
+                    output reg alu_src,
+                    output reg write_enable,
+                    output reg pc_to_reg,
+                    output reg is_ecall);
 
     // Combinational logic for control signals
     always @(*) begin
@@ -74,7 +74,7 @@ endmodule
 module ALUControlUnit (input [6:0] opcode,
                        input [2:0] funct3,
                        input [6:0] funct7,
-                       output [3:0] alu_op);
+                       output reg [3:0] alu_op);
     /*
     alu_op types
         - Branch Equal

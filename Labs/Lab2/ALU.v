@@ -3,8 +3,8 @@
 module ALU (input[3:0] alu_op,
             input[31:0] in_1,
             input[31:0] in_2,
-            output[31:0] out,
-            output bcond);
+            output reg [31:0] out,
+            output reg bcond);
 
     //TODO: implement bcond
 	always @(*) begin
