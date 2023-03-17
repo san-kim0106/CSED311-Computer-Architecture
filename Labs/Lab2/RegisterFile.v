@@ -1,10 +1,13 @@
 module RegisterFile(input reset,
                     input clk,
+
                     input [4:0] rs1,          // source register 1
                     input [4:0] rs2,          // source register 2
+
                     input [4:0] rd,           // destination register
                     input [31:0] rd_din,      // input data for rd
                     input write_enable,          // RegWrite signal
+
                     output [31:0] rs1_dout,   // output of rs 1
                     output [31:0] rs2_dout);  // output of rs 2
     integer i;
@@ -14,6 +17,16 @@ module RegisterFile(input reset,
     // TODO
     // Asynchronously read register file
     // Synchronously write data to the register file
+    always @(rs1, rs2) begin
+        // Combinational Logic for READING DATA
+        rs1_dout = rf[rs1];
+        rs2_dout = rf[rs2];
+    end
+
+    always @(posedge clk) begin
+        // Sequential Logic for WRITING DATA
+        if (write_enable) rf[rd] = rd_din;
+    end
 
     // Initialize register file (do not touch)
     always @(posedge clk) begin

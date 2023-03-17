@@ -1,4 +1,5 @@
 `include "opcodes.v"
+`incldue "ALUop.v"
 
 
 module ControlUnit (input [6:0] opcode,
@@ -27,34 +28,43 @@ module ControlUnit (input [6:0] opcode,
         pc_to_reg = 0;
         is_ecall = 0;
 
-        if (part_of_inst... ) begin
+        if (0) begin
             // TODO: is_jal
             is_jal = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: is_jalr
             is_jalr = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: branch
             branch = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: mem_read
             mem_read = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: mem_to_reg
             mem_to_reg = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: mem_write
             mem_write = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: alu_src
             alu_src = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (opcode != `STORE && opcode != `BRANCH) begin
             // TODO: write_enable
             write_enable = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: pc_to_reg
             pc_to_reg = 1;
-        end else if (part_of_inst... ) begin
+
+        end else if (0) begin
             // TODO: is_ecal
             is_ecall = 1;
         end
@@ -82,30 +92,40 @@ module ALUControlUnit (input [6:0] opcode,
     
     // Combinational Logic
     always @(*) begin
-        if (...) begin
+        if (0) begin
             // TODO: Branch Equal
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: Branch Not Equal
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: Less than
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: Greater than or equal
-        end else if (...) begin
+
+        end else if (opcode == `ARITHMETIC && funct3 == `FUNCT3_ADD && funct7 == `FUNCT7_OTHERS) begin
             // TODO: Addition
-        end else if (...) begin
+            alu_op = `FUNC_ADD;
+
+        end else if (0) begin
             // TODO: Subtraction
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: Logical Left Shift
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: Logical Right Shift
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: XOR
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: OR
-        end else if (...) begin
+
+        end else if (0) begin
             // TODO: AND
         end
-    
     end
     
 
