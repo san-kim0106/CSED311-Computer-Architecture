@@ -13,7 +13,9 @@ module InstMemory #(parameter MEM_DEPTH = 1024) (input reset,
     // Asynchronously read instruction from the memory 
     // (use imem_addr to access memory)
     always @(addr) begin // Combinational Logic for Instruction Fetch
-        inst = mem[addr]; //* Double check: addr is a 32-bit number but is used as an index
+        i = addr / 4;
+        inst = mem[i]; //* Double check: addr is a 32-bit number but is used as an index
+        // $display("inst: %d | i: %d", inst, i); //! FOR DEBUGGING
     end
 
     // Initialize instruction memory (do not touch except path)
@@ -22,7 +24,7 @@ module InstMemory #(parameter MEM_DEPTH = 1024) (input reset,
             for (i = 0; i < MEM_DEPTH; i = i + 1)
                 mem[i] = 32'b0;
             // Provide path of the file including instructions with binary format
-            $readmemh("/path/to/binary_format/file", mem);
+            $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab2\\student_tb\\test_text.txt", mem);
         end
     end
 

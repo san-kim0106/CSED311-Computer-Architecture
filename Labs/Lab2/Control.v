@@ -14,8 +14,8 @@ module ControlUnit (input [6:0] opcode,
                     output reg pc_to_reg,
                     output reg is_ecall);
 
-    // Combinational logic for control signals
-    always @(*) begin
+    //! Double check if this is allowed
+    initial begin
         // Initialize the outputs to LOW
         is_jal = 0;
         is_jalr = 0;
@@ -27,44 +27,65 @@ module ControlUnit (input [6:0] opcode,
         write_enable = 0;
         pc_to_reg = 0;
         is_ecall = 0;
+    end
+
+    // Combinational logic for control signals
+    always @(*) begin
 
         if (0) begin
             // TODO: is_jal
             is_jal = 1;
+        end
 
-        end else if (0) begin
+        if (0) begin
             // TODO: is_jalr
             is_jalr = 1;
 
-        end else if (0) begin
+        end
+        
+        if (0) begin
             // TODO: branch
             branch = 1;
 
-        end else if (0) begin
+        end
+        
+        if (0) begin
             // TODO: mem_read
             mem_read = 1;
 
-        end else if (0) begin
+        end
+        
+        if (0) begin
             // TODO: mem_to_reg
             mem_to_reg = 1;
 
-        end else if (0) begin
+        end
+        
+        if (0) begin
             // TODO: mem_write
             mem_write = 1;
 
-        end else if (0) begin
+        end
+        
+        if (opcode == `ARITHMETIC_IMM) begin
             // TODO: alu_src
             alu_src = 1;
 
-        end else if (opcode != `STORE && opcode != `BRANCH) begin
+        end
+        
+        if (opcode != `STORE && opcode != `BRANCH) begin
             // TODO: write_enable
             write_enable = 1;
 
-        end else if (0) begin
+        end
+        
+        if (0) begin
             // TODO: pc_to_reg
             pc_to_reg = 1;
 
-        end else if (0) begin
+        end
+        
+        if (opcode == `ECALL) begin
             // TODO: is_ecal
             is_ecall = 1;
         end
@@ -92,6 +113,7 @@ module ALUControlUnit (input [6:0] opcode,
     
     // Combinational Logic
     always @(*) begin
+        // $display("opcode: %d", opcode); //! FOR DEBUGGIN
         if (0) begin
             // TODO: Branch Equal
 
@@ -104,7 +126,7 @@ module ALUControlUnit (input [6:0] opcode,
         end else if (0) begin
             // TODO: Greater than or equal
 
-        end else if (opcode == `ARITHMETIC && funct3 == `FUNCT3_ADD && funct7 == `FUNCT7_OTHERS) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD && funct7 == `FUNCT7_OTHERS) begin
             // TODO: Addition
             alu_op = `FUNC_ADD;
 
