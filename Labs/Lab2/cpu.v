@@ -47,8 +47,8 @@ module CPU(input reset,       // positive reset signal
 
 
     /***** Register declarations *****/
-    reg [31:0] current_pc;
-    reg [31:0] next_pc;
+    wire [31:0] current_pc;
+    wire [31:0] next_pc;
 
 // ---------- Update program counter ----------
 // PC must be updated on the rising edge (positive edge) of the clock.
