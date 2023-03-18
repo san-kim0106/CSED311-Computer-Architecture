@@ -43,6 +43,7 @@ module ALU (input[3:0] alu_op,
 
 			default: out = 0;
 		endcase
+		// $display("alu_op: %d | in_1: %d | in_2: %d | alu result: %d", alu_op, in_1, in_2, out); //! FOR DEBUGGING
 
 	end
 

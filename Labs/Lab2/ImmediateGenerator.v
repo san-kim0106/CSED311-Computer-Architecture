@@ -1,7 +1,7 @@
 `include "opcodes.v"
 
 module ImmediateGenerator (input[31:0] inst,
-                           output[31:0] imm_gen_out);
+                           output reg [31:0] imm_gen_out);
 
     wire [6:0] opcode;
     assign opcode = inst[6:0]; //* Double check syntax
@@ -10,7 +10,7 @@ module ImmediateGenerator (input[31:0] inst,
         if (opcode == `ARITHMETIC) begin
             // TODO
         end else if (opcode == `ARITHMETIC_IMM) begin
-            // TODO
+            imm_gen_out = { {20{inst[31]}}, inst[31:20] };
         end else if (opcode == `LOAD) begin
             // TODO
         end else if (opcode == `JALR) begin

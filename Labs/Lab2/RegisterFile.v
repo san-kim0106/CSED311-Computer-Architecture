@@ -8,8 +8,11 @@ module RegisterFile(input reset,
                     input [31:0] rd_din,      // input data for rd
                     input write_enable,          // RegWrite signal
 
-                    output reg [31:0] rs1_dout,   // output of rs 1
-                    output reg [31:0] rs2_dout);  // output of rs 2
+                    input is_ecall, // ECALL control signal
+
+                    output reg [31:0] rs1_dout, // output of rs 1
+                    output reg [31:0] rs2_dout, // output of rs 2
+                    output reg is_halted); 
     integer i;
     // Register file
     reg [31:0] rf[0:31];
@@ -19,8 +22,15 @@ module RegisterFile(input reset,
     // Synchronously write data to the register file
     always @(rs1, rs2) begin
         // Combinational Logic for READING DATA
-        rs1_dout = rf[rs1];
-        rs2_dout = rf[rs2];
+        rs1_dout = rf[rs1]; //! Double check syntax
+        rs2_dout = rf[rs2]; //! Double check syntax
+    end
+
+    always @(is_ecall) begin
+        // $display("GPR[17] == %d", rf[17]);  //! FOR DEBUGGING
+        if (rf[17] == 10) begin
+            is_halted = 1;
+        end
     end
 
     always @(posedge clk) begin
