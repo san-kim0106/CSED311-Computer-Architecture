@@ -49,12 +49,14 @@ module DataMemory #(parameter MEM_DEPTH = 16384) (input reset,
     // Synchronously write data to the memory --> Sequential Logic (clk signal)
     // (use dmem_addr to access memory)
 
-    always @(*) begin
+    always @(addr) begin
         // Combinational Logic for READING DATA
+        if (mem_read) dout = mem[dmem_addr];
     end
 
     always @(posedge clk) begin
         // Sequential Logic for WRITING DATA
+        if (mem_write) mem[dmem_addr] = din;
     end
 
     // Initialize data memory (do not touch)

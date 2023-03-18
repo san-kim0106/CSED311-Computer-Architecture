@@ -10,9 +10,11 @@ module ImmediateGenerator (input[31:0] inst,
         if (opcode == `ARITHMETIC) begin
             // TODO
         end else if (opcode == `ARITHMETIC_IMM) begin
+            // I-type
             imm_gen_out = { {20{inst[31]}}, inst[31:20] };
         end else if (opcode == `LOAD) begin
-            // TODO
+            // I-type
+            imm_gen_out = { {20{inst[31]}}, inst[31:20] };
         end else if (opcode == `JALR) begin
             // TODO
         end else if (opcode == `STORE) begin
