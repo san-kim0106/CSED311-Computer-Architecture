@@ -18,15 +18,17 @@ module ControlUnit (input [6:0] opcode,
     always @(opcode) begin
 
         // TODO: is_jal
-        if (0) is_jal = 1;
+        if (opcode == `JAL) begin
+            is_jal = 1;
+        end
         else is_jal = 0;
 
         // TODO: is_jalr
-        if (0) is_jalr = 1;
+        if (opcode == `JALR) is_jalr = 1;
         else is_jalr = 0;
 
         // TODO: branch
-        if (0) branch = 1;
+        if (opcode == `BRANCH) branch = 1;
         else branch = 0;
         
         // TODO: mem_read
@@ -44,13 +46,22 @@ module ControlUnit (input [6:0] opcode,
         // alu_src
         if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE) alu_src = 1;
         else alu_src = 0;
+
+        //! DEDUBGGING PURPOSES
+        // if (opcode == `ARITHMETIC) $display("ARITHMETIC"); //! FOR DEBUGGING
+        // if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
+        // if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
+        // if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
+        // if (opcode == `JAL) $display("JAL"); //! FOR DEBUGGING
+        // if (opcode == `JALR) $display("JALR"); //! FOR DEBUGGING
+        //! ----------------------------------
         
         // write_enable
         if (opcode != `STORE && opcode != `BRANCH) write_enable = 1;
         else write_enable = 0;
         
         // TODO: pc_to_reg
-        if (0) pc_to_reg = 1;
+        if (opcode == `JAL || opcode == `JALR) pc_to_reg = 1;
         else pc_to_reg = 0;
         
          // is_ecal
@@ -81,7 +92,7 @@ module ALUControlUnit (input [6:0] opcode,
     
     // Combinational Logic
     always @(*) begin
-        // $display("opcode: %d", opcode); //! FOR DEBUGGIN
+        // $display("opcode: %d", opcode); //! FOR DEBUGGING
         if (0) begin
             // TODO: Branch Equal
 
@@ -99,6 +110,9 @@ module ALUControlUnit (input [6:0] opcode,
                       (opcode == `STORE)) begin
             // Addition
             alu_op = `FUNC_ADD;
+        
+        end else if (opcode == `JALR) begin
+            alu_op = `FUNC_JALR;
 
         end else if ((opcode == `ARITHMETIC) && funct3 == `FUNCT3_SUB && funct7 == `FUNCT7_SUB) begin
             // TODO: Subtraction

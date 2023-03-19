@@ -11,6 +11,8 @@ module ALU (input[3:0] alu_op,
 		case (alu_op)
 			`FUNC_ADD: alu_out = in_1 + in_2;
 
+			`FUNC_JALR: alu_out = (in_1 + in_2) & 32'hfffffffe;
+
 			`FUNC_SUB: alu_out = in_1 - in_2;
 
 			`FUNC_ID: alu_out = in_1;
@@ -38,8 +40,6 @@ module ALU (input[3:0] alu_op,
 			`FUNC_ARS: alu_out = $signed(in_1) >>> in_2[4:0];
 
 			`FUNC_TCP: alu_out = ~in_1 + 1;
-
-			`FUNC_ZERO: alu_out = 0;
 
 			default: alu_out = 0;
 		endcase
