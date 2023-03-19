@@ -105,7 +105,7 @@ module ALUControlUnit (input [6:0] opcode,
         end else if (0) begin
             // TODO: Greater than or equal
 
-        end else if (((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD) ||
+        end else if (((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD && funct7 != `FUNCT7_SUB) ||
                       (opcode == `LOAD && funct3 == `FUNCT3_LW) ||
                       (opcode == `STORE)) begin
             // Addition
@@ -122,23 +122,23 @@ module ALUControlUnit (input [6:0] opcode,
             // TODO: Arithemetic RIght Shift
             alu_op = `FUNC_ARS;
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SLL && funct7 == `FUNCT7_OTHERS) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SLL) begin
             // TODO: Logical Left Shift
             alu_op = `FUNC_LLS;
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL && funct7 == `FUNCT7_OTHERS) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL) begin
             // TODO: Logical Right Shift
             alu_op = `FUNC_LRS;
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_XOR && funct7 == `FUNCT7_OTHERS) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_XOR) begin
             // TODO: XOR
             alu_op = `FUNC_XOR;
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_OR && funct7 == `FUNCT7_OTHERS) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_OR) begin
             // TODO: OR
             alu_op = `FUNC_OR;
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_AND && funct7 == `FUNCT7_OTHERS) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_AND) begin
             // TODO: AND
             alu_op = `FUNC_AND;
         end
