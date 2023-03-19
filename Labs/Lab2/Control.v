@@ -100,23 +100,33 @@ module ALUControlUnit (input [6:0] opcode,
             // Addition
             alu_op = `FUNC_ADD;
 
-        end else if (0) begin
+        end else if ((opcode == `ARITHMETIC) && funct3 == `FUNCT3_SUB && funct7 == `FUNCT7_SUB) begin
             // TODO: Subtraction
+            alu_op = `FUNC_SUB;
 
-        end else if (0) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL && funct7 == `FUNCT7_SUB) begin
+            // TODO: Arithemetic RIght Shift
+            alu_op = `FUNC_ARS;
+
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SLL && funct7 == `FUNCT7_OTHERS) begin
             // TODO: Logical Left Shift
+            alu_op = `FUNC_LLS;
 
-        end else if (0) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL && funct7 == `FUNCT7_OTHERS) begin
             // TODO: Logical Right Shift
+            alu_op = `FUNC_LRS;
 
-        end else if (0) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_XOR && funct7 == `FUNCT7_OTHERS) begin
             // TODO: XOR
+            alu_op = `FUNC_XOR;
 
-        end else if (0) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_OR && funct7 == `FUNCT7_OTHERS) begin
             // TODO: OR
+            alu_op = `FUNC_OR;
 
-        end else if (0) begin
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_AND && funct7 == `FUNCT7_OTHERS) begin
             // TODO: AND
+            alu_op = `FUNC_AND;
         end
     end
     
