@@ -18,7 +18,10 @@ module ControlUnit (input [6:0] opcode,
     always @(opcode) begin
 
         // TODO: is_jal
-        if (opcode == `JAL) is_jal = 1;
+        if (opcode == `JAL) begin
+            // $display("JUMP"); //! FOR DEBUGGING
+            is_jal = 1;
+        end
         else is_jal = 0;
 
         // TODO: is_jalr
@@ -44,6 +47,13 @@ module ControlUnit (input [6:0] opcode,
         // alu_src
         if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE) alu_src = 1;
         else alu_src = 0;
+
+        //! DEDUBGGING PURPOSES
+        // if (opcode == `ARITHMETIC) $display("ARITHMETIC"); //! FOR DEBUGGING
+        // if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
+        // if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
+        // if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
+        //! ----------------------------------
         
         // write_enable
         if (opcode != `STORE && opcode != `BRANCH) write_enable = 1;

@@ -35,7 +35,10 @@ module RegisterFile(input reset,
 
     always @(posedge clk) begin
         // Sequential Logic for WRITING DATA
-        if (write_enable) rf[rd] = rd_din;
+        if (write_enable) begin
+            // $display("REG IDX: %d | WRITE DATA: %d", rd, rd_din); //! FOR DEBUGGING
+            rf[rd] = rd_din;
+        end
     end
 
     // Initialize register file (do not touch)

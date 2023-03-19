@@ -7,7 +7,10 @@ module PC (input reset,
     
     always @(posedge clk) begin
         if (reset) current_pc <= 0;
-        else current_pc <= next_pc;
+        else begin
+            // $display("PC: %d", current_pc); //! FOR DEBUGGING
+            current_pc <= next_pc;
+        end
     end
 
 endmodule
