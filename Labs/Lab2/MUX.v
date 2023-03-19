@@ -39,7 +39,10 @@ module PC_MUX(input [31:0] plus_four_pc,
 
     always @(*) begin
         if (!cond1 && !cond2) next_pc = plus_four_pc;
-        else if (!cond1 && cond2) next_pc = alu_out;
+        else if (!cond1 && cond2) begin
+            $display("next_pc = alu_out (%d)", alu_out);
+            next_pc = alu_out;
+        end
         else if (cond1 && !cond2) next_pc = jump_pc;
 
     end

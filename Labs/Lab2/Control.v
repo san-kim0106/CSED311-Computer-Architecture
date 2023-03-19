@@ -19,7 +19,6 @@ module ControlUnit (input [6:0] opcode,
 
         // TODO: is_jal
         if (opcode == `JAL) begin
-            // $display("JUMP"); //! FOR DEBUGGING
             is_jal = 1;
         end
         else is_jal = 0;
@@ -49,10 +48,12 @@ module ControlUnit (input [6:0] opcode,
         else alu_src = 0;
 
         //! DEDUBGGING PURPOSES
-        // if (opcode == `ARITHMETIC) $display("ARITHMETIC"); //! FOR DEBUGGING
-        // if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
-        // if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
-        // if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
+        if (opcode == `ARITHMETIC) $display("ARITHMETIC"); //! FOR DEBUGGING
+        if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
+        if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
+        if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
+        if (opcode == `JAL) $display("JAL"); //! FOR DEBUGGING
+        if (opcode == `JALR) $display("JALR"); //! FOR DEBUGGING
         //! ----------------------------------
         
         // write_enable
@@ -91,7 +92,7 @@ module ALUControlUnit (input [6:0] opcode,
     
     // Combinational Logic
     always @(*) begin
-        // $display("opcode: %d", opcode); //! FOR DEBUGGIN
+        // $display("opcode: %d", opcode); //! FOR DEBUGGING
         if (0) begin
             // TODO: Branch Equal
 
@@ -109,6 +110,9 @@ module ALUControlUnit (input [6:0] opcode,
                       (opcode == `STORE)) begin
             // Addition
             alu_op = `FUNC_ADD;
+        
+        end else if (opcode == `JALR) begin
+            alu_op = `FUNC_JALR;
 
         end else if (0) begin
             // TODO: Subtraction

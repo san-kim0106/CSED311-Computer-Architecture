@@ -5,5 +5,12 @@
 00c002ef // [4] jal x5, 12
 12345678 // [5] dummy value
 12345678 // [6] dummy value
-00a00893 // [7] addi x17, x0, 10
-00000073 // [8] ecall
+03800493 // [7] addi x9, 56(x0)
+00048367 // [8] jalr x6, 0(x9)
+12345678 // [9] dummy value
+12345678 // [10] dummy value
+12345678 // [11] dummy value
+12345678 // [12] dummy value
+12345678 // [13] dummy value
+00a00893 // [14] addi x17, x0, 10
+00000073 // [15] ecall
