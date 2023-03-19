@@ -30,6 +30,8 @@ module CPU(input reset,       // positive reset signal
     wire[31:0] alu_in2;
     wire[31:0] alu_out;
 
+    wire [31:0] dout;
+
     // Control Wires
     wire write_enable;
     wire is_jal;
@@ -77,7 +79,7 @@ module CPU(input reset,       // positive reset signal
         .rs1(inst[19:15]), // input
         .rs2(inst[24:20]), // input
         .rd(inst[11:7]), // input
-        .rd_din(alu_out), // input //* Fix this to rd_din after implementing MUX
+        .rd_din(rd_din), // input
         .write_enable(write_enable), // input
         .is_ecall(is_ecall), // input
         .rs1_dout(rs1_out), // output
@@ -128,7 +130,7 @@ module CPU(input reset,       // positive reset signal
         .alu_op(alu_op), // input
         .in_1(rs1_out), // input  
         .in_2(alu_in2), // input
-        .out(alu_out), // output
+        .alu_out(alu_out), // output
         .bcond(bcond) // output
     );
 
@@ -140,6 +142,15 @@ module CPU(input reset,       // positive reset signal
         .din(rs2_out),        // input
         .mem_read(mem_read),   // input
         .mem_write(mem_write),  // input
-        .dout(rd_din)        // output
+        .dout(dout)        // output
     );
+
+    // ---------- DMem-ALU MUX ----------
+    Memory_MUX memory_mux(
+        .dout(dout), // input
+        .alu_out(alu_out), // input
+        .mem_to_reg(mem_to_reg), // input
+        .rd_din(rd_din) // output
+    );
+
 endmodule

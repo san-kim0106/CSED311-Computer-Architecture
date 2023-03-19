@@ -14,81 +14,49 @@ module ControlUnit (input [6:0] opcode,
                     output reg pc_to_reg,
                     output reg is_ecall);
 
-    //! Double check if this is allowed
-    initial begin
-        // Initialize the outputs to LOW
-        is_jal = 0;
-        is_jalr = 0;
-        branch = 0;
-        mem_read = 0;
-        mem_to_reg = 0;
-        mem_write = 0;
-        alu_src = 0;
-        write_enable = 0;
-        pc_to_reg = 0;
-        is_ecall = 0;
-    end
-
     // Combinational logic for control signals
-    always @(*) begin
+    always @(opcode) begin
 
-        if (0) begin
-            // TODO: is_jal
-            is_jal = 1;
-        end
+        // TODO: is_jal
+        if (0) is_jal = 1;
+        else is_jal = 0;
 
-        if (0) begin
-            // TODO: is_jalr
-            is_jalr = 1;
+        // TODO: is_jalr
+        if (0) is_jalr = 1;
+        else is_jalr = 0;
 
-        end
+        // TODO: branch
+        if (0) branch = 1;
+        else branch = 0;
         
-        if (0) begin
-            // TODO: branch
-            branch = 1;
+        // TODO: mem_read
+        if (opcode == `LOAD) mem_read = 1;
+        else mem_read = 0;
 
-        end
+        // TODO: mem_to_reg
+        if (opcode == `LOAD) mem_to_reg = 1;
+        else mem_to_reg = 0;
         
-        if (0) begin
-            // TODO: mem_read
-            mem_read = 1;
+        // TODO: mem_write
+        if (opcode == `STORE) mem_write = 1;
+        else mem_write = 0;
+        
+        // alu_src
+        if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE) alu_src = 1;
+        else alu_src = 0;
+        
+        // write_enable
+        if (opcode != `STORE && opcode != `BRANCH) write_enable = 1;
+        else write_enable = 0;
+        
+        // TODO: pc_to_reg
+        if (0) pc_to_reg = 1;
+        else pc_to_reg = 0;
+        
+         // is_ecal
+        if (opcode == `ECALL) is_ecall = 1;
+        else is_ecall = 0;
 
-        end
-        
-        if (0) begin
-            // TODO: mem_to_reg
-            mem_to_reg = 1;
-
-        end
-        
-        if (0) begin
-            // TODO: mem_write
-            mem_write = 1;
-
-        end
-        
-        if (opcode == `ARITHMETIC_IMM) begin
-            // TODO: alu_src
-            alu_src = 1;
-
-        end
-        
-        if (opcode != `STORE && opcode != `BRANCH) begin
-            // TODO: write_enable
-            write_enable = 1;
-
-        end
-        
-        if (0) begin
-            // TODO: pc_to_reg
-            pc_to_reg = 1;
-
-        end
-        
-        if (opcode == `ECALL) begin
-            // TODO: is_ecal
-            is_ecall = 1;
-        end
     end
 endmodule
 
@@ -126,8 +94,10 @@ module ALUControlUnit (input [6:0] opcode,
         end else if (0) begin
             // TODO: Greater than or equal
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD && funct7 == `FUNCT7_OTHERS) begin
-            // TODO: Addition
+        end else if (((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD) ||
+                      (opcode == `LOAD && funct3 == `FUNCT3_LW) ||
+                      (opcode == `STORE)) begin
+            // Addition
             alu_op = `FUNC_ADD;
 
         end else if (0) begin
