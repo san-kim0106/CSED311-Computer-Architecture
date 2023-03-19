@@ -10,13 +10,17 @@ module ImmediateGenerator (input[31:0] inst,
         if (opcode == `ARITHMETIC) begin
             // TODO
         end else if (opcode == `ARITHMETIC_IMM) begin
+            // I-type
             imm_gen_out = { {20{inst[31]}}, inst[31:20] };
         end else if (opcode == `LOAD) begin
-            // TODO
+            // I-type
+            imm_gen_out = { {20{inst[31]}}, inst[31:20] };
         end else if (opcode == `JALR) begin
             // TODO
         end else if (opcode == `STORE) begin
-            // TODO
+            // S-type
+            imm_gen_out = { {20{inst[31]}} , inst[31:25] , inst[11:7] };
+            $display("S-type sign-extension: %d", imm_gen_out); //! FOR DEBUGGING
         end else if (opcode == `BRANCH) begin
             // TODO
         end else if (opcode == `JAL) begin

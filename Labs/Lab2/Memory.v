@@ -24,7 +24,7 @@ module InstMemory #(parameter MEM_DEPTH = 1024) (input reset,
             for (i = 0; i < MEM_DEPTH; i = i + 1)
                 mem[i] = 32'b0;
             // Provide path of the file including instructions with binary format
-            $readmemh("C:\\Users\\ygchi\\Desktop\\2023_Spring\\Computer Architecture\\Lab\\Labs\\Lab2\\student_tb\\test_text.txt", mem);
+            $readmemh("C:\\Users\\ygchi\\Desktop\\2023_Spring\\Computer Architecture\\Lab\\Labs\\Lab2\\student_tb\\test_text_Rtype_Itype.txt", mem);
         end
     end
 
@@ -49,12 +49,20 @@ module DataMemory #(parameter MEM_DEPTH = 16384) (input reset,
     // Synchronously write data to the memory --> Sequential Logic (clk signal)
     // (use dmem_addr to access memory)
 
-    always @(*) begin
+    always @(addr, mem_read) begin
         // Combinational Logic for READING DATA
+        if (mem_read) begin
+            dout = mem[dmem_addr];
+            $display("LOAD IDX: %d | LOAD VALUE: %d", dmem_addr, dout); //! FOR DEBUGGING
+        end
     end
 
     always @(posedge clk) begin
         // Sequential Logic for WRITING DATA
+        if (mem_write) begin
+            $display("STORE IDX: %d | STORE VALUE: %d", dmem_addr, din); //! FOR DEBUGGING
+            mem[dmem_addr] = din;
+        end
     end
 
     // Initialize data memory (do not touch)
