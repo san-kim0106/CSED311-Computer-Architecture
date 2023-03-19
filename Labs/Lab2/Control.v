@@ -18,15 +18,15 @@ module ControlUnit (input [6:0] opcode,
     always @(opcode) begin
 
         // TODO: is_jal
-        if (0) is_jal = 1;
+        if (opcode == `JAL) is_jal = 1;
         else is_jal = 0;
 
         // TODO: is_jalr
-        if (0) is_jalr = 1;
+        if (opcode == `JALR) is_jalr = 1;
         else is_jalr = 0;
 
         // TODO: branch
-        if (0) branch = 1;
+        if (opcode == `BRANCH) branch = 1;
         else branch = 0;
         
         // TODO: mem_read
@@ -50,7 +50,7 @@ module ControlUnit (input [6:0] opcode,
         else write_enable = 0;
         
         // TODO: pc_to_reg
-        if (0) pc_to_reg = 1;
+        if (opcode == `JAL || opcode == `JALR) pc_to_reg = 1;
         else pc_to_reg = 0;
         
          // is_ecal

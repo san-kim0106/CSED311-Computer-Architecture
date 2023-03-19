@@ -36,7 +36,7 @@ module DataMemory #(parameter MEM_DEPTH = 16384) (input reset,
                                                   input [31:0] din,     // data to be written
                                                   input mem_read,       // is read signal driven?
                                                   input mem_write,      // is write signal driven?
-                                                  output reg [31:0] dout);  // output of the data memory at addr
+                                                  output reg [31:0] mem_out);  // output of the data memory at addr
     integer i;
     // Data memory
     reg [31:0] mem[0: MEM_DEPTH - 1];
@@ -52,15 +52,15 @@ module DataMemory #(parameter MEM_DEPTH = 16384) (input reset,
     always @(addr, mem_read) begin
         // Combinational Logic for READING DATA
         if (mem_read) begin
-            dout = mem[dmem_addr];
-            $display("LOAD IDX: %d | LOAD VALUE: %d", dmem_addr, dout); //! FOR DEBUGGING
+            mem_out = mem[dmem_addr];
+            // $display("LOAD IDX: %d | LOAD VALUE: %d", dmem_addr, mem_out); //! FOR DEBUGGING
         end
     end
 
     always @(posedge clk) begin
         // Sequential Logic for WRITING DATA
         if (mem_write) begin
-            $display("STORE IDX: %d | STORE VALUE: %d", dmem_addr, din); //! FOR DEBUGGING
+            // $display("STORE IDX: %d | STORE VALUE: %d", dmem_addr, din); //! FOR DEBUGGING
             mem[dmem_addr] = din;
         end
     end
