@@ -31,13 +31,13 @@ module ALU (input[3:0] alu_op,
             
 			`FUNC_XNOR: alu_out = ~(in_1 ^ in_2);
 
-			`FUNC_LLS: alu_out = in_1 << 1;
+			`FUNC_LLS: alu_out = in_1 << in_2[4:0];
 
-			`FUNC_LRS: alu_out = in_1 >> 1;
+			`FUNC_LRS: alu_out = in_1 >> in_2[4:0];
 
-			`FUNC_ALS: alu_out = in_1 <<< 1;
+			`FUNC_ALS: alu_out = in_1 <<< in_2[4:0];
 
-			`FUNC_ARS: alu_out = $signed(in_1) >>> 1;
+			`FUNC_ARS: alu_out = $signed(in_1) >>> in_2[4:0];
 
 			`FUNC_TCP: alu_out = ~in_1 + 1;
 
