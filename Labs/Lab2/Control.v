@@ -48,12 +48,12 @@ module ControlUnit (input [6:0] opcode,
         else alu_src = 0;
 
         //! DEDUBGGING PURPOSES
-        if (opcode == `ARITHMETIC) $display("ARITHMETIC"); //! FOR DEBUGGING
-        if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
-        if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
-        if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
-        if (opcode == `JAL) $display("JAL"); //! FOR DEBUGGING
-        if (opcode == `JALR) $display("JALR"); //! FOR DEBUGGING
+        // if (opcode == `ARITHMETIC) $display("ARITHMETIC"); //! FOR DEBUGGING
+        // if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
+        // if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
+        // if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
+        // if (opcode == `JAL) $display("JAL"); //! FOR DEBUGGING
+        // if (opcode == `JALR) $display("JALR"); //! FOR DEBUGGING
         //! ----------------------------------
         
         // write_enable
