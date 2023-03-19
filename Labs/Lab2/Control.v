@@ -15,7 +15,7 @@ module ControlUnit (input [6:0] opcode,
                     output reg is_ecall);
 
     // Combinational logic for control signals
-    always @(*) begin
+    always @(opcode) begin
 
         // TODO: is_jal
         if (0) is_jal = 1;
@@ -38,11 +38,11 @@ module ControlUnit (input [6:0] opcode,
         else mem_to_reg = 0;
         
         // TODO: mem_write
-        if (0) mem_write = 1;
+        if (opcode == `STORE) mem_write = 1;
         else mem_write = 0;
         
         // alu_src
-        if (opcode == `ARITHMETIC_IMM || opcode == `LOAD) alu_src = 1;
+        if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE) alu_src = 1;
         else alu_src = 0;
         
         // write_enable
@@ -95,8 +95,9 @@ module ALUControlUnit (input [6:0] opcode,
             // TODO: Greater than or equal
 
         end else if (((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD) ||
-                      (opcode == `LOAD && funct3 == `FUNCT3_LW)) begin
-            // TODO: Addition
+                      (opcode == `LOAD && funct3 == `FUNCT3_LW) ||
+                      (opcode == `STORE)) begin
+            // Addition
             alu_op = `FUNC_ADD;
 
         end else if (0) begin

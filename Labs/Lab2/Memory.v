@@ -49,14 +49,20 @@ module DataMemory #(parameter MEM_DEPTH = 16384) (input reset,
     // Synchronously write data to the memory --> Sequential Logic (clk signal)
     // (use dmem_addr to access memory)
 
-    always @(addr) begin
+    always @(addr, mem_read) begin
         // Combinational Logic for READING DATA
-        if (mem_read) dout = mem[dmem_addr];
+        if (mem_read) begin
+            dout = mem[dmem_addr];
+            $display("LOAD IDX: %d | LOAD VALUE: %d", dmem_addr, dout); //! FOR DEBUGGING
+        end
     end
 
     always @(posedge clk) begin
         // Sequential Logic for WRITING DATA
-        if (mem_write) mem[dmem_addr] = din;
+        if (mem_write) begin
+            $display("STORE IDX: %d | STORE VALUE: %d", dmem_addr, din); //! FOR DEBUGGING
+            mem[dmem_addr] = din;
+        end
     end
 
     // Initialize data memory (do not touch)
