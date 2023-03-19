@@ -43,7 +43,10 @@ module PC_MUX(input [31:0] plus_four_pc,
             // $display("next_pc = alu_out (%d)", alu_out); //! FOR DEBUGGING
             next_pc = alu_out;
         end
-        else if (cond1 && !cond2) next_pc = jump_pc;
+        else if (cond1 && !cond2) begin
+        // $display("check jump_pc");
+        next_pc = jump_pc;
+        end
 
     end
 

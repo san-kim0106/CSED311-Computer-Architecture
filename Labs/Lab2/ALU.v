@@ -39,7 +39,11 @@ module ALU (input[3:0] alu_op,
 
 			`FUNC_ARS: alu_out = $signed(in_1) >>> in_2[4:0];
 
-			`FUNC_TCP: alu_out = ~in_1 + 1;
+			`FUNC_BEQ: begin
+				// $display ("check bcond");
+				if (in_1 == in_2) bcond = 1;
+				else bcond = 0;
+			end
 
 			default: alu_out = 0;
 		endcase

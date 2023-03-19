@@ -24,11 +24,13 @@ module ImmediateGenerator (input[31:0] inst,
 
         end else if (opcode == `STORE) begin
             // S-type
-            imm_gen_out = { {20{inst[31]}} , inst[31:25] , inst[11:7] };
+               imm_gen_out = { {20{inst[31]}} , inst[31:25] , inst[11:7] };
             // $display("S-type sign-extension: %d", imm_gen_out); //! FOR DEBUGGING
 
         end else if (opcode == `BRANCH) begin
             // TODO
+            $display("Check Branch");
+            imm_gen_out = { {19{inst[31]}}, inst[31], inst[6], inst[30:25], inst[11:8], 1'b0 };
 
         end else if (opcode == `JAL) begin
             // UJ-Type

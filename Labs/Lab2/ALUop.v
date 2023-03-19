@@ -13,5 +13,5 @@
 `define FUNC_LRS    4'b1011
 `define FUNC_ALS    4'b1100
 `define FUNC_ARS    4'b1101
-`define FUNC_TCP    4'b1110
+`define FUNC_BEQ    4'b1110
 `define FUNC_JALR   4'b1111

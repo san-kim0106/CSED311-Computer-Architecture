@@ -93,8 +93,9 @@ module ALUControlUnit (input [6:0] opcode,
     // Combinational Logic
     always @(*) begin
         // $display("opcode: %d", opcode); //! FOR DEBUGGING
-        if (0) begin
+        if ((opcode == `BRANCH) && funct3 == `FUNCT3_BEQ) begin
             // TODO: Branch Equal
+            alu_op = `FUNC_BEQ;
 
         end else if (0) begin
             // TODO: Branch Not Equal

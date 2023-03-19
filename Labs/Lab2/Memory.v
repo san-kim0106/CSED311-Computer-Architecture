@@ -24,7 +24,7 @@ module InstMemory #(parameter MEM_DEPTH = 1024) (input reset,
             for (i = 0; i < MEM_DEPTH; i = i + 1)
                 mem[i] = 32'b0;
             // Provide path of the file including instructions with binary format
-            $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab2\\student_tb\\test_text.txt", mem);
+            $readmemh("C:\\Users\\ygchi\\Desktop\\2023_Spring\\Computer Architecture\\Lab\\Labs\\Lab2\\student_tb\\test_text_branch.txt", mem);
         end
     end
 
