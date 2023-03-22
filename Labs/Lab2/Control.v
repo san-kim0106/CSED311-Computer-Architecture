@@ -17,29 +17,27 @@ module ControlUnit (input [6:0] opcode,
     // Combinational logic for control signals
     always @(opcode) begin
 
-        // TODO: is_jal
-        if (opcode == `JAL) begin
-            is_jal = 1;
-        end
+        // is_jal
+        if (opcode == `JAL) is_jal = 1;
         else is_jal = 0;
 
-        // TODO: is_jalr
+        // is_jalr
         if (opcode == `JALR) is_jalr = 1;
         else is_jalr = 0;
 
-        // TODO: branch
+        // branch
         if (opcode == `BRANCH) branch = 1;
         else branch = 0;
         
-        // TODO: mem_read
+        // mem_read
         if (opcode == `LOAD) mem_read = 1;
         else mem_read = 0;
 
-        // TODO: mem_to_reg
+        // mem_to_reg
         if (opcode == `LOAD) mem_to_reg = 1;
         else mem_to_reg = 0;
         
-        // TODO: mem_write
+        // mem_write
         if (opcode == `STORE) mem_write = 1;
         else mem_write = 0;
         
@@ -52,15 +50,16 @@ module ControlUnit (input [6:0] opcode,
         // if (opcode == `ARITHMETIC_IMM) $display("ARITHMETIC_IMM"); //! FOR DEBUGGING
         // if (opcode == `LOAD) $display("LOAD"); //! FOR DEBUGGING
         // if (opcode == `STORE) $display("STORE"); //! FOR DEBUGGING
-        // if (opcode == `JAL) $display("JAL"); //! FOR DEBUGGING
-        // if (opcode == `JALR) $display("JALR"); //! FOR DEBUGGING
+        // if (opcode == `JAL) $display("JAL\n"); //! FOR DEBUGGING
+        // if (opcode == `JALR) $display("JALR\n"); //! FOR DEBUGGING
+        // if (opcode == `BRANCH) $display("BRANCH\n"); //! FOR DEBUGGIN
         //! ----------------------------------
         
         // write_enable
         if (opcode != `STORE && opcode != `BRANCH) write_enable = 1;
         else write_enable = 0;
         
-        // TODO: pc_to_reg
+        // pc_to_reg
         if (opcode == `JAL || opcode == `JALR) pc_to_reg = 1;
         else pc_to_reg = 0;
         
@@ -75,72 +74,50 @@ module ALUControlUnit (input [6:0] opcode,
                        input [2:0] funct3,
                        input [6:0] funct7,
                        output reg [3:0] alu_op);
-    /*
-    alu_op types
-        - Branch Equal
-        - Branch Not Equal
-        - Less than
-        - Greater than or equal
-        - Addition
-        - Subtraction
-        - Logical Left Shift
-        - Logical Right Shift
-        - XOR
-        - OR
-        - AND
-    */
-    
+
     // Combinational Logic
     always @(*) begin
         // $display("opcode: %d", opcode); //! FOR DEBUGGING
-        if (0) begin
-            // TODO: Branch Equal
+        if (opcode == `BRANCH && funct3 == `FUNCT3_BEQ) begin
+           alu_op = `FUNC_BEQ; // BEQ
 
-        end else if (0) begin
-            // TODO: Branch Not Equal
+        end else if (opcode == `BRANCH && funct3 == `FUNCT3_BNE) begin
+            alu_op = `FUNC_BNE; // BNE
 
-        end else if (0) begin
-            // TODO: Less than
+        end else if (opcode == `BRANCH && funct3 == `FUNCT3_BLT) begin
+            alu_op = `FUNC_BLT; // BLT
 
-        end else if (0) begin
-            // TODO: Greater than or equal
+        end else if (opcode == `BRANCH && funct3 == `FUNCT3_BGE) begin
+            alu_op = `FUNC_BGE; // BGE
 
-        end else if (((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD) ||
+        end else if (((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_ADD && funct7 != `FUNCT7_SUB) ||
                       (opcode == `LOAD && funct3 == `FUNCT3_LW) ||
                       (opcode == `STORE)) begin
-            // Addition
-            alu_op = `FUNC_ADD;
+            alu_op = `FUNC_ADD; // Addition
         
         end else if (opcode == `JALR) begin
-            alu_op = `FUNC_JALR;
+            alu_op = `FUNC_JALR; // JALR
 
         end else if ((opcode == `ARITHMETIC) && funct3 == `FUNCT3_SUB && funct7 == `FUNCT7_SUB) begin
-            // TODO: Subtraction
-            alu_op = `FUNC_SUB;
+            alu_op = `FUNC_SUB; // Subtraction
 
         end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL && funct7 == `FUNCT7_SUB) begin
-            // TODO: Arithemetic RIght Shift
-            alu_op = `FUNC_ARS;
+            alu_op = `FUNC_ARS; // Arithematic Right Shift
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SLL && funct7 == `FUNCT7_OTHERS) begin
-            // TODO: Logical Left Shift
-            alu_op = `FUNC_LLS;
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SLL) begin
+            alu_op = `FUNC_LLS; // Logical Left Shift
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL && funct7 == `FUNCT7_OTHERS) begin
-            // TODO: Logical Right Shift
-            alu_op = `FUNC_LRS;
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_SRL) begin
+            alu_op = `FUNC_LRS; // Logical Right Shift
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_XOR && funct7 == `FUNCT7_OTHERS) begin
-            // TODO: XOR
-            alu_op = `FUNC_XOR;
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_XOR) begin
+            alu_op = `FUNC_XOR; // XOR
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_OR && funct7 == `FUNCT7_OTHERS) begin
-            // TODO: OR
-            alu_op = `FUNC_OR;
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_OR) begin
+            alu_op = `FUNC_OR; // OR
 
-        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_AND && funct7 == `FUNCT7_OTHERS) begin
-            // TODO: AND
-            alu_op = `FUNC_AND;
+        end else if ((opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM) && funct3 == `FUNCT3_AND) begin
+            alu_op = `FUNC_AND; // AND
         end
     end
     
