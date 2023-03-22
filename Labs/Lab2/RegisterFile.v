@@ -27,6 +27,7 @@ module RegisterFile(input reset,
     end
 
     always @(is_ecall) begin
+        // $display("GPR[0] == %d", rf[0]);  //! FOR DEBUGGING
         // $display("GPR[17] == %d", rf[17]);  //! FOR DEBUGGING
         if (rf[17] == 10) begin
             is_halted = 1;
@@ -35,7 +36,7 @@ module RegisterFile(input reset,
 
     always @(posedge clk) begin
         // Sequential Logic for WRITING DATA
-        if (write_enable) begin
+        if (write_enable && rd != 0) begin
             // $display("REG IDX: %d | WRITE DATA: %d", rd, rd_din); //! FOR DEBUGGING
             rf[rd] = rd_din;
         end
