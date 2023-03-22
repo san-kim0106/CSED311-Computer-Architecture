@@ -29,7 +29,7 @@ module ImmediateGenerator (input[31:0] inst,
 
         end else if (opcode == `BRANCH) begin
             // TODO
-            $display("Check Branch");
+            // $display("Check Branch");
             imm_gen_out = { {19{inst[31]}}, inst[31], inst[6], inst[30:25], inst[11:8], 1'b0 };
 
         end else if (opcode == `JAL) begin
