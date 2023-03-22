@@ -13,13 +13,13 @@
         lw      a4,-28(s0)
         lw      a5,-20(s0)
         add     a5,a4,a5
-        ori     a6,zero,10 ; Problematic
+        ori     a6,zero,10
         addi    a7,zero,2
-        sll     a7,a6,a7 ; Problematic
+        sll     a7,a6,a7
         addi    a1,zero,3
         and     a3,a7,a1
-        not     a2,a7 ; Problematic
-        sub     a6,a7,a6 ; Problematic
+        not     a2,a7
+        sub     a6,a7,a6
         srli    a7,a7,3
         or      a3,a4,a5
         lw      ra,28(sp)
