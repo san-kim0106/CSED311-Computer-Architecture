@@ -7,10 +7,7 @@ module ImmediateGenerator (input[31:0] inst,
     assign opcode = inst[6:0];
 
     always @(*) begin
-        if (opcode == `ARITHMETIC) begin
-            // TODO
-
-        end else if (opcode == `ARITHMETIC_IMM) begin
+        if (opcode == `ARITHMETIC_IMM) begin
             // I-type
             imm_gen_out = { {20{inst[31]}}, inst[31:20] };
 
@@ -28,16 +25,12 @@ module ImmediateGenerator (input[31:0] inst,
             // $display("S-type sign-extension: %d", imm_gen_out); //! FOR DEBUGGING
 
         end else if (opcode == `BRANCH) begin
-            // TODO
-            // $display("Check Branch");
-            imm_gen_out = { {19{inst[31]}}, inst[31], inst[6], inst[30:25], inst[11:8], 1'b0 };
+            // SB-type
+            imm_gen_out = { {19{inst[31]}}, inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
 
         end else if (opcode == `JAL) begin
             // UJ-Type
             imm_gen_out = { {11{inst[31]}}, inst[31], inst[19:12], inst[20], inst[30:21], 1'b0 };
-
-        end else if (opcode == `ECALL) begin
-            // TODO
         end
     end
 
