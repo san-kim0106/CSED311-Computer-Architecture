@@ -13,6 +13,20 @@ module CPU(input reset,       // positive reset signal
            output is_halted); // Whehther to finish simulation
   /***** Wire declarations *****/
 
+  wire [31:0] current_pc;
+  wire [31:0] next_pc;
+
+  wire [31:0] addr;
+  wire [31:0] dout;
+
+  wire [31:0] rs1_dout;
+  wire [31:0] rs2_dout;
+
+  wire IorD;
+  wire write_enable;
+  wire mem_read;
+  wire mem_write;
+
   /***** Register declarations *****/
   reg [31:0] IR; // instruction register
   reg [31:0] MDR; // memory data register
@@ -24,34 +38,41 @@ module CPU(input reset,       // positive reset signal
   // ---------- Update program counter ----------
   // PC must be updated on the rising edge (positive edge) of the clock.
   PC pc(
-    .reset(),       // input (Use reset to initialize PC. Initial value must be 0)
-    .clk(),         // input
-    .next_pc(),     // input
-    .current_pc()   // output
+    .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
+    .clk(clk),         // input
+    .next_pc(next_pc),     // input
+    .current_pc(current_pc)   // output
+  );
+
+  MEM_MUX mem_mux(
+    .current_pc(current_pc),
+    .d_addr(), //TODO
+    .IorD(IorD),
+    .addr(addr)
   );
 
   // ---------- Register File ----------
   RegisterFile reg_file(
-    .reset(),        // input
-    .clk(),          // input
-    .rs1(),          // input
-    .rs2(),          // input
-    .rd(),           // input
-    .rd_din(),       // input
-    .write_enable(),    // input
-    .rs1_dout(),     // output
-    .rs2_dout()      // output
+    .reset(reset),                  // input
+    .clk(clk),                      // input
+    .rs1(IR[19:15]),                // input
+    .rs2(IR[24:20]),                // input
+    .rd(IR[11:7]),                  // input
+    .rd_din(),                      //TODO input
+    .write_enable(write_enable),    // input
+    .rs1_dout(rs1_dout),            // output
+    .rs2_dout(rs2_dout)             // output
   );
 
   // ---------- Memory ----------
   Memory memory(
-    .reset(),        // input
-    .clk(),          // input
-    .addr(),         // input
-    .din(),          // input
-    .mem_read(),     // input
-    .mem_write(),    // input
-    .dout()          // output
+    .reset(reset),                 // input
+    .clk(clk),                     // input
+    .addr(addr),                   // input
+    .din(B),                       // input
+    .mem_read(mem_read),           // input
+    .mem_write(mem_write),         // input
+    .dout(dout)                    // output
   );
 
   // ---------- Control Unit ----------
@@ -64,7 +85,7 @@ module CPU(input reset,       // positive reset signal
     .mem_to_reg(),    // output
     .mem_write(),     // output
     .alu_src(),       // output
-    .write_enable(),     // output
+    .write_enable(),  // output
     .pc_to_reg(),     // output
     .is_ecall()       // output (ecall inst)
   );

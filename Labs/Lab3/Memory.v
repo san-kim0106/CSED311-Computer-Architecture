@@ -26,7 +26,7 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
 
     // Synchronously write data to the memory
     else begin
-      if (mem_write)
+      if (mem_write) // Do not write to x0 register
         mem[mem_addr] <= din;
     end
   end
