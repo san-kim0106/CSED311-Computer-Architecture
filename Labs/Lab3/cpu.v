@@ -35,6 +35,7 @@ module CPU(input reset,       // positive reset signal
   wire ir_write;
   wire reg_write;
   wire alu_src_a;
+  wire is_ecall;
   wire [1:0] alu_src_b;
   wire [1:0] alu_op;
   wire pc_source;
@@ -53,7 +54,7 @@ module CPU(input reset,       // positive reset signal
   reg [31:0] ALUOut; // ALU output register
   // Do not modify and use registers declared above.
 
-  reg [3:0] current_state;
+  wire [3:0] current_state;
   wire [3:0] next_state;
   wire [3:0] state_plus_one;
   wire [3:0] rom1_out;
@@ -111,8 +112,12 @@ module CPU(input reset,       // positive reset signal
     .rd(IR[11:7]),                  // input
     .rd_din(rd_din),                // input
     .write_enable(write_enable),    // input
+
+    .is_ecall(is_ecall),
+
     .rs1_dout(rs1_dout),            // output
-    .rs2_dout(rs2_dout)             // output
+    .rs2_dout(rs2_dout),             // output
+    .is_halted(is_halted)
   );
 
   // ---------- Control Unit ----------
@@ -123,7 +128,8 @@ module CPU(input reset,       // positive reset signal
 
   ROM1 rom1(
     .opcode(IR[6:0]),
-    .rom1_out(rom1_out)
+    .rom1_out(rom1_out),
+    .is_halted(is_halted)
   );
 
   ROM2 rom2(
@@ -196,10 +202,10 @@ module CPU(input reset,       // positive reset signal
   // ---------- ALU ----------
   ALU alu(
     .alu_op(_alu_op),      // input
-    .alu_in_1(alu_in1),    // input  
-    .alu_in_2(alu_in2),    // input
-    .alu_result(alu_out),  // output
-    .alu_bcond()           // TODO: output
+    .in_1(alu_in1),    // input  
+    .in_2(alu_in2),    // input
+    .alu_out(alu_out),  // output
+    .bcond()           // TODO: output
   );
 
   PC_MUX pc_mux(
