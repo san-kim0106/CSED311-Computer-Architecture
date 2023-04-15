@@ -35,6 +35,26 @@ module CPU(input reset,       // positive reset signal
   reg [31:0] ALUOut; // ALU output register
   // Do not modify and use registers declared above.
 
+  wire[31:0] alu_in1;
+  wire[31:0] alu_in2;
+  wire[31:0] alu_out;
+
+  wire [31:0] imm_gen_out;
+
+  wire [31:0] rd_din;
+
+
+
+
+  always @(posedge clk) begin
+    IR <= dout;
+    MDR <= dout;
+    A <= rs1_dout;
+    B <= rs2_dout;
+    ALUOut <= alu_out;
+    
+  end
+
   // ---------- Update program counter ----------
   // PC must be updated on the rising edge (positive edge) of the clock.
   PC pc(
@@ -46,9 +66,38 @@ module CPU(input reset,       // positive reset signal
 
   MEM_MUX mem_mux(
     .current_pc(current_pc),
-    .d_addr(), //TODO
+    .d_addr(ALUOut), //TODO
     .IorD(IorD),
     .addr(addr)
+  );
+
+  REG_MUX reg_mux(
+    .alu_out(ALUOut),
+    .dout(MDR),
+    .MemtoReg(), //TODO : connect to ctrl unit
+    .reg_write_data(rd_din)
+  );
+
+  ALU_SRC_A_MUX alu_src_a_mux(
+    .current_pc(current_pc),
+    .rs1_out(A),
+    .ALUSrcA(), //TODO : connect to ctrl unit
+    .alu_in1(alu_in1)
+  );
+
+  ALU_SRC_B_MUX alu_src_b_mux(
+    .rs2_out(B),
+    .imm_gen_out(imm_gen_out),
+    .ALUSrcB0(), //TODO : connect to ctrl unit
+    .ALUSrcB1(), //TODO : connect to ctrl unit
+    .alu_in2(alu_in2)
+  );
+
+  PC_MUX pc_mux(
+    .alu_out(alu_out),
+    .alu_out_reg(ALUOut),
+    .PCSource(), //TODO : connect to ctrl unit
+    .next_pc(next_pc)
   );
 
   // ---------- Register File ----------
@@ -58,7 +107,7 @@ module CPU(input reset,       // positive reset signal
     .rs1(IR[19:15]),                // input
     .rs2(IR[24:20]),                // input
     .rd(IR[11:7]),                  // input
-    .rd_din(),                      //TODO input
+    .rd_din(rd_din),                      //TODO input
     .write_enable(write_enable),    // input
     .rs1_dout(rs1_dout),            // output
     .rs2_dout(rs2_dout)             // output
@@ -92,23 +141,24 @@ module CPU(input reset,       // positive reset signal
 
   // ---------- Immediate Generator ----------
   ImmediateGenerator imm_gen(
-    .part_of_inst(),  // input
-    .imm_gen_out()    // output
+    .part_of_inst(IR[31:0]),  // input
+    .imm_gen_out(imm_gen_out)    // output
   );
 
   // ---------- ALU Control Unit ----------
   ALUControlUnit alu_ctrl_unit(
-    .part_of_inst(),  // input
+    .part_of_inst(),  // input TODO : op[6:0] or Instruction[30, 14-12]?
     .alu_op()         // output
   );
 
   // ---------- ALU ----------
   ALU alu(
-    .alu_op(),      // input
-    .alu_in_1(),    // input  
-    .alu_in_2(),    // input
-    .alu_result(),  // output
-    .alu_bcond()     // output
+    .alu_op(),      // input TODO : connect to alu ctrl unit
+    .alu_in_1(alu_in1),    // input  
+    .alu_in_2(alu_in2),    // input
+    .alu_result(alu_out),  // output
+
+    .alu_bcond()     // output TODO
   );
 
 endmodule
