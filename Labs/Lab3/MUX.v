@@ -17,12 +17,12 @@ endmodule
 
 module REG_MUX(input [31:0] alu_out,
                input [31:0] dout,
-               input MemtoReg,
+               input mem_to_reg,
                
                output reg [31:0] reg_write_data);
 
     always @(*) begin
-        if (MemtoReg) begin
+        if (mem_to_reg) begin
             reg_write_data = dout;
         end 
         else begin
