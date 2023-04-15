@@ -19,6 +19,8 @@ module CPU(input reset,       // positive reset signal
   wire [31:0] mem_addr;
   wire [31:0] mem_dout;
 
+  wire [31:0] imm_gen_out;
+
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
   wire [31:0] rd_din;
@@ -37,6 +39,11 @@ module CPU(input reset,       // positive reset signal
   wire [1:0] alu_op;
   wire pc_source;
   wire [1:0] addr_clt;
+
+  wire [31:0] alu_in1;
+  wire [31:0] alu_in2;
+  wire [31:0] alu_out;
+  wire [3:0] _alu_op;
 
   /***** Register declarations *****/
   reg [31:0] IR; // instruction register
@@ -158,23 +165,48 @@ module CPU(input reset,       // positive reset signal
 
   // ---------- Immediate Generator ----------
   ImmediateGenerator imm_gen(
-    .part_of_inst(),  // input
-    .imm_gen_out()    // output
+    .inst(IR),                // input
+    .imm_gen_out(imm_gen_out) // output
   );
 
   // ---------- ALU Control Unit ----------
   ALUControlUnit alu_ctrl_unit(
-    .part_of_inst(),  // input
-    .alu_op()         // output
+    .alu_op(alu_op),  // input
+    .funct3(IR[14:12]),
+    .funct7(IR[31:25]),
+    ._alu_op(_alu_op)    // output
+  );
+
+  
+  ALU_SRC_A_MUX alu_src_a_mux(
+    .current_pc(current_pc),
+    .rs1_out(A),
+    .ALUSrcA(alu_src_a),
+    .alu_in1(alu_in1)
+  );
+
+    ALU_SRC_B_MUX alu_src_b_mux(
+    .rs2_out(B),
+    .imm_gen_out(imm_gen_out),
+    .ALUSrcB0(alu_src_b[0]),
+    .ALUSrcB1(alu_src_b[1]),
+    .alu_in2(alu_in2)
   );
 
   // ---------- ALU ----------
   ALU alu(
-    .alu_op(),      // input
-    .alu_in_1(),    // input  
-    .alu_in_2(),    // input
-    .alu_result(),  // output
-    .alu_bcond()     // output
+    .alu_op(_alu_op),      // input
+    .alu_in_1(alu_in1),    // input  
+    .alu_in_2(alu_in2),    // input
+    .alu_result(alu_out),  // output
+    .alu_bcond()           // TODO: output
+  );
+
+  PC_MUX pc_mux(
+    .alu_out(alu_out),
+    .alu_out_reg(ALUOut),
+    .PCSource(pc_source),
+    .next_pc(next_pc)
   );
 
 endmodule
