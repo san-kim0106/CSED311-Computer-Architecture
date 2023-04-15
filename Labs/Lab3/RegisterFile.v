@@ -11,7 +11,7 @@ module RegisterFile(input	reset,
                     input is_ecall,           // ECALL control signal
 
                     output [31:0] rs1_dout,   // output of rs 1
-                    output [31:0] rs2_dout    // output of rs 2
+                    output [31:0] rs2_dout,    // output of rs 2
                     output reg is_halted);  
   integer i;
   // Register file

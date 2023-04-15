@@ -12,7 +12,7 @@
 `define STATE8 4'b1000
 `define STATE9 4'b1001
 
-module NEXT_STATE_ADDER(input [3:0] current_state
+module NEXT_STATE_ADDER(input [3:0] current_state,
                         output reg [3:0] next_state);
     
     always @(*) begin
@@ -24,7 +24,7 @@ module ROM1(input [6:0] opcode,
             output reg [3:0] rom1_out);
     
     always @(opcode) begin
-        case (opcode):
+        case (opcode)
             `ARITHMETIC: rom1_out = 4'b0110;
             `BRANCH:     rom1_out = 4'b1000;
             `LOAD:       rom1_out = 4'b0010;
@@ -37,8 +37,8 @@ endmodule
 module ROM2(input [6:0] opcode,
             output reg [3:0] rom2_out);
 
-    always @(opend) begin
-        case (opcode):
+    always @(opcode) begin
+        case (opcode)
             `LOAD:   rom2_out = 4'b0011;
             `STORE:  rom2_out = 4'b0101;
             default: rom2_out = 4'b0000;
@@ -53,7 +53,7 @@ module NEXT_STATE_MUX(input [3:0] adder_out,
                       output reg [3:0] next_state);
     
     always @(*) begin
-        case (addr_clt):
+        case (addr_clt)
             2'b00:   next_state = 4'b0000;
             2'b01:   next_state = rom1_out;
             2'b10:   next_state = rom2_out;
@@ -88,8 +88,8 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                       output reg [1:0] addr_clt);
     
     always @(current_state) begin
-        case (current_state):
-            `STATE0 begin
+        case (current_state)
+            `STATE0: begin
                 pc_write_cond = 0;
                 pc_write = 1;
                 iord = 0;
@@ -103,7 +103,7 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                 alu_op = 2'b00; // DON'T CARE
                 pc_source = 0; // DON'T CARE
             end
-            `STATE1 begin
+            `STATE1: begin
                 pc_write_cond = 0;
                 pc_write = 0;
                 iord = 0;
@@ -117,11 +117,11 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                 alu_op = 2'b00; // DON'T CARE
                 pc_source = 0; // DON'T CARE
             end
-            `STATE2 begin end
-            `STATE3 begin end
-            `STATE4 begin end
-            `STATE5 begin end
-            `STATE6 begin
+            `STATE2: begin end
+            `STATE3: begin end
+            `STATE4: begin end
+            `STATE5: begin end
+            `STATE6: begin
                 pc_write_cond = 0;
                 pc_write = 0;
                 iord = 0;
@@ -135,7 +135,7 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                 alu_op = 2'b00; //TODO ADD
                 pc_source = 0; // DON'T CARE
             end
-            `STATE7 begin
+            `STATE7: begin
                 pc_write_cond = 0;
                 pc_write = 0;
                 iord = 0;
@@ -149,20 +149,20 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                 alu_op = 2'b00; //TODO ADD
                 pc_source = 0;
             end
-            `STATE8 begin end
-            `STATE9 begin end
-            default begin end
+            `STATE8: begin end
+            `STATE9: begin end
+            default: begin end
 
         endcase
 
         if (current_state == 4 || current_state == 5 || current_state == 7 || current_state == 8 || current_state == 9) begin
-            addr_clt = 0;
+            addr_clt = 2'b00;
         end else if (current_state == 1) begin
-            addr_clt = 1;
+            addr_clt = 2'b01;
         end else if (current_state == 2) begin
-            addr_clt = 2;
+            addr_clt = 2'b10;
         end else if (current_state == 0 || current_state == 3 || current_state == 6) begin
-            addr_clt = 3;
+            addr_clt = 2'b11;
         end
 
     end

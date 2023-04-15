@@ -60,7 +60,7 @@ module CPU(input reset,       // positive reset signal
   wire [3:0] rom2_out;
   wire [1:0] addr_clt;
 
-  always @(posedge) begin
+  always @(posedge clk) begin
     if (!iord && ir_write) IR <= mem_dout;
     if (iord) MDR <= mem_dout;
     A <= rs1_dout;
@@ -147,7 +147,7 @@ module CPU(input reset,       // positive reset signal
 
   CONTROL_SIGNALS control_signals(
     .current_state(current_state),
-    .pc_write_cond(pc_write_cond),,
+    .pc_write_cond(pc_write_cond),
     .pc_write(pc_write),
     .iord(iord),
     .mem_read(mem_read),

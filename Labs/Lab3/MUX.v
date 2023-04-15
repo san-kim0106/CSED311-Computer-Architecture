@@ -44,7 +44,7 @@ module ALU_SRC_A_MUX(input [31:0] current_pc,
             alu_in1 = rs1_out;
         end
         else begin
-            alu_in1 = current_pc
+            alu_in1 = current_pc;
         end
     end
 
@@ -77,7 +77,7 @@ module PC_MUX(input [31:0] alu_out,
               
               input PCSource,
               
-              output reg [31 0] next_pc);
+              output reg [31:0] next_pc);
 
     always @(*) begin
         if (PCSource) begin
