@@ -26,7 +26,6 @@ module CPU(input reset,       // positive reset signal
   wire [31:0] rd_din;
 
   wire iord;
-  wire write_enable;
   wire mem_read;
   wire mem_write;
   wire mem_to_reg;
@@ -115,7 +114,7 @@ module CPU(input reset,       // positive reset signal
     .rs2(IR[24:20]),                // input
     .rd(IR[11:7]),                  // input
     .rd_din(rd_din),                // input
-    .write_enable(write_enable),    // input
+    .reg_write(reg_write),    // input
 
     .is_ecall(is_ecall),
 
@@ -133,8 +132,7 @@ module CPU(input reset,       // positive reset signal
 
   ROM1 rom1(
     .opcode(IR[6:0]),
-    .rom1_out(rom1_out),
-    .is_ecall(is_ecall)
+    .rom1_out(rom1_out)
   );
 
   ROM2 rom2(
@@ -172,7 +170,8 @@ module CPU(input reset,       // positive reset signal
     .alu_src_b(alu_src_b),
     .alu_op(alu_op),
     .pc_source(pc_source),
-    .addr_clt(addr_clt)
+    .addr_clt(addr_clt),
+    .is_ecall(is_ecall)
   );
 
   // ---------- Immediate Generator ----------

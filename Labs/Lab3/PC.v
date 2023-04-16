@@ -9,7 +9,7 @@ module PC (input reset,
         else if (pc_write) begin
             current_pc = next_pc; //! CHANGE TO NON-BLOCKING
         end
-        $display("current_pc: %d", current_pc); //! DUBUGGING
+        $display("\ncurrent_pc: %d", current_pc); //! DUBUGGING
     end
 
 endmodule

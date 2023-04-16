@@ -46,6 +46,7 @@ module ALU_SRC_A_MUX(input [31:0] current_pc,
         else begin
             alu_in1 = current_pc;
         end
+        // $display("ALU_SRC_A_MUX current_pc: %d | rs1_out: %d | ALUSrcA: %d", current_pc, rs1_out, ALUSrcA); //! DEBUGGING
     end
 
 endmodule

@@ -6,7 +6,7 @@ module RegisterFile(input	reset,
 
                     input [4:0] rd,           // destination register
                     input [31:0] rd_din,      // input data for rd
-                    input write_enable,       // RegWrite signal
+                    input reg_write,       // RegWrite signal
 
                     input is_ecall,           // ECALL control signal
 
@@ -22,7 +22,7 @@ module RegisterFile(input	reset,
   assign rs2_dout = rf[rs2];
 
   always @(is_ecall) begin
-    $display("RegFile is_ecall | rd[17]: %d", rf[17]);
+    $display("RegFile is_ecall: %d | rd[17]: %d", is_ecall, rf[17]);
       if (rf[17] == 10) begin
           is_halted = 1;
       end
@@ -38,7 +38,7 @@ module RegisterFile(input	reset,
 
     // Synchronously write data to the register
     else begin
-      if (write_enable && rd != 0)
+      if (reg_write && rd != 0)
         rf[rd] <= rd_din;
     end
   end

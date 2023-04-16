@@ -7,6 +7,7 @@ module ALU (input[3:0] alu_op,
             output reg bcond);
 
 	always @(in_1, in_2) begin
+		// $display("ALU UNIT in_1: %d | in_2: %d | alu_op: %d", in_1, in_2, alu_op); //! DEBUGGING
 		case (alu_op)
 			`FUNC_ADD: begin
 				alu_out = in_1 + in_2; 
