@@ -2,9 +2,9 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
                                               input clk,
                                               input [31:0] addr,    // address of the memory
                                               input [31:0] din,     // data to be written
-                                              input mem_read,       // is read signal driven?
-                                              input mem_write,      // is write signal driven?
-                                              output [31:0] dout);  // output of the data memory at addr
+                                              input mem_read,       // control signal
+                                              input mem_write,      // control signal
+                                              output reg [31:0] dout);  // output of the data memory at addr
   integer i;
   // Memory
   reg [31:0] mem[0: MEM_DEPTH - 1];
@@ -13,7 +13,14 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
   assign mem_addr = {2'b00, addr >> 2};
 
   // Asynchrnously read data from the memory
-  assign dout = (mem_read) ? mem[mem_addr] : 32'b0;
+  always @(addr, mem_read) begin
+    if (mem_read) begin
+      dout = mem[mem_addr];
+    end else begin
+      dout = 32'b0;
+    end
+    // $display("addr: %d | mem_read: %d | dout: %d", addr, mem_read, dout); //! DEBUGGING
+  end
 
   always @(posedge clk) begin
     // Initialize data memory (do not touch)

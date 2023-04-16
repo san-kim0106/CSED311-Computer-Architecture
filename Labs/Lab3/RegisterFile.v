@@ -22,6 +22,7 @@ module RegisterFile(input	reset,
   assign rs2_dout = rf[rs2];
 
   always @(is_ecall) begin
+    $display("RegFile is_ecall | rd[17]: %d", rf[17]);
       if (rf[17] == 10) begin
           is_halted = 1;
       end

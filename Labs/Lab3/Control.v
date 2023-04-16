@@ -14,26 +14,32 @@
 `define STATE10 4'b1010
 
 module NEXT_STATE_ADDER(input [3:0] current_state,
+                        input reset,
                         output reg [3:0] next_state);
     
-    always @(*) begin
-        next_state = current_state + 1;
+    always @(current_state) begin
+        if (reset) begin
+            next_state <= 0;
+        end else begin
+            next_state = current_state + 1;
+        end
     end
 endmodule
 
 module ROM1(input [6:0] opcode,
             output reg [3:0] rom1_out,
-            output reg is_halted);
+            output reg is_ecall);
     
     always @(opcode) begin
-        is_halted = 0;
+        // $display("ROM1 opcode: %d", opcode); //! DEBUGGING
+        is_ecall = 0; 
         case (opcode)
             `ARITHMETIC:     rom1_out = 4'b0110; // STATE6
             `ARITHMETIC_IMM: rom1_out = 4'b1010; // STATE10
             `BRANCH:         rom1_out = 4'b1000; // STATE8
             `LOAD:           rom1_out = 4'b0010; // STATE2
             `STORE:          rom1_out = 4'b0010; // STATE2
-            `ECALL:          is_halted = 1;      // HALT
+            `ECALL:          is_ecall = 1;       // HALT
             default:         rom1_out = 4'b0000; // STATE0
         endcase 
     end
@@ -43,6 +49,7 @@ module ROM2(input [6:0] opcode,
             output reg [3:0] rom2_out);
 
     always @(opcode) begin
+        // $display("ROM2 opcode: %d", opcode); //! DEBUGGING
         case (opcode)
             `LOAD:           rom2_out = 4'b0011; // STATE3
             `STORE:          rom2_out = 4'b0101; // STATE5
@@ -52,29 +59,42 @@ module ROM2(input [6:0] opcode,
     end
 endmodule
 
-module NEXT_STATE_MUX(input [3:0] adder_out,
+module NEXT_STATE_MUX(input reset,
+                      input [3:0] adder_out,
                       input [3:0] rom1_out,
                       input [3:0] rom2_out,
                       input [1:0] addr_clt,
                       output reg [3:0] next_state);
     
-    always @(*) begin
-        case (addr_clt)
-            2'b00:   next_state = 4'b0000;
-            2'b01:   next_state = rom1_out;
-            2'b10:   next_state = rom2_out;
-            2'b11:   next_state = adder_out;
-            default: next_state = 4'b0000;
-        endcase
+    always @(adder_out, rom1_out, rom2_out, addr_clt) begin
+        if (reset) begin
+            // $display("reset: 1 | adder_out: %d | rom1_out: %d | rom2_out: %d | addr_clt: %d", adder_out, rom1_out, rom2_out, addr_clt); //! DEBUGGING
+            next_state = 4'b0000;
+        end else begin
+            // $display("adder_out: %d | rom1_out: %d | rom2_out: %d | addr_clt: %d", adder_out, rom1_out, rom2_out, addr_clt); //! DEBUGGING
+            case (addr_clt)
+                2'b00:   next_state = 4'b0000;
+                2'b01:   next_state = rom1_out;
+                2'b10:   next_state = rom2_out;
+                2'b11:   next_state = adder_out;
+                default: next_state = 4'b0000;
+            endcase
+        end
     end
 endmodule
 
 module STATE_REGISTER(input clk,
-                     input [3:0] next_state,
-                     output reg [3:0] current_state);
+                      input reset,
+                      input [3:0] next_state,
+                      output reg [3:0] current_state);
 
     always @(posedge clk) begin
-        current_state <= next_state;
+        if (reset) begin
+            current_state <= 4'b1111;
+        end else begin
+            current_state <= next_state;
+        end
+        // $display("current_state: %d", current_state); //! DEBUGGING
     end
 endmodule
 
@@ -94,6 +114,7 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                       output reg [1:0] addr_clt);
     
     always @(current_state) begin
+        $display("Control Unit current_state: %d", current_state); //! DEBUGGING
         case (current_state)
             `STATE0: begin
                 pc_write_cond = 0;

@@ -62,7 +62,10 @@ module CPU(input reset,       // positive reset signal
   wire [1:0] addr_clt;
 
   always @(posedge clk) begin
-    if (!iord && ir_write) IR <= mem_dout;
+    if (!iord && ir_write) begin
+      IR = mem_dout; //! CHANGE TO NON-BLOCKING
+      $display("iord: %d | ir_write: %d | IR: %d",iord, ir_write, IR); //! DEBUGGING
+    end
     if (iord) MDR <= mem_dout;
     A <= rs1_dout;
     B <= rs2_dout;
@@ -75,13 +78,14 @@ module CPU(input reset,       // positive reset signal
     .reset(reset),          // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),              // input
     .next_pc(next_pc),      // input
+    .pc_write(pc_write),  // TODO: (Bxx not implemented) input, control signal
     .current_pc(current_pc) // output
   );
 
   MEM_MUX mem_mux(
     .current_pc(current_pc),  // input
     .d_addr(ALUOut),          // input
-    .IorD(IorD),              // input
+    .IorD(IorD),              // input, control signal
     .addr(mem_addr)           // output
   );
 
@@ -123,13 +127,14 @@ module CPU(input reset,       // positive reset signal
   // ---------- Control Unit ----------
   NEXT_STATE_ADDER next_state_adder(
     .current_state(current_state),
+    .reset(reset),
     .next_state(state_plus_one)
   );
 
   ROM1 rom1(
     .opcode(IR[6:0]),
     .rom1_out(rom1_out),
-    .is_halted(is_halted)
+    .is_ecall(is_ecall)
   );
 
   ROM2 rom2(
@@ -138,6 +143,7 @@ module CPU(input reset,       // positive reset signal
   );
 
   NEXT_STATE_MUX next_state_mux(
+    .reset(reset),
     .adder_out(state_plus_one),
     .rom1_out(rom1_out),
     .rom2_out(rom2_out),
@@ -147,6 +153,7 @@ module CPU(input reset,       // positive reset signal
 
   STATE_REGISTER state_register(
     .clk(clk),
+    .reset(reset),
     .next_state(next_state),
     .current_state(current_state)
   );
@@ -167,7 +174,6 @@ module CPU(input reset,       // positive reset signal
     .pc_source(pc_source),
     .addr_clt(addr_clt)
   );
-
 
   // ---------- Immediate Generator ----------
   ImmediateGenerator imm_gen(
@@ -201,11 +207,11 @@ module CPU(input reset,       // positive reset signal
 
   // ---------- ALU ----------
   ALU alu(
-    .alu_op(_alu_op),      // input
-    .in_1(alu_in1),    // input  
-    .in_2(alu_in2),    // input
-    .alu_out(alu_out),  // output
-    .bcond()           // TODO: output
+    .alu_op(_alu_op),    // input
+    .in_1(alu_in1),      // input  
+    .in_2(alu_in2),      // input
+    .alu_out(alu_out),   // output
+    .bcond()             // TODO: output
   );
 
   PC_MUX pc_mux(
