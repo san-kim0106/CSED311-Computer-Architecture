@@ -44,6 +44,8 @@ module CPU(input reset,       // positive reset signal
   wire [31:0] alu_in2;
   wire [31:0] alu_out;
   wire [3:0] _alu_op;
+  wire bcond;
+  reg branch_dir;
 
   /***** Register declarations *****/
   reg [31:0] IR; // instruction register
@@ -61,14 +63,22 @@ module CPU(input reset,       // positive reset signal
   wire [1:0] addr_clt;
 
   always @(posedge clk) begin
-    if (!iord && ir_write) begin
-      IR = mem_dout; //! CHANGE TO NON-BLOCKING
-      $display("iord: %d | ir_write: %d | IR: %d",iord, ir_write, IR); //! DEBUGGING
+    if (reset) begin
+      IR <= 32'b0;
+      MDR <= 32'b0;
+      A <= 32'b0;
+      B <= 32'b0;
+      ALUOut <= 32'b0;
+    end else begin
+      if (!iord && ir_write) begin
+        IR <= mem_dout; //! CHANGE TO NON-BLOCKING
+        // $display("iord: %d | ir_write: %d | IR: %d",iord, ir_write, IR); //! DEBUGGING
+      end
+      if (iord) MDR <= mem_dout;
+      A <= rs1_dout;
+      B <= rs2_dout;
+      ALUOut <= alu_out;
     end
-    if (iord) MDR <= mem_dout;
-    A <= rs1_dout;
-    B <= rs2_dout;
-    ALUOut <= alu_out;
   end
 
   // ---------- Update program counter ----------
@@ -77,14 +87,14 @@ module CPU(input reset,       // positive reset signal
     .reset(reset),          // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),              // input
     .next_pc(next_pc),      // input
-    .pc_write(pc_write),  // TODO: (Bxx not implemented) input, control signal
+    .pc_write(pc_write),    
     .current_pc(current_pc) // output
   );
 
   MEM_MUX mem_mux(
     .current_pc(current_pc),  // input
     .d_addr(ALUOut),          // input
-    .IorD(IorD),              // input, control signal
+    .iord(iord),              // input, control signal
     .addr(mem_addr)           // output
   );
 
@@ -114,7 +124,7 @@ module CPU(input reset,       // positive reset signal
     .rs2(IR[24:20]),                // input
     .rd(IR[11:7]),                  // input
     .rd_din(rd_din),                // input
-    .reg_write(reg_write),    // input
+    .write_enable(reg_write),    // input
 
     .is_ecall(is_ecall),
 
@@ -183,6 +193,7 @@ module CPU(input reset,       // positive reset signal
   // ---------- ALU Control Unit ----------
   ALUControlUnit alu_ctrl_unit(
     .alu_op(alu_op),  // input
+    .opcode(IR[6:0]),
     .funct3(IR[14:12]),
     .funct7(IR[31:25]),
     ._alu_op(_alu_op)    // output
@@ -209,14 +220,21 @@ module CPU(input reset,       // positive reset signal
     .alu_op(_alu_op),    // input
     .in_1(alu_in1),      // input  
     .in_2(alu_in2),      // input
-    .alu_out(alu_out),   // output
-    .bcond()             // TODO: output
+    .alu_out(alu_out)    // output
+  );
+
+  BRANCH_DIRECTION branch_prediction(
+    ._alu_op(_alu_op),
+		.in_1(A),
+		.in_2(B),
+		.bcond(bcond)
   );
 
   PC_MUX pc_mux(
     .alu_out(alu_out),
     .alu_out_reg(ALUOut),
-    .PCSource(pc_source),
+    .pc_source(pc_source),
+    .bcond(bcond),
     .next_pc(next_pc)
   );
 

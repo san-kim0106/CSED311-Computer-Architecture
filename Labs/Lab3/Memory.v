@@ -4,7 +4,7 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
                                               input [31:0] din,     // data to be written
                                               input mem_read,       // control signal
                                               input mem_write,      // control signal
-                                              output reg [31:0] dout);  // output of the data memory at addr
+                                              output [31:0] dout);  // output of the data memory at addr
   integer i;
   // Memory
   reg [31:0] mem[0: MEM_DEPTH - 1];
@@ -13,14 +13,7 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
   assign mem_addr = {2'b00, addr >> 2};
 
   // Asynchrnously read data from the memory
-  always @(addr, mem_read) begin
-    if (mem_read) begin
-      dout = mem[mem_addr];
-    end else begin
-      dout = 32'b0;
-    end
-    // $display("addr: %d | mem_read: %d | dout: %d", addr, mem_read, dout); //! DEBUGGING
-  end
+  assign dout = (mem_read) ? mem[mem_addr] : 32'b0;
 
   always @(posedge clk) begin
     // Initialize data memory (do not touch)
@@ -28,7 +21,7 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
       for (i = 0; i < MEM_DEPTH; i = i + 1)
         mem[i] = 32'b0;
       // Provide path of the file including instructions with binary format
-      $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab3\\lab3_tb\\test.txt", mem);
+      $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab3\\lab3_tb\\loop_mem.txt", mem);
     end
 
     // Synchronously write data to the memory

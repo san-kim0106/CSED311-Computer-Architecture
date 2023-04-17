@@ -1,15 +1,15 @@
 module MEM_MUX(input[31:0] current_pc,
                input[31:0] d_addr,
-               input IorD,
+               input iord,
                
                output reg [31:0] addr);
     
     always @(*) begin
-        if (IorD) begin
-            addr = current_pc;
+        if (iord) begin
+            addr = d_addr;
         end
         else begin
-            addr = d_addr;
+            addr = current_pc;
         end
     end
 
@@ -68,6 +68,8 @@ module ALU_SRC_B_MUX(input [31:0] rs2_out,
         end
         else if (ALUSrcB1 && !ALUSrcB0) begin
             alu_in2 = imm_gen_out;
+        end else begin
+            alu_in2 = 0; // Used at RESET state
         end
     end
 
@@ -76,17 +78,20 @@ endmodule
 module PC_MUX(input [31:0] alu_out,
               input [31:0] alu_out_reg,
               
-              input PCSource,
+              input bcond,
+              input pc_source,
               
               output reg [31:0] next_pc);
 
     always @(*) begin
-        if (PCSource) begin
+        if (!pc_source && !bcond) begin
+            // $display("BRANCH NOT TAKEN"); //! DEBUGGING
+            next_pc = alu_out_reg;
+        end else begin
+            // $display("BRACNH TAKEN"); //! DEBUGGING
             next_pc = alu_out;
         end
-        else begin
-            next_pc = alu_out_reg;
-        end
+        // $display("PC MUX next_pc: %d", next_pc); //! DEBUGGING
     end
 
 endmodule
