@@ -118,7 +118,7 @@ module CONTROL_SIGNALS(input [3:0] current_state,
                       output reg is_ecall);
     
     always @(current_state) begin
-        $display("Control Unit current_state: %d", current_state); //! DEBUGGING
+        // $display("Control Unit current_state: %d", current_state); //! DEBUGGING
         case (current_state)
             `STATE0: begin // IF Stage
                 pc_write_cond = 0;
@@ -429,5 +429,19 @@ module ALUControlUnit (input [1:0] alu_op,
         end
     end
     
+
+endmodule
+
+module HALT(input is_ecall,
+            input [31:0] gpr_17,
+            output reg is_halted);
+    
+    always @(*) begin
+        if (is_ecall && gpr_17 == 10) begin
+            is_halted = 1;
+        end else begin
+            is_halted = 0;
+        end
+    end
 
 endmodule

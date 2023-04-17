@@ -21,7 +21,7 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
       for (i = 0; i < MEM_DEPTH; i = i + 1)
         mem[i] = 32'b0;
       // Provide path of the file including instructions with binary format
-      $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab3\\lab3_tb\\loop_mem.txt", mem);
+      $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab3\\lab3_tb\\recursive_mem.txt", mem);
     end
 
     // Synchronously write data to the memory

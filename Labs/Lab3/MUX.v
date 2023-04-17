@@ -32,6 +32,21 @@ module REG_MUX(input [31:0] alu_out,
 
 endmodule
 
+module RS1_MUX(input [4:0] rs1,
+               input is_ecall,
+               output reg [5:0] rs1_in);
+    
+    always @(*) begin
+        if (is_ecall) begin
+            rs1_in = 17;
+        end else begin
+            rs1_in = rs1;
+        end
+        
+    end
+
+endmodule
+
 module ALU_SRC_A_MUX(input [31:0] current_pc,
                      input [31:0] rs1_out,
 

@@ -21,6 +21,7 @@ module CPU(input reset,       // positive reset signal
 
   wire [31:0] imm_gen_out;
 
+  wire [4:0] rs1_in;
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
   wire [31:0] rd_din;
@@ -116,21 +117,24 @@ module CPU(input reset,       // positive reset signal
     .reg_write_data(rd_din)  // output
   );
 
+  RS1_MUX rs1_mux(
+    .rs1(IR[19:15]),
+    .is_ecall(is_ecall),
+    .rs1_in(rs1_in)
+  );
+
   // ---------- Register File ----------
   RegisterFile reg_file(
     .reset(reset),                  // input
     .clk(clk),                      // input
-    .rs1(IR[19:15]),                // input
+    .rs1(rs1_in),                // input
     .rs2(IR[24:20]),                // input
     .rd(IR[11:7]),                  // input
     .rd_din(rd_din),                // input
     .write_enable(reg_write),    // input
 
-    .is_ecall(is_ecall),
-
     .rs1_dout(rs1_dout),            // output
-    .rs2_dout(rs2_dout),             // output
-    .is_halted(is_halted)
+    .rs2_dout(rs2_dout)             // output
   );
 
   // ---------- Control Unit ----------
@@ -182,6 +186,12 @@ module CPU(input reset,       // positive reset signal
     .pc_source(pc_source),
     .addr_clt(addr_clt),
     .is_ecall(is_ecall)
+  );
+
+  HALT halt(
+    .is_ecall(is_ecall),
+    .gpr_17(rs1_dout),
+    .is_halted(is_halted)
   );
 
   // ---------- Immediate Generator ----------
