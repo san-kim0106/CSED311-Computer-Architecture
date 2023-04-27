@@ -1,7 +1,6 @@
 `include "opcodes.v"
 `include "ALUop.v"
 
-
 module ControlUnit (input [6:0] opcode,
                     input stall,
                     output reg is_jal,
@@ -56,7 +55,7 @@ module ControlUnit (input [6:0] opcode,
         //! ----------------------------------
         
         // write_enable
-        if (opcode != `STORE && opcode != `BRANCH) write_enable = 1;
+        if (opcode != `STORE && opcode != `BRANCH && opcode != `ECALL && opcode != 32'b0) write_enable = 1;
         else write_enable = 0;
         
          // is_ecal
@@ -122,4 +121,20 @@ module ALUControlUnit (input [6:0] opcode,
         end
     end
 
+endmodule
+
+module HATLED(input is_ecall,
+              input [31:0] rs1_dout,
+              input stall,
+              output reg is_halted);
+
+    always @(is_ecall, rs1_dout, stall) begin
+        if (stall) begin
+            is_halted = 0;
+        end else if (is_ecall && (rs1_dout == 10)) begin
+            is_halted = 1;
+        end else begin
+            is_halted = 0;
+        end
+    end
 endmodule
