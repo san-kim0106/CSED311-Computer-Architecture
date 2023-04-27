@@ -20,6 +20,7 @@ module CPU(input reset,       // positive reset signal
   wire [4:0] rs1_in;
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
+  wire stall;
   wire ID_is_halted;
   wire ID_mem_read;
   wire ID_mem_to_reg;
@@ -94,6 +95,7 @@ module CPU(input reset,       // positive reset signal
 
   PC_ADDER pc_adder(
     .current_pc(current_pc), // input
+    .stall(stall),           // input
     .next_pc(next_pc)        // output
   );
   
@@ -108,7 +110,7 @@ module CPU(input reset,       // positive reset signal
   // Update IF/ID pipeline registers here
   always @(posedge clk) begin
     if (reset) begin
-      IF_ID_inst <= 32b'0;
+      IF_ID_inst <= 32'b0;
     end else begin
       IF_ID_inst <= inst_dout;
     end
@@ -153,6 +155,15 @@ module CPU(input reset,       // positive reset signal
     .alu_op(ID_alu_op)
   );
 
+  HAZARD_DETECTION hazard_detection (
+    .current_inst(IF_ID_inst),
+    .EX_rd(ID_EX_rd),
+    .EX_reg_write(ID_EX_reg_write),
+    .MEM_rd(EX_MEM_rd),
+    .MEM_reg_write(EX_MEM_reg_write),
+    .stall(stall)
+  );
+
   // ---------- Immediate Generator ----------
   ImmediateGenerator imm_gen(
     .inst(IF_ID_inst),        // input
@@ -160,8 +171,10 @@ module CPU(input reset,       // positive reset signal
   );
 
   // Update ID/EX pipeline registers here
-  always @(is_ecall, rs1_dout) begin
-    if (is_ecall && (rs1_dout == 10)) begin
+  always @(is_ecall, rs1_dout, stall) begin
+    if (stall) begin
+      ID_is_halted = 0;
+    end else if (is_ecall && (rs1_dout == 10)) begin
       ID_is_halted = 1;
     end else begin
       ID_is_halted = 0;

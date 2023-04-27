@@ -3,6 +3,7 @@
 
 
 module ControlUnit (input [6:0] opcode,
+                    input stall,
                     output reg is_jal,
                     output reg is_jalr,
                     output reg branch,
@@ -61,6 +62,11 @@ module ControlUnit (input [6:0] opcode,
          // is_ecal
         if (opcode == `ECALL) is_ecall = 1;
         else is_ecall = 0;
+
+        if (stall) begin
+            write_enable = 0;
+            mem_write = 0;
+        end
 
     end
 endmodule

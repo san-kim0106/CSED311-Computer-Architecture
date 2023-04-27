@@ -41,3 +41,17 @@ module HALTED_MUX (input [4:0] rs1,
     end
 
 endmodule
+
+module STALL_MUX (input cltr,
+                  input stall,
+                  output reg cltr_out);
+
+    always @(*) begin
+        if (stall) begin
+            cltr_out = 0;
+        end else begin
+            cltr_out = cltr;
+        end
+    end
+
+endmodule

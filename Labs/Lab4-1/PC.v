@@ -13,10 +13,15 @@ module PC(input reset,
 endmodule
 
 module PC_ADDER(input [31:0] current_pc,
+                input stall,
                 output reg [31:0] next_pc);
     
-    always @(current_pc) begin
-        next_pc = currnet_pc + 4;
+    always @(*) begin
+        if (stall) begin
+            next_pc = current_pc; // Don't increment PC when stall condition
+        end else begin
+            next_pc = current_pc + 4;
+        end
     end
 
 endmodule
