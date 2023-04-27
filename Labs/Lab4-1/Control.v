@@ -115,6 +115,5 @@ module ALUControlUnit (input [6:0] opcode,
             alu_op = `FUNC_AND; // AND
         end
     end
-    
 
 endmodule
