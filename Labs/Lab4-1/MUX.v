@@ -13,6 +13,24 @@ module ALU_SRC_MUX (input [31:0] rs2_data,
 
 endmodule
 
+module ALU_INPUT_MUX(input [31:0] no_forwarding,
+                     input [31:0] dist1_forwarding,
+                     input [31:0] dist2_forwarding,
+                     input [1:0] selector,
+                     output reg [31:0] alu_in);
+    
+    always @(*) begin
+        if (selector == 2'b00) begin
+            alu_in = no_forwarding;
+        end else if (selector == 2'b01) begin
+            alu_in = dist1_forwarding;
+        end else if (selector == 2'b10) begin
+            alu_in = dist2_forwarding;
+        end
+    end
+
+endmodule
+
 module WB_MUX (input [31:0] reg_src1,
                input [31:0] reg_src2,
                input mem_to_reg,

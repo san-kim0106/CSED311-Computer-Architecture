@@ -4,6 +4,7 @@ module HAZARD_DETECTION (input [31:0] current_inst,
 
                          input [4:0] dist1_rd,
                          input dist1_reg_write,
+                         input dist1_is_load,
 
                          input [4:0] dist2_rd,
                          input dist2_reg_write,
@@ -35,11 +36,8 @@ module HAZARD_DETECTION (input [31:0] current_inst,
 
         // Check Hazard for rs1
         if (current_inst[6:0] == `ARITHMETIC || current_inst[6:0] == `ARITHMETIC_IMM || current_inst[6:0] == `LOAD || current_inst[6:0] == `STORE) begin
-            if (current_inst[19:15] == dist1_rd && dist1_rd != 0 && dist1_reg_write) begin
+            if (current_inst[19:15] == dist1_rd && dist1_rd != 0 && dist1_is_load) begin
                 stall = 1;
-            end else if (current_inst[19:15] == dist2_rd && dist2_rd != 0 && dist2_reg_write) begin
-                stall = 1;
-
             end else begin
                 stall = 0;
             end
@@ -47,11 +45,8 @@ module HAZARD_DETECTION (input [31:0] current_inst,
 
         // Check Hazard for rs2
         if ((current_inst[6:0] == `ARITHMETIC || current_inst[6:0] == `LOAD || current_inst[6:0] == `STORE) && stall == 0) begin
-            if (current_inst[24:20] == dist1_rd && dist1_rd != 0 && dist1_reg_write) begin
+            if (current_inst[24:20] == dist1_rd && dist1_rd != 0 && dist1_is_load) begin
                 stall = 1;
-            end else if (current_inst[24:20] == dist2_rd && dist2_rd != 0 && dist2_reg_write) begin
-                stall = 1;
-
             end else begin
                 stall = 0;
             end

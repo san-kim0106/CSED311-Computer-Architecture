@@ -31,7 +31,11 @@ module CPU(input reset,       // positive reset signal
   wire [3:0] ID_alu_op;
   wire ID_is_ecall;
   wire [31:0] imm_gen_out;
+  wire [1:0] forward_a;
+  wire [1:0] forward_b;
 
+  wire [31:0] alu_in1_forwarding;
+  wire [31:0] alu_in2_forwarding;
   wire [31:0] alu_in2;
   wire [31:0] alu_result;
 
@@ -56,11 +60,14 @@ module CPU(input reset,       // positive reset signal
   reg ID_EX_reg_write;      // will be used in WB stage
   reg ID_EX_is_halted;
   // From others
+  reg [4:0] ID_EX_rs1;
+  reg [4:0] ID_EX_rs2;
   reg [31:0] ID_EX_rs1_data;
   reg [31:0] ID_EX_rs2_data;
   reg [31:0] ID_EX_imm;
   reg ID_EX_ALU_ctrl_unit_input;
   reg [4:0] ID_EX_rd;
+  reg [6:0] ID_EX_opcode;
 
   /***** EX/MEM pipeline registers *****/
   // From the control unit
@@ -165,6 +172,7 @@ module CPU(input reset,       // positive reset signal
     .current_inst(IF_ID_inst),
     .dist1_rd(ID_EX_rd),
     .dist1_reg_write(ID_EX_reg_write),
+    .dist1_is_load(ID_EX_mem_read),
     .dist2_rd(EX_MEM_rd),
     .dist2_reg_write(EX_MEM_reg_write),
     .stall(stall)
@@ -190,6 +198,9 @@ module CPU(input reset,       // positive reset signal
       ID_EX_is_halted <= 1'b0;
       ID_EX_alu_op <= 4'b0;
       ID_EX_rd <= 5'b0;
+      ID_EX_rs1 <= 5'b0;
+      ID_EX_rs2 <= 5'b0;
+      ID_EX_opcode <= 6'b0;
     end else begin
       ID_EX_alu_src <= ID_alu_src;
       ID_EX_mem_write <= ID_mem_write;
@@ -202,6 +213,9 @@ module CPU(input reset,       // positive reset signal
       ID_EX_is_halted <= ID_is_halted;
       ID_EX_alu_op <= ID_alu_op;
       ID_EX_rd <= IF_ID_inst[11:7];
+      ID_EX_rs1 <= IF_ID_inst[19:15];
+      ID_EX_rs2 <= IF_ID_inst[24:20];
+      ID_EX_opcode <= IF_ID_inst[6:0];
     end
 
     if (stall) begin
@@ -210,9 +224,40 @@ module CPU(input reset,       // positive reset signal
 
   end
 
+  FORWARDING_UNIT forwarding_unit(
+    .opcode(ID_EX_opcode),
+    .rs1(ID_EX_rs1),
+    .rs2(ID_EX_rs2),
+
+    .dist1_rd(EX_MEM_rd),
+    .dist1_reg_write(EX_MEM_reg_write),
+
+    .dist2_rd(MEM_WB_rd),
+    .dist2_reg_write(MEM_WB_reg_write),
+
+    .forward_a(forward_a),
+    .forward_b(forward_b)
+  );
+
   // ------ ALU SRC MUX -------
+  ALU_INPUT_MUX alu_input_mux_rs1(
+    .no_forwarding(ID_EX_rs1_data),
+    .dist1_forwarding(EX_MEM_alu_out),
+    .dist2_forwarding(rd_din),
+    .selector(forward_a), //TODO
+    .alu_in(alu_in1_forwarding)
+  );
+
+  ALU_INPUT_MUX alu_input_mux_rs2(
+    .no_forwarding(ID_EX_rs2_data),
+    .dist1_forwarding(EX_MEM_alu_out),
+    .dist2_forwarding(rd_din),
+    .selector(forward_b),
+    .alu_in(alu_in2_forwarding)
+  );
+
   ALU_SRC_MUX alu_src_mux(
-    .rs2_data(ID_EX_rs2_data), // input
+    .rs2_data(alu_in2_forwarding), // input
     .imm_gen_out(ID_EX_imm),   // input
     .alu_src(ID_EX_alu_src),   // input
     .alu_in2(alu_in2)          // output
@@ -221,9 +266,9 @@ module CPU(input reset,       // positive reset signal
   // ---------- ALU ----------
   ALU alu (
     .alu_op(ID_EX_alu_op),     // input
-    .in_1(ID_EX_rs1_data), // input  
-    .in_2(alu_in2),        // input
-    .alu_out(alu_result)    // output
+    .in_1(alu_in1_forwarding), // input  
+    .in_2(alu_in2), // input
+    .alu_out(alu_result)       // output
   );
 
   // Update EX/MEM pipeline registers here
@@ -244,7 +289,7 @@ module CPU(input reset,       // positive reset signal
       EX_MEM_mem_to_reg <= ID_EX_mem_to_reg;
       EX_MEM_reg_write <= ID_EX_reg_write;
       EX_MEM_alu_out <= alu_result;
-      EX_MEM_dmem_data <= ID_EX_rs2_data;
+      EX_MEM_dmem_data <= alu_in2_forwarding;
       EX_MEM_rd <= ID_EX_rd;
       EX_MEM_is_halted <= ID_EX_is_halted;
     end

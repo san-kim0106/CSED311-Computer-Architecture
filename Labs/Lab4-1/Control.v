@@ -63,6 +63,7 @@ module ControlUnit (input [6:0] opcode,
         else is_ecall = 0;
 
         if (stall) begin
+            mem_read = 0;
             write_enable = 0;
             mem_write = 0;
         end
