@@ -89,13 +89,13 @@ module CPU(input reset,       // positive reset signal
   PC pc(
     .reset(reset),          // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),              // input
+    .stall(stall),          // input
     .next_pc(next_pc),      // input
     .current_pc(current_pc) // output
   );
 
   PC_ADDER pc_adder(
     .current_pc(current_pc), // input
-    .stall(stall),           // input
     .next_pc(next_pc)        // output
   );
   
@@ -111,7 +111,7 @@ module CPU(input reset,       // positive reset signal
   always @(posedge clk) begin
     if (reset) begin
       IF_ID_inst <= 32'b0;
-    end else begin
+    end else if (!stall) begin
       IF_ID_inst <= inst_dout;
     end
   end
@@ -163,10 +163,10 @@ module CPU(input reset,       // positive reset signal
 
   HAZARD_DETECTION hazard_detection (
     .current_inst(IF_ID_inst),
-    .EX_rd(ID_EX_rd),
-    .EX_reg_write(ID_EX_reg_write),
-    .MEM_rd(EX_MEM_rd),
-    .MEM_reg_write(EX_MEM_reg_write),
+    .dist1_rd(ID_EX_rd),
+    .dist1_reg_write(ID_EX_reg_write),
+    .dist2_rd(EX_MEM_rd),
+    .dist2_reg_write(EX_MEM_reg_write),
     .stall(stall)
   );
 
@@ -199,10 +199,15 @@ module CPU(input reset,       // positive reset signal
       ID_EX_rs1_data <= rs1_dout;
       ID_EX_rs2_data <= rs2_dout;
       ID_EX_imm <= imm_gen_out;
-      ID_EX_is_halted <= ID_is_halted; //TODO Implemented is_halted
+      ID_EX_is_halted <= ID_is_halted;
       ID_EX_alu_op <= ID_alu_op;
       ID_EX_rd <= IF_ID_inst[11:7];
     end
+
+    if (stall) begin
+      ID_EX_rd <= 5'b0;
+    end
+
   end
 
   // ------ ALU SRC MUX -------
