@@ -27,3 +27,12 @@ module PC_ADDER(input [31:0] current_pc,
     end
 
 endmodule
+
+module PC_IMM_ADDER(input [31:0] current_pc,
+                    input [31:0] imm,
+                    output reg [31:0] pc_branch);
+    always @(*) begin
+        pc_branch = current_pc + imm;
+    end
+    
+endmodule

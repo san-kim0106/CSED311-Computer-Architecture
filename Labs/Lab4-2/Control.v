@@ -3,6 +3,8 @@
 
 module ControlUnit (input [6:0] opcode,
                     input stall,
+                    input [1:0] pc_src,
+                    input bubble,
                     output reg is_jal,
                     output reg is_jalr,
                     output reg branch,
@@ -14,7 +16,7 @@ module ControlUnit (input [6:0] opcode,
                     output reg is_ecall);
 
     // Combinational logic for control signals
-    always @(opcode) begin
+    always @(*) begin
 
         // is_jal
         if (opcode == `JAL) is_jal = 1;
@@ -41,7 +43,7 @@ module ControlUnit (input [6:0] opcode,
         else mem_write = 0;
         
         // alu_src
-        if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE) alu_src = 1;
+        if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE || opcode == `JALR) alu_src = 1;
         else alu_src = 0;
 
         //! DEDUBGGING PURPOSES
@@ -62,7 +64,7 @@ module ControlUnit (input [6:0] opcode,
         if (opcode == `ECALL) is_ecall = 1;
         else is_ecall = 0;
 
-        if (stall) begin
+        if (stall || pc_src || bubble) begin
             mem_read = 0;
             write_enable = 0;
             mem_write = 0;
@@ -138,4 +140,23 @@ module HATLED(input is_ecall,
             is_halted = 0;
         end
     end
+endmodule
+
+module PC_SRC(input bcond,
+              input is_jal,
+              input is_jalr,
+              output reg [1:0] pc_src);
+    
+    always @(*) begin
+
+        if (!bcond && !is_jal && !is_jalr) begin
+            pc_src = 2'b00;
+        end else if (bcond || is_jal) begin
+            pc_src = 2'b01;
+        end else if (is_jalr) begin
+            pc_src = 2'b10;
+        end
+
+    end
+
 endmodule

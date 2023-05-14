@@ -35,7 +35,7 @@ module HAZARD_DETECTION (input [31:0] current_inst,
         end
 
         // Check Hazard for rs1
-        if (current_inst[6:0] == `ARITHMETIC || current_inst[6:0] == `ARITHMETIC_IMM || current_inst[6:0] == `LOAD || current_inst[6:0] == `STORE) begin
+        if (current_inst[6:0] == `ARITHMETIC || current_inst[6:0] == `ARITHMETIC_IMM || current_inst[6:0] == `LOAD || current_inst[6:0] == `STORE || current_inst[6:0] == `BRANCH || current_inst[6:0] == `JALR) begin
             if (current_inst[19:15] == dist1_rd && dist1_rd != 0 && dist1_is_load) begin
                 stall = 1;
             end else begin
@@ -44,7 +44,7 @@ module HAZARD_DETECTION (input [31:0] current_inst,
         end
 
         // Check Hazard for rs2
-        if ((current_inst[6:0] == `ARITHMETIC || current_inst[6:0] == `LOAD || current_inst[6:0] == `STORE) && stall == 0) begin
+        if ((current_inst[6:0] == `ARITHMETIC || current_inst[6:0] == `STORE || current_inst[6:0] == `BRANCH) && stall == 0) begin
             if (current_inst[24:20] == dist1_rd && dist1_rd != 0 && dist1_is_load) begin
                 stall = 1;
             end else begin

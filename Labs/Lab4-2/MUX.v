@@ -1,3 +1,21 @@
+module PC_MUX(input [31:0] pc_plus_four, // plus four adder
+              input [31:0] pc_branch, // JAL/Branch adder
+              input [31:0] pc_jalr, // alu_out
+              input [1:0] pc_src,
+              output reg [31:0] next_pc);
+    
+    always @(*) begin
+        if (pc_src == 0) begin
+            next_pc = pc_plus_four;
+        end else if (pc_src == 1) begin
+            next_pc = pc_branch;
+        end else if (pc_src == 2) begin
+            next_pc = pc_jalr;
+        end
+    end
+
+endmodule
+
 module ALU_SRC_MUX (input [31:0] rs2_data,
                     input [31:0] imm_gen_out,
                     input alu_src,
@@ -33,11 +51,16 @@ endmodule
 
 module WB_MUX (input [31:0] reg_src1,
                input [31:0] reg_src2,
+               input [31:0] plus_four_pc,
                input mem_to_reg,
+               input is_jal,
+               input is_jalr,
                output reg [31:0] rd_din);
     
     always @(*) begin
-        if (mem_to_reg) begin
+        if (is_jal || is_jalr) begin
+            rd_din = plus_four_pc;
+        end else if (mem_to_reg) begin
             rd_din = reg_src1;
         end else begin
             rd_din = reg_src2;

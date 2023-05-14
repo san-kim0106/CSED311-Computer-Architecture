@@ -24,7 +24,7 @@ module FORWARDING_UNIT(input [6:0] opcode,
     always @(*) begin
 
         // Forwarding logic for rs1
-        if (opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE) begin
+        if (opcode == `ARITHMETIC || opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE || opcode == `JALR || opcode == `BRANCH) begin
             if (rs1 == dist1_rd && dist1_rd != 0 && dist1_reg_write) begin
                 forward_a = 2'b01; // distance 1 forwarding
             end else if (rs1 == dist2_rd && dist2_rd != 0 && dist2_reg_write) begin
@@ -38,7 +38,7 @@ module FORWARDING_UNIT(input [6:0] opcode,
             
 
         // Forwarding logic for rs2
-        if (opcode == `ARITHMETIC || opcode == `LOAD || opcode == `STORE) begin
+        if (opcode == `ARITHMETIC || opcode == `LOAD || opcode == `STORE || opcode == `BRANCH) begin
             if (rs2 == dist1_rd && dist1_rd != 0 && dist1_reg_write) begin
                 forward_b = 2'b01; // distance 1 forwarding
             end else if (rs2 == dist2_rd && dist2_rd != 0 && dist2_reg_write) begin
