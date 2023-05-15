@@ -95,7 +95,7 @@ module ALU (input[3:0] alu_op,
 			`FUNC_BGE: begin
 				alu_out = 0;
 
-				if ($signed(in_1) > $signed(in_2)) begin
+				if ($signed(in_1) >= $signed(in_2)) begin
 					bcond = 1;
 				end else begin
 					bcond = 0;

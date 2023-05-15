@@ -3,8 +3,9 @@
 
 module ControlUnit (input [6:0] opcode,
                     input stall,
-                    input [1:0] pc_src,
                     input bubble,
+                    input is_halted,
+                    input [1:0] pc_src,
                     output reg is_jal,
                     output reg is_jalr,
                     output reg branch,
@@ -64,10 +65,14 @@ module ControlUnit (input [6:0] opcode,
         if (opcode == `ECALL) is_ecall = 1;
         else is_ecall = 0;
 
-        if (stall || pc_src || bubble) begin
+        if (stall || pc_src || bubble || is_halted) begin
             mem_read = 0;
             write_enable = 0;
             mem_write = 0;
+            is_jal = 0;
+            is_jalr = 0;
+            branch = 0;
+
         end
 
     end

@@ -200,6 +200,7 @@ module CPU(input reset,       // positive reset signal
     .stall(stall),
     .pc_src(pc_src),
     .bubble(IF_ID_bubble),
+    .is_halted(ID_EX_is_halted),
     .is_jal(ID_jal),
     .is_jalr(ID_jalr),
     .branch(ID_branch),
@@ -263,7 +264,7 @@ module CPU(input reset,       // positive reset signal
       ID_EX_rs1 <= 5'b0;
       ID_EX_rs2 <= 5'b0;
       ID_EX_opcode <= 6'b0;
-    end else begin
+    end else if (!stall) begin
       ID_EX_pc <= IF_ID_pc;
       ID_EX_plus_four_pc <= IF_ID_plus_four_pc;
       ID_EX_alu_src <= ID_alu_src;
@@ -287,6 +288,12 @@ module CPU(input reset,       // positive reset signal
 
     if (stall) begin
       ID_EX_rd <= 5'b0;
+      ID_EX_branch <= 1'b0;
+      ID_EX_mem_write <= 1'b0;
+      ID_EX_mem_read <= 1'b0;
+      ID_EX_mem_to_reg <= 1'b0;
+      ID_EX_reg_write <= 1'b0;
+      ID_EX_is_halted <= 1'b0;
     end
 
   end
