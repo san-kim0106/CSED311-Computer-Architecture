@@ -21,7 +21,11 @@ module ImmediateGenerator (input[31:0] inst,
 
         end else if (opcode == `STORE) begin
             // S-type
+<<<<<<< HEAD
+               imm_gen_out = { {20{inst[31]}} , inst[31:25] , inst[11:7] };
+=======
             imm_gen_out = { {20{inst[31]}} , inst[31:25] , inst[11:7] };
+>>>>>>> 8d624cd1ac5eb7437f38dcdef4afa3f13b2bafec
             // $display("S-type sign-extension: %d", imm_gen_out); //! FOR DEBUGGING
 
         end else if (opcode == `BRANCH) begin
