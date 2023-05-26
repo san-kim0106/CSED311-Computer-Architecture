@@ -1,5 +1,5 @@
 `include "CLOG2.v"
-`include "state.v"
+`include "states.v"
 
 module Cache #(parameter LINE_SIZE = 16,
                parameter NUM_SETS = 8,
@@ -13,7 +13,7 @@ module Cache #(parameter LINE_SIZE = 16,
     input mem_write, // Control Signal
     input [31:0] din, // Write data
 
-    output reg is_ready, // Is the Cache take requests?
+    output is_ready, // Is the Cache take requests?
     output reg is_output_valid, // is dout valid?
     output reg [31:0] dout,
     output reg is_hit);
@@ -61,7 +61,7 @@ module Cache #(parameter LINE_SIZE = 16,
 
   always @(posedge clk) begin
     if(reset) begin // Set the inital values
-      for(i = 0; i < NUM_SETS; i = i + 1) begin
+      for(integer i = 0; i < NUM_SETS; i = i + 1) begin
         is_valid1[i] <= 0;
         is_valid2[i] <= 0;
         is_dirty1[i] <= 0;
@@ -93,7 +93,7 @@ module Cache #(parameter LINE_SIZE = 16,
     integer block_offset = addr[3:2];
 
     case (current_state)
-      `tag_compare:
+      `tag_compare: begin
         if (tag_bank1[idx] == addr[31:7] && is_valid1[idx] && is_input_valid) begin
           // Cache hit
           if (mem_read) begin
@@ -135,17 +135,25 @@ module Cache #(parameter LINE_SIZE = 16,
           is_output_valid = 1;
           next_state = `tag_compare;
         end
-      `evict:
+      end
+      `evict: begin
         if (replacement1[idx]) begin
           // Evict from data_bank1
           replacement_table = 0;
-          if (is_dirty1[idx]) next_state = `write_back;
-          else                next_state = `allocate;
+          if (is_dirty1[idx]) begin
+            next_state = `write_back;
+          end else begin
+            next_state = `allocate;
+          end
         end else if (replacement1[idx]) begin
           // Evict from data_bank2
           replacement_table = 1;
-          if (is_dirty1[idx]) next_state = `write_back;
-          else                next_state = `allocate;
+          if (is_dirty1[idx]) begin 
+            next_state = `write_back;
+          end else begin
+            next_state = `allocate;
+          end
+
         end else begin
           // Cold Miss
           replacement_table = 0;
@@ -154,12 +162,12 @@ module Cache #(parameter LINE_SIZE = 16,
 
         is_hit = 0;
         is_output_valid = 0;
-        
-      `write_back:
+      end
+      `write_back: begin
         if (!replacement_table) begin
           // write-back bank1
             _mem_request = 1;
-            _mem_addr = (tag_bank1[idx], idx, 4'b0000);
+            _mem_addr = {tag_bank1[idx], addr[6:4], 4'b0000};
             _mem_din = data_bank1[idx];
             _mem_read = 0;
             _mem_write = 1;
@@ -167,7 +175,7 @@ module Cache #(parameter LINE_SIZE = 16,
         end else begin
           // write-back bank2
           _mem_request = 1;
-          _mem_addr = (tag_bank2[idx], idx, 4'b0000);
+          _mem_addr = {tag_bank2[idx], addr[6:4], 4'b0000};
           _mem_din = data_bank2[idx];
           _mem_read = 0;
           _mem_write = 1;
@@ -175,16 +183,16 @@ module Cache #(parameter LINE_SIZE = 16,
         end
 
         next_state = `interim;
-
-      `allocate:
+      end
+      `allocate: begin
         _mem_request = 1;
         _mem_addr = addr;
         _mem_read = 1;
         _mem_write = 0;
 
         next_state = `interim;
-      
-      `interim:
+      end
+      `interim: begin
         if (is_data_mem_ready && _is_output_valid) begin
           // triggered when allocate is finished
           next_state = `tag_compare;
@@ -197,12 +205,13 @@ module Cache #(parameter LINE_SIZE = 16,
           // TODO: We need to make changes to the tag bank
         end else if (is_data_mem_ready) begin
           // triggered when write-back is finished
-          next_state = `evict
+          next_state = `evict;
         end else begin
           // triggered when waiting for the DataMemory's delay
           _mem_request = 0;
           next_state = `interim;
         end
+      end
     endcase
   end
 

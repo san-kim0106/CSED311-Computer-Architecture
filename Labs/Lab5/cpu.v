@@ -47,6 +47,10 @@ module CPU(input reset,       // positive reset signal
   wire bcond;
   wire [31:0] alu_result;
 
+  wire is_ready;
+  wire is_output_valid;
+  wire is_hit;
+  wire cache_stall;
   wire [31:0] dmem_out;
 
   wire [31:0] rd_din;
@@ -126,11 +130,12 @@ module CPU(input reset,       // positive reset signal
   );
 
   PC pc(
-    .reset(reset),          // input (Use reset to initialize PC. Initial value must be 0)
-    .clk(clk),              // input
-    .stall(stall),          // input
-    .next_pc(next_pc),      // input
-    .current_pc(current_pc) // output
+    .reset(reset),              // input (Use reset to initialize PC. Initial value must be 0)
+    .clk(clk),                  // input
+    .stall(stall),              // input
+    .cache_stall(cache_stall),  // input
+    .next_pc(next_pc),          // input
+    .current_pc(current_pc)     // output
   );
 
   PC_ADDER pc_adder(
@@ -153,7 +158,7 @@ module CPU(input reset,       // positive reset signal
       IF_ID_inst <= 32'b0;
       IF_ID_plus_four_pc <= 32'b0;
       IF_ID_bubble <= 1'b0;
-    end else if (!stall) begin
+    end else if (!stall && !cache_stall) begin
       IF_ID_pc <= current_pc;
       IF_ID_inst <= inst_dout;
       IF_ID_plus_four_pc <= plus_four_pc;
@@ -264,7 +269,7 @@ module CPU(input reset,       // positive reset signal
       ID_EX_rs1 <= 5'b0;
       ID_EX_rs2 <= 5'b0;
       ID_EX_opcode <= 6'b0;
-    end else if (!stall) begin
+    end else if (!stall && !cache_stall) begin
       ID_EX_pc <= IF_ID_pc;
       ID_EX_plus_four_pc <= IF_ID_plus_four_pc;
       ID_EX_alu_src <= ID_alu_src;
@@ -367,7 +372,7 @@ module CPU(input reset,       // positive reset signal
       EX_MEM_rd <= 5'b0;
       EX_MEM_is_halted <= 1'b0;
       
-    end else begin
+    end else if (!cache_stall) begin
       EX_MEM_plus_four_pc <= ID_EX_plus_four_pc;
       EX_MEM_is_jal <= ID_EX_jal;
       EX_MEM_is_jalr <= ID_EX_jalr;
@@ -383,14 +388,25 @@ module CPU(input reset,       // positive reset signal
   end
 
   // ---------- Data Memory ----------
-  DataMemory dmem(
-    .reset(reset),                // input
-    .clk(clk),                    // input
-    .addr(EX_MEM_alu_out),        // input
-    .din(EX_MEM_dmem_data),       // input
-    .mem_read(EX_MEM_mem_read),   // input
-    .mem_write(EX_MEM_mem_write), // input
-    .dout(dmem_out)               // output
+  Cache cache(
+    .reset(reset),
+    .clk(clk),
+    .is_input_valid(), // TODO
+    .addr(EX_MEM_alu_out),
+    .mem_read(EX_MEM_mem_read),
+    .mem_write(EX_MEM_mem_write),
+    .din(EX_MEM_dmem_data),
+    .is_ready(), // TODO
+    .is_output_valid(), // TODO
+    .dout(dmem_out), // TODO
+    .is_hit() // TODO
+  );
+
+  CACHE_STALL cache_stall(
+    .is_ready(is_ready),
+    .is_output_valid(is_output_valid),
+    .is_hit(is_hit),
+    .cache_stall(cache_stall)
   );
 
   // Update MEM/WB pipeline registers here
@@ -405,7 +421,7 @@ module CPU(input reset,       // positive reset signal
       MEM_WB_mem_to_reg_src_1 <= 32'b0;
       MEM_WB_mem_to_reg_src_2 <= 32'b0;
       MEM_WB_is_halted <= 1'b0;
-    end else begin
+    end else if (!cache_stall) begin
       MEM_WB_plus_four_pc <= EX_MEM_plus_four_pc;
       MEM_WB_is_jal <= EX_MEM_is_jal;
       MEM_WB_is_jalr <= EX_MEM_is_jalr;
@@ -433,7 +449,7 @@ module CPU(input reset,       // positive reset signal
     if (reset) begin
       is_halted = 1'b0;
 
-    end else begin
+    end else if (!cache_stall) begin
       is_halted = MEM_WB_is_halted;
 
     end

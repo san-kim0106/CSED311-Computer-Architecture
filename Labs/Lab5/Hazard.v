@@ -54,3 +54,19 @@ module HAZARD_DETECTION (input [31:0] current_inst,
     end
 
 endmodule
+
+module CACHE_STALL(
+    input is_ready,
+    input is_output_valid,
+    input is_hit,
+    output reg cache_stall
+);
+    always @(*) begin
+        if (is_ready && is_output_valid && is_hit) begin
+            cache_stall = 0;
+        end else begin
+            cache_stall = 1;
+        end
+    end
+
+endmodule

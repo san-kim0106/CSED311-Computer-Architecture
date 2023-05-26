@@ -1,6 +1,7 @@
 module PC(input reset,
           input clk,
           input stall,
+          input cache_stall,
           input [31:0] next_pc,
           output reg [31:0] current_pc);
 
@@ -10,7 +11,7 @@ module PC(input reset,
         if (reset) begin
             current_pc <= 32'b0;
             current_pc_reg <= 32'b0;
-        end else if (stall) begin
+        end else if (stall || cache_stall) begin
             current_pc <= current_pc_reg; // Don't increment PC if stall condition
         end else begin
             current_pc <= next_pc;
