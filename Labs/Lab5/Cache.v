@@ -32,9 +32,10 @@ module Cache #(parameter LINE_SIZE = 16,
   reg [7:0] is_dirty2;
   reg [7:0] replacement2;
 
-  // if 0 then replace from bank1
-  // else if 1 then replace from bank2
+  // if 0 then replace/write from bank1
+  // else if 1 then replace/write from bank2
   reg replacement_table;
+  reg write_table;
 
   // Register for DataMemory Module
   reg _mem_request;
@@ -49,8 +50,10 @@ module Cache #(parameter LINE_SIZE = 16,
   reg [3:0] current_state;
   reg [3:0] next_state;
 
-  // Signals when to write to the cache
+  // Register that indicate when and where to write to the cache
   reg cache_write;
+  reg [31:0] cache_write_data;
+  reg [31:0] cache_write_addr;
   
   // You might need registers to keep the status.
 
@@ -67,11 +70,14 @@ module Cache #(parameter LINE_SIZE = 16,
         replacement2[i] <= 0;
       end
 
-      current_state <= `ready;
-      next_state <= `ready;
+      current_state <= `tag_compare;
+      next_state <= `tag_compare;
       cache_write <= 0;
+      cache_write_data <= 32'b0;
+      cache_write_addr <= 32'b0;
       _mem_request <= 0;
       replacement_table <= 0;
+      write_table <= 0;
 
     end else begin // Update FSM
       current_state <= next_state;
@@ -85,17 +91,10 @@ module Cache #(parameter LINE_SIZE = 16,
   always @(*) begin
     integer idx = addr[6:4];
     integer block_offset = addr[3:2];
-    
-    case (current_state)
-      `ready:
-        if (is_input_valid) begin
-          next_state = tag_compare;
-        end else begin
-          next_state = `ready;
-        end
 
+    case (current_state)
       `tag_compare:
-        if (tag_bank1[idx] == addr[31:7] && is_valid1[idx]) begin
+        if (tag_bank1[idx] == addr[31:7] && is_valid1[idx] && is_input_valid) begin
           // Cache hit
           if (mem_read) begin
             dout = data_bank1[idx][32 * (block_offset + 1) - 1: 32 * block_offset];
@@ -103,12 +102,14 @@ module Cache #(parameter LINE_SIZE = 16,
             replacement2[idx] = 1;
           end else if (mem_write) begin
             cache_write = 1;
-            // TODO
+            write_table = 0;
+            cache_write_addr = addr;
+            cache_write_data = din;
           end
           is_hit = 1;
           is_output_valid = 1;
-          next_state = `ready;
-        end else if (tag_bank2[idx] == addr[31:7] && is_valid2[idx]) begin
+          next_state = `tag_compare;
+        end else if (tag_bank2[idx] == addr[31:7] && is_valid2[idx] && is_input_valid) begin
           // Cache hit
           if (mem_read) begin
             dout = data_bank2[idx][32 * (block_offset + 1) - 1: 32 * block_offset];
@@ -116,18 +117,24 @@ module Cache #(parameter LINE_SIZE = 16,
             replacement2[idx] = 0;
           end else if (mem_write) begin
             cache_write = 1;
-            // TODO
+            write_table = 1;
+            cache_write_addr = addr;
+            cache_write_data = din;
           end
           is_hit = 1;
           is_output_valid = 1;
-          next_state = `ready;
-        end else begin
+          next_state = `tag_compare;
+        end else if (is_input_valid) begin
           // Cache miss
           is_hit = 0;
           is_output_valid = 0;
           next_state = `evict;
+        end else begin
+          // Invalid input (b.c. the current instruction is not a LD/SW)
+          is_hit = 1;
+          is_output_valid = 1;
+          next_state = `tag_compare;
         end
-
       `evict:
         if (replacement1[idx]) begin
           // Evict from data_bank1
@@ -160,8 +167,8 @@ module Cache #(parameter LINE_SIZE = 16,
         end else begin
           // write-back bank2
           _mem_request = 1;
-          _mem_addr = (tag_bank1[idx], idx, 4'b0000);
-          _mem_din = data_bank1[idx];
+          _mem_addr = (tag_bank2[idx], idx, 4'b0000);
+          _mem_din = data_bank2[idx];
           _mem_read = 0;
           _mem_write = 1;
           is_dirty2[idx] = 0;
@@ -179,13 +186,20 @@ module Cache #(parameter LINE_SIZE = 16,
       
       `interim:
         if (is_data_mem_ready && _is_output_valid) begin
+          // triggered when allocate is finished
           next_state = `tag_compare;
           cache_write = 1;
+          write_table = replacement_table;
+          cache_write_addr = addr;
+          cache_write_data = _mem_dout;
+
           // TODO: The data read from the DataMemroy should be written to the cache
           // TODO: We need to make changes to the tag bank
         end else if (is_data_mem_ready) begin
+          // triggered when write-back is finished
           next_state = `evict
         end else begin
+          // triggered when waiting for the DataMemory's delay
           _mem_request = 0;
           next_state = `interim;
         end
