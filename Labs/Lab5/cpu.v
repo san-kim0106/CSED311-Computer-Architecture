@@ -32,6 +32,7 @@ module CPU(input reset,       // positive reset signal
   wire ID_mem_to_reg;
   wire ID_mem_write;
   wire ID_alu_src;
+  wire ID_is_input_valid;
   wire ID_write_enable;
   wire [1:0] pc_src;
   wire ID_pc_to_reg;
@@ -72,6 +73,7 @@ module CPU(input reset,       // positive reset signal
   reg [3:0] ID_EX_alu_op;   // will be used in EX stage
   reg ID_EX_jal;
   reg ID_EX_jalr;
+  reg ID_EX_is_input_valid;
   reg ID_EX_branch;
   reg ID_EX_alu_src;        // will be used in EX stage
   reg ID_EX_mem_write;      // will be used in MEM stage
@@ -94,6 +96,7 @@ module CPU(input reset,       // positive reset signal
   reg [31:0] EX_MEM_plus_four_pc;
   reg EX_MEM_is_jal;
   reg EX_MEM_is_jalr;
+  reg EX_MEM_is_input_valid;
   reg EX_MEM_mem_write;     // will be used in MEM stage
   reg EX_MEM_mem_read;      // will be used in MEM stage
   reg EX_MEM_mem_to_reg;    // will be used in WB stage
@@ -202,10 +205,11 @@ module CPU(input reset,       // positive reset signal
 
   ControlUnit ctrl_unit (
     .opcode(IF_ID_inst[6:0]),        // input
-    .stall(stall),
+    .stall(stall),                   // input
+    .bubble(IF_ID_bubble),           // input
+    .is_halted(ID_EX_is_halted),     // input
     .pc_src(pc_src),
-    .bubble(IF_ID_bubble),
-    .is_halted(ID_EX_is_halted),
+    .is_input_valid(ID_is_input_valid),
     .is_jal(ID_jal),
     .is_jalr(ID_jalr),
     .branch(ID_branch),
@@ -255,6 +259,7 @@ module CPU(input reset,       // positive reset signal
       ID_EX_alu_src <= 1'b0;
       ID_EX_jal <= 1'b0;
       ID_EX_jalr <= 1'b0;
+      ID_EX_is_input_valid <= 1'b0;
       ID_EX_branch <= 1'b0;
       ID_EX_mem_write <= 1'b0;
       ID_EX_mem_read <= 1'b0;
@@ -275,6 +280,7 @@ module CPU(input reset,       // positive reset signal
       ID_EX_alu_src <= ID_alu_src;
       ID_EX_jal <= ID_jal;
       ID_EX_jalr <= ID_jalr;
+      ID_EX_is_input_valid <= ID_is_input_valid;
       ID_EX_branch <= ID_branch;
       ID_EX_mem_write <= ID_mem_write;
       ID_EX_mem_read <= ID_mem_read;
@@ -299,6 +305,7 @@ module CPU(input reset,       // positive reset signal
       ID_EX_mem_to_reg <= 1'b0;
       ID_EX_reg_write <= 1'b0;
       ID_EX_is_halted <= 1'b0;
+      ID_EX_is_input_valid <= 1'b0;
     end
 
   end
@@ -364,6 +371,7 @@ module CPU(input reset,       // positive reset signal
       EX_MEM_mem_write <= 1'b0;
       EX_MEM_is_jal <= 1'b0;
       EX_MEM_is_jalr <= 1'b0;
+      EX_MEM_is_input_valid <= 1'b0;
       EX_MEM_mem_read <= 1'b0;
       EX_MEM_mem_to_reg <= 1'b0;
       EX_MEM_reg_write <= 1'b0;
@@ -376,6 +384,7 @@ module CPU(input reset,       // positive reset signal
       EX_MEM_plus_four_pc <= ID_EX_plus_four_pc;
       EX_MEM_is_jal <= ID_EX_jal;
       EX_MEM_is_jalr <= ID_EX_jalr;
+      EX_MEM_is_input_valid <= ID_EX_is_input_valid;
       EX_MEM_mem_write <= ID_EX_mem_write;
       EX_MEM_mem_read <= ID_EX_mem_read;
       EX_MEM_mem_to_reg <= ID_EX_mem_to_reg;
@@ -391,18 +400,18 @@ module CPU(input reset,       // positive reset signal
   Cache cache(
     .reset(reset),
     .clk(clk),
-    .is_input_valid(), // TODO
+    .is_input_valid(EX_MEM_is_input_valid), 
     .addr(EX_MEM_alu_out),
     .mem_read(EX_MEM_mem_read),
     .mem_write(EX_MEM_mem_write),
     .din(EX_MEM_dmem_data),
-    .is_ready(), // TODO
-    .is_output_valid(), // TODO
-    .dout(dmem_out), // TODO
-    .is_hit() // TODO
+    .is_ready(is_ready),
+    .is_output_valid(is_output_valid),
+    .dout(dmem_out),
+    .is_hit(is_hit)
   );
 
-  CACHE_STALL cache_stall(
+  CACHE_STALL Cache_Stall(
     .is_ready(is_ready),
     .is_output_valid(is_output_valid),
     .is_hit(is_hit),

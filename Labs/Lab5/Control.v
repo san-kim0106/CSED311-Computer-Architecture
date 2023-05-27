@@ -8,6 +8,7 @@ module ControlUnit (input [6:0] opcode,
                     input [1:0] pc_src,
                     output reg is_jal,
                     output reg is_jalr,
+                    output reg is_input_valid,
                     output reg branch,
                     output reg mem_read,
                     output reg mem_to_reg,
@@ -42,6 +43,9 @@ module ControlUnit (input [6:0] opcode,
         // mem_write
         if (opcode == `STORE) mem_write = 1;
         else mem_write = 0;
+
+        if (opcode == `STORE || opcode == `LOAD) is_input_valid = 1;
+        else is_input_valid = 0;
         
         // alu_src
         if (opcode == `ARITHMETIC_IMM || opcode == `LOAD || opcode == `STORE || opcode == `JALR) alu_src = 1;
