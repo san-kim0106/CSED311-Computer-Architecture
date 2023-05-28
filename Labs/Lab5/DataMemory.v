@@ -1,4 +1,4 @@
-module DataMemory #(parameter MEM_DEPTH = 16384,
+module DataMemory #(parameter MEM_DEPTH = 16384, //! REVERT TO ORIGINAL 16384
                     parameter DELAY = 50,
                     parameter BLOCK_SIZE = 16) (
     input reset,

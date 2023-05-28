@@ -86,6 +86,10 @@ module Cache #(parameter LINE_SIZE = 16,
   always @(posedge clk) begin
     if(reset) begin // Set the inital values
       for(integer i = 0; i < NUM_SETS; i = i + 1) begin
+        data_bank1[i] <= 128'b0;
+        data_bank2[i] <= 128'b0;
+        tag_bank1[i] <= 25'b0;
+        tag_bank2[i] <= 25'b0;
         is_valid1[i] <= 0;
         is_valid2[i] <= 0;
         is_dirty1[i] <= 0;
@@ -115,21 +119,37 @@ module Cache #(parameter LINE_SIZE = 16,
         // Set is_dirty to FALSE
         // Set replacement1 to FALSE and replacement2 to TRUE
 
-        // cache_write_addr = addr;
-        // cache_write_data = _mem_dout;
-        data_bank1[cache_write_addr[6:4]] <= cache_write_data;
+        if (current_state == `interim) begin
+          data_bank1[cache_write_addr[6:4]] <= _mem_dout;
+        end else begin
+          case (cache_write_addr[3:2])
+            2'b00: data_bank1[cache_write_addr[6:4]] <= {data_bank1[cache_write_addr[6:4]][127:32], cache_write_data};
+            2'b01: data_bank1[cache_write_addr[6:4]] <= {data_bank1[cache_write_addr[6:4]][127:64], cache_write_data, data_bank1[cache_write_addr[6:4]][31:0]};
+            2'b10: data_bank1[cache_write_addr[6:4]] <= {data_bank1[cache_write_addr[6:4]][127:96], cache_write_data, data_bank1[cache_write_addr[6:4]][63:0]};
+            2'b11: data_bank1[cache_write_addr[6:4]] <= {cache_write_data, data_bank1[cache_write_addr[6:4]][95:0]};
+          endcase
+        end
+
         tag_bank1[cache_write_addr[6:4]] <= cache_write_addr[31:7];
         is_valid1[cache_write_addr[6:4]] <= 1;
-        is_dirty1[cache_write_addr[6:4]] <= 0;
         replacement1[cache_write_addr[6:4]] <= 0;
         replacement2[cache_write_addr[6:4]] <= 1;
 
       end else begin
         // Write to bank2
-        data_bank2[cache_write_addr[6:4]] <= cache_write_data;
+        if (current_state == `interim) begin
+          data_bank2[cache_write_addr[6:4]] <= _mem_dout;
+        end else begin
+          case (cache_write_addr[3:2])
+            2'b00: data_bank2[cache_write_addr[6:4]] <= {data_bank2[cache_write_addr[6:4]][127:32], cache_write_data};
+            2'b01: data_bank2[cache_write_addr[6:4]] <= {data_bank2[cache_write_addr[6:4]][127:64], cache_write_data, data_bank2[cache_write_addr[6:4]][31:0]};
+            2'b10: data_bank2[cache_write_addr[6:4]] <= {data_bank2[cache_write_addr[6:4]][127:96], cache_write_data, data_bank2[cache_write_addr[6:4]][63:0]};
+            2'b11: data_bank2[cache_write_addr[6:4]] <= {cache_write_data, data_bank2[cache_write_addr[6:4]][95:0]};
+          endcase
+        end
+
         tag_bank2[cache_write_addr[6:4]] <= cache_write_addr[31:7];
         is_valid2[cache_write_addr[6:4]] <= 1;
-        is_dirty2[cache_write_addr[6:4]] <= 0;
         replacement1[cache_write_addr[6:4]] <= 1;
         replacement2[cache_write_addr[6:4]] <= 0;
       end
@@ -155,6 +175,7 @@ module Cache #(parameter LINE_SIZE = 16,
           end else if (mem_write) begin
             cache_write = 1;
             write_table = 0;
+            is_dirty1[idx] <= 1;
             cache_write_addr = addr;
             cache_write_data = din;
           end
@@ -175,6 +196,7 @@ module Cache #(parameter LINE_SIZE = 16,
           end else if (mem_write) begin
             cache_write = 1;
             write_table = 1;
+            is_dirty2[idx] <= 1;
             cache_write_addr = addr;
             cache_write_data = din;
           end
@@ -202,10 +224,10 @@ module Cache #(parameter LINE_SIZE = 16,
           end else begin
             next_state = `allocate;
           end
-        end else if (replacement1[idx]) begin
+        end else if (replacement2[idx]) begin
           // Evict from data_bank2
           replacement_table = 1;
-          if (is_dirty1[idx]) begin 
+          if (is_dirty2[idx]) begin 
             next_state = `write_back;
           end else begin
             next_state = `allocate;
@@ -224,7 +246,7 @@ module Cache #(parameter LINE_SIZE = 16,
         if (!replacement_table) begin
           // write-back bank1
             _mem_request = 1;
-            _mem_addr = {tag_bank1[idx], addr[6:4], 4'b0000};
+            _mem_addr = {tag_bank1[idx], idx}; //! Questionable
             _mem_din = data_bank1[idx];
             _mem_read = 0;
             _mem_write = 1;
@@ -232,7 +254,7 @@ module Cache #(parameter LINE_SIZE = 16,
         end else begin
           // write-back bank2
           _mem_request = 1;
-          _mem_addr = {tag_bank2[idx], addr[6:4], 4'b0000};
+          _mem_addr = {tag_bank2[idx], idx}; //! Questionable
           _mem_din = data_bank2[idx];
           _mem_read = 0;
           _mem_write = 1;
@@ -243,7 +265,7 @@ module Cache #(parameter LINE_SIZE = 16,
       end
       `allocate: begin
         _mem_request = 1;
-        _mem_addr = addr;
+        _mem_addr = addr[31:4]; //! Questionable
         _mem_read = 1;
         _mem_write = 0;
 
@@ -257,6 +279,12 @@ module Cache #(parameter LINE_SIZE = 16,
           write_table = replacement_table;
           cache_write_addr = addr;
           cache_write_data = _mem_dout;
+
+          if (!write_table) begin
+            is_dirty1[idx] <= 0;
+          end else begin
+            is_dirty2[idx] <= 0;
+          end
 
           // TODO: The data read from the DataMemroy should be written to the cache
           // TODO: We need to make changes to the tag bank
