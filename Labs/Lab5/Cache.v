@@ -1,6 +1,6 @@
 module Cache #(parameter LINE_SIZE = 16,
-               parameter NUM_SETS = /* Your choice */
-               parameter NUM_WAYS = /* Your choice */) (
+               parameter NUM_SETS = 16, /* Your choice */
+               parameter NUM_WAYS = 1 /* Your choice */) (
     input reset,
     input clk,
 

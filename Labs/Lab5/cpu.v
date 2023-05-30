@@ -113,6 +113,12 @@ module CPU(input reset,       // positive reset signal
   reg [31:0] MEM_WB_mem_to_reg_src_1;
   reg [31:0] MEM_WB_mem_to_reg_src_2;
 
+  // cache wires
+  wire is_input_valid;
+  wire is_ready;
+  wire is_output_valid;
+  wire is_hit;
+
   // ---------- Update program counter ----------
   // PC must be updated on the rising edge (positive edge) of the clock.
 
@@ -384,15 +390,6 @@ module CPU(input reset,       // positive reset signal
 
   // ---------- Data Memory ----------
   // TODO : conncect other wires. Or this module is already in the Cache module so mabye we have to delete DataMemory module in the cpu.v
-  DataMemory dmem(
-    .reset(reset),                // input
-    .clk(clk),                    // input
-    .addr(EX_MEM_alu_out),        // input
-    .din(EX_MEM_dmem_data),       // input
-    .mem_read(EX_MEM_mem_read),   // input
-    .mem_write(EX_MEM_mem_write), // input
-    .dout(dmem_out)               // output
-  );
 
   // Update MEM/WB pipeline registers here
   always @(posedge clk) begin
@@ -413,7 +410,7 @@ module CPU(input reset,       // positive reset signal
       MEM_WB_mem_to_reg <= EX_MEM_mem_to_reg;
       MEM_WB_reg_write <= EX_MEM_reg_write;
       MEM_WB_rd <= EX_MEM_rd;
-      MEM_WB_mem_to_reg_src_1 <= dmem_out;
+      MEM_WB_mem_to_reg_src_1 <= inst_dout;
       MEM_WB_mem_to_reg_src_2 <= EX_MEM_alu_out;
       MEM_WB_is_halted <= EX_MEM_is_halted;
     end
@@ -443,19 +440,19 @@ module CPU(input reset,       // positive reset signal
   // -------- Cache -----------
   // TODO : connect cache
   Cache cache (
-    .reset(),               // input
-    .clk(),                 // input
+    .reset(reset),               // input
+    .clk(clk),                 // input
 
-    .is_input_valid(),      // input
-    .addr(),                // input
-    .mem_read(),            // input
-    .mem_write(),           // input
-    .din(),                 // input
+    .is_input_valid(is_input_valid),      // input
+    .addr(EX_MEM_alu_out),                // input
+    .mem_read(EX_MEM_mem_read),            // input
+    .mem_write(EX_MEM_mem_write),           // input
+    .din(EX_MEM_dmem_data),                 // input
 
-    .is_ready(),            // output
-    .is_output_valid(),     // output
-    .dout(),                // output
-    .is_hit()               // output
+    .is_ready(is_ready),            // output
+    .is_output_valid(is_output_valid),     // output
+    .dout(inst_dout),                // output
+    .is_hit(is_hit)               // output
   );
   
 endmodule
