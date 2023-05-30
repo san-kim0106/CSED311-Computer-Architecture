@@ -297,7 +297,7 @@ module CPU(input reset,       // positive reset signal
       ID_EX_opcode <= IF_ID_inst[6:0];
     end
 
-    if (stall) begin
+    if (stall && !cache_stall) begin
       ID_EX_rd <= 5'b0;
       ID_EX_branch <= 1'b0;
       ID_EX_mem_write <= 1'b0;

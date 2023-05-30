@@ -28,6 +28,7 @@ module Cache #(parameter LINE_SIZE = 16,
 
   assign idx = addr[6:4];
   assign block_offset = addr[3:2];
+
   // Reg declarations
   reg [127:0] data_bank1 [7:0]; // Each block is 16 byte (128 bits) and there are 8 blocks in each data bank
   reg [24:0] tag_bank1 [7:0]; // Each tag is 25 bit
@@ -52,6 +53,7 @@ module Cache #(parameter LINE_SIZE = 16,
   reg [127:0] _mem_din;
   reg _mem_read;
   reg _mem_write;
+
   // State registers
   reg [3:0] current_state;
   reg [3:0] next_state;
@@ -175,7 +177,7 @@ module Cache #(parameter LINE_SIZE = 16,
           end else if (mem_write) begin
             cache_write = 1;
             write_table = 0;
-            is_dirty1[idx] <= 1;
+            is_dirty1[idx] = 1;
             cache_write_addr = addr;
             cache_write_data = din;
           end
@@ -196,7 +198,7 @@ module Cache #(parameter LINE_SIZE = 16,
           end else if (mem_write) begin
             cache_write = 1;
             write_table = 1;
-            is_dirty2[idx] <= 1;
+            is_dirty2[idx] = 1;
             cache_write_addr = addr;
             cache_write_data = din;
           end
@@ -278,13 +280,6 @@ module Cache #(parameter LINE_SIZE = 16,
           cache_write = 1;
           write_table = replacement_table;
           cache_write_addr = addr;
-          cache_write_data = _mem_dout;
-
-          if (!write_table) begin
-            is_dirty1[idx] <= 0;
-          end else begin
-            is_dirty2[idx] <= 0;
-          end
 
           // TODO: The data read from the DataMemroy should be written to the cache
           // TODO: We need to make changes to the tag bank
