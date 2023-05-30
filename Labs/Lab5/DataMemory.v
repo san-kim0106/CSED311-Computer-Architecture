@@ -1,9 +1,8 @@
-module DataMemory #(parameter MEM_DEPTH = 16384,
+module DataMemory #(parameter MEM_DEPTH = 16384, //! REVERT TO ORIGINAL 16384
                     parameter DELAY = 50,
                     parameter BLOCK_SIZE = 16) (
     input reset,
     input clk,
-    // TODO : connect is_input_valid, is_output_valid, mem_ready in the cpu.v
     // Inputs from the cache
     input is_input_valid,                   // is request valid?
     input [31:0] addr,                      // address of the memory
@@ -44,7 +43,7 @@ module DataMemory #(parameter MEM_DEPTH = 16384,
     // Initialize data memory
     if (reset) begin
        for (i = 0; i < MEM_DEPTH; i = i + 1)
-         mem[i] = 0
+         mem[i] = 0;
     end
     // Write data to the memory
     else if (_mem_write && delay_counter == 0) begin

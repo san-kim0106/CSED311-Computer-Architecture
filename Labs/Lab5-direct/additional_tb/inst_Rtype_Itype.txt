@@ -1,0 +1,25 @@
+ADDI x3, x2, 16
+ADDI x4, x2, 26
+SUB x5, x4, x3
+
+ADDI x6, x0, 255
+ADDI x7, x0, 27
+
+AND x8, x6, x7
+OR x9, x6, x7
+XOR x10, x6, x7
+
+OR x11, x8, x10
+
+SllI x12, x6, 2
+SRlI x13, x6, 2
+
+
+ANDI x14, x6, 27
+ORI x15, x6, 27
+XORI x16, x6, 27
+
+
+ADDI x17, x0, 2
+SLL x18, x6, x17
+SRL x19, x6, x17

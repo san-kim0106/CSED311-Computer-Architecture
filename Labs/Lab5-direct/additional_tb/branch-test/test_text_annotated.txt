@@ -1,0 +1,11 @@
+00f00293 // [0] addi x5, x0, 15 --> 0x0F
+01400313 // [1] addi x6, x0, 20 --> 0x14
+00f00393 // [2] addi x7, x0, 15 --> 0x0F
+00635a63 // [3] bge x6, x6, 20 --> BRANCH TAKEN
+0ff00f13 // [4] addi x30, x0, 255 --> 0xFFFF
+00000863 // [5] beq x0, x0, 16
+12345678 // [6] dummy value
+12345678 // [7] dummy value
+0ff00f93 // [8] addi x31, x0, 255 --> 0xFFFF
+00a00893 // [9] addi x17, x0, 10
+00000073 // [10] ecall
