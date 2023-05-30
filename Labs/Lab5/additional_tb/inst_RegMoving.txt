@@ -1,0 +1,13 @@
+inst_test_text_RegMoving
+
+addi x3, x0, 27
+addi x5, x0, 346
+addi x11, x0, 4542
+addi x15, x0, 23568
+addi x18, x0, 234135
+addi x24, x0, 1345983
+addi x28, x0, 11111113
+
+sw x24, 13(x3)
+
+lw x4, 13(x3)

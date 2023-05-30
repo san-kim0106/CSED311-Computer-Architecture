@@ -18,7 +18,7 @@ module InstMemory #(parameter MEM_DEPTH = 16384) (input reset,
       for (i = 0; i < MEM_DEPTH; i = i + 1)
           mem[i] = 32'b0;
       // Provide path of the file including instructions with binary format
-      $readmemh("C:\\Users\\ygchi\\Desktop\\2023_Spring\\Computer Architecture\\Lab\\Labs\\Lab5\\naive_matmul_unroll.mem", mem);
+      $readmemh("C:\\Users\\sany0\\OneDrive\\Desktop\\CSED311-Computer-Architecture\\Labs\\Lab5\\test.txt", mem);
     end
   end
 
