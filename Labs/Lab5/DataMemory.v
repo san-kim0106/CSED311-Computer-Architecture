@@ -3,7 +3,6 @@ module DataMemory #(parameter MEM_DEPTH = 16384, //! REVERT TO ORIGINAL 16384
                     parameter BLOCK_SIZE = 16) (
     input reset,
     input clk,
-
     // Inputs from the cache
     input is_input_valid,                   // is request valid?
     input [31:0] addr,                      // address of the memory

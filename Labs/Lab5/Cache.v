@@ -64,12 +64,10 @@ module Cache #(parameter LINE_SIZE = 16,
   reg [31:0] cache_write_addr;
   
   // You might need registers to keep the status.
-
   // Instantiate data memory
   DataMemory #(.BLOCK_SIZE(LINE_SIZE)) data_mem(
     .reset(reset),
     .clk(clk),
-
     .is_input_valid(_mem_request),
     .addr(_mem_addr),        // NOTE: address must be shifted by CLOG2(LINE_SIZE)
     .mem_read(_mem_read),
@@ -297,5 +295,4 @@ module Cache #(parameter LINE_SIZE = 16,
       end
     endcase
   end
-
 endmodule
